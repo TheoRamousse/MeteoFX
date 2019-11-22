@@ -2,6 +2,8 @@ package model;
 
 import java.util.Random;
 
+/*The RandomSensor is extending the Sensor class and it generates a random temperature*/
+
 public class RandomSensor extends Sensor{
 
     public RandomSensor(int id, String name, int timeUpdate)

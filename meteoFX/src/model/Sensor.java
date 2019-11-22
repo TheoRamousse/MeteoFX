@@ -1,5 +1,8 @@
 package model;
 
+/* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
+*/
+
 public abstract class Sensor {
     private int id;
     private String name;

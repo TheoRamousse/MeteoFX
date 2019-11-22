@@ -1,25 +1,29 @@
 package model;
 
+/*Weather is a class made for representing 1 type of weather that corresponds to a range of temperatures.
+This type of weather has a name and an image representing it.
+The image isn't stocked in the object but the variable path is the relative path to the image*/
+
 public class Weather {
     private String name;
     private float minTemperature;
     private float maxTemperature;
-    private String urlImage;
+    private String pathImage;
 
-    public Weather(String name, float minTemperature, float maxTemperature, String urlImage)
+    public Weather(String name, float minTemperature, float maxTemperature, String pathImage)
     {
         this.name = name;
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
-        this.urlImage = urlImage;
+        this.pathImage = pathImage;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
     }
 
     public float getMaxTemperature() {
