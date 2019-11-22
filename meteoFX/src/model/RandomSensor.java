@@ -9,7 +9,7 @@ public class RandomSensor extends Sensor{
     public RandomSensor(int id, String name, int timeUpdate)
     {
         super(id);
-        super.setName(name);
+        super.setSensorName(name);
         super.setTimeUpdate(timeUpdate);
     }
 

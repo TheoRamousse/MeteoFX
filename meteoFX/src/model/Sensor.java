@@ -3,7 +3,7 @@ package model;
 /* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
 */
 
-public abstract class Sensor {
+public abstract class Sensor extends Thread{
     private int id;
     private String name;
     private double currentTemperature;
@@ -14,11 +14,11 @@ public abstract class Sensor {
         this.id = id;
     }
 
-    public int getId() {
+    public int getSensorId() {
         return id;
     }
 
-    public String getName() {
+    public String getSensorName() {
         return name;
     }
 
@@ -34,7 +34,7 @@ public abstract class Sensor {
         this.id = id;
     }
 
-    public void setName(String name) {
+    public void setSensorName(String name) {
         this.name = name;
     }
 
@@ -47,4 +47,16 @@ public abstract class Sensor {
     }
 
     abstract public void doTemperature();
+
+    @Override
+    public void run(){
+        while (true){
+            doTemperature();
+            try {
+                sleep((long)timeUpdate*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
