@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="controllers.MainView">
+        <ListView minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <HBox prefHeight="25.0" alignment="CENTER_LEFT">
+                <Label fx:id="surveyName" text="Field A" styleClass="Name">
+                    Capteur 1
+                    <graphic>
+                        <ImageView fitWidth="25.0" preserveRatio="true"><Image url="https://image.flaticon.com/icons/png/128/70/70597.png"></Image></ImageView>
+                    </graphic>
+                </Label>
+            </HBox>
+        </ListView>
+    <BorderPane style="-fx-background-color: #EAEAEA;"  GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
+        <center>
+            <VBox alignment="CENTER">
+                <HBox spacing="15" alignment="CENTER" prefWidth="250.0">
+                    <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
+                    <Label style="-fx-text-fill: black;">
+                        <font>
+                            <Font size="18"></Font>
+                        </font>
+                        Nom du capteur :
+                    </Label>
+                    <TextField minWidth="100.0" prefWidth="200.0"></TextField>
+                </HBox>
+                <HBox spacing="15" alignment="CENTER" prefWidth="250.0">
+                    <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
+                    <Label style="-fx-text-fill: black;" >
+                        <font>
+                            <Font size="18"></Font>
+                        </font>
+                        Fréquence de rafraichissement :
+                    </Label>
+                    <TextField minWidth="100.0" prefWidth="200.0"></TextField>
+                </HBox>
+                <HBox spacing="15" alignment="CENTER" prefWidth="250.0">
+                    <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
+                    <Label style="-fx-text-fill: black;" >
+                        <font>
+                            <Font size="18"></Font>
+                        </font>
+                        Température actuelle :
+                    </Label>
+                    <Label style="-fx-text-fill: black;" >
+                        <font>
+                            <Font size="18"></Font>
+                        </font>
+                        18 °C
+                    </Label>
+                </HBox>
+            </VBox>
+        </center>
+        <top>
+            <Label style="-fx-text-fill: red;" BorderPane.alignment="TOP_LEFT">
+                <font>
+                    <Font size="18"></Font>
+                </font>
+                Capteur #1 :
+            </Label>
+        </top>
+        <bottom>
+            <HBox spacing="15.0" alignment="CENTER">
+                <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
+                <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Afficher la caméra"/>
+                <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage analogique"/>
+                <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage thermomètre"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+
+    <VBox alignment="CENTER" style="-fx-background-color: #EAEAEA;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" alignment="CENTER" minWidth="150.0">AJOUTER</Button>
+    </VBox>
+
+
+
+
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" percentWidth="15.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="85.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="95.0" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" percentHeight="5.0"  vgrow="SOMETIMES" />
+    </rowConstraints>
+</GridPane>
+
