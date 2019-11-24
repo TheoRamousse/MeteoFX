@@ -8,12 +8,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.RandomSensor;
 import model.Sensor;
+import model.SensorManager;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/allSensors.fxml"));
         primaryStage.setTitle("All Sensors");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();

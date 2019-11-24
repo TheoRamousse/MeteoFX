@@ -13,7 +13,9 @@ public class SensorManager {
 
     public void addRandomSensors(int nbSensors){
         for (int i=0 ; i<nbSensors ; i++){
-            int lastSensorId = sensors.get(sensors.size()-1).getSensorId();
+            int lastSensorId = 0;
+            if (sensors != null)
+                lastSensorId = sensors.size()-1;
             sensors.add(new RandomSensor(lastSensorId+1, "Random Sensor", TIME_UPDATE_RANDOM_SENSOR));
         }
     }
