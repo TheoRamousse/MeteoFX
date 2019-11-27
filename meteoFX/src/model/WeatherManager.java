@@ -1,26 +1,30 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /*WeatherManage contains a list of all the possible weathers. A weather can be added, deleted or searched with a name string.*/
 
 public class WeatherManager {
 
-    private HashSet<Weather> weatherList;
+    private List<Weather> weatherList;
+    private Persistence<Weather> persistence;
 
-    public WeatherManager(){
-        weatherList = new HashSet<>();
+    public WeatherManager(Persistence<Weather> persistence){
+        weatherList = new ArrayList<>();
+        weatherList = this.persistence.load();
     }
 
-    public HashSet<Weather> getWeatherList(){
+    public List<Weather> getWeatherList(){
         return weatherList;
     }
 
-    public void setWeatherList(HashSet<Weather> weathers){
+    public void setWeatherList(List<Weather> weathers){
         weatherList = weathers;
     }
 
-    public boolean addWeather(Weather w)
+    private boolean addWeather(Weather w)
     {
         if(findWeatherByName(w.getName()) == null)
             return false;
@@ -28,7 +32,7 @@ public class WeatherManager {
         return true;
     }
 
-    public boolean deleteWeather(String name)
+    private boolean deleteWeather(String name)
     {
         Weather w = findWeatherByName(name);
         if(w == null)
@@ -39,8 +43,7 @@ public class WeatherManager {
 
     private Weather findWeatherByName(String name)
     {
-        for (Weather w :
-                weatherList) {
+        for (Weather w : weatherList) {
             if (w.getName().equals(name))
                 return w;
         }

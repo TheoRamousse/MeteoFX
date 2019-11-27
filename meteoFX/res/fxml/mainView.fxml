@@ -18,7 +18,7 @@
                 <Label fx:id="surveyName" text="Field A" styleClass="Name">
                     Capteur 1
                     <graphic>
-                        <ImageView fitWidth="25.0" preserveRatio="true"><Image url="https://image.flaticon.com/icons/png/128/70/70597.png"></Image></ImageView>
+                        <ImageView fx:id="imageSensor" fitWidth="25.0" preserveRatio="true"><Image url="/img/sensor.png"></Image></ImageView>
                     </graphic>
                 </Label>
             </HBox>
