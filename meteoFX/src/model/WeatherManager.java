@@ -41,6 +41,15 @@ public class WeatherManager {
         return true;
     }
 
+    private Weather findWeatherByTemperature(double temperature)
+    {
+        for (Weather w : weatherList) {
+            if(w.isTemperatureInInterval(temperature))
+                return w;
+        }
+        return null;
+    }
+
     private Weather findWeatherByName(String name)
     {
         for (Weather w : weatherList) {

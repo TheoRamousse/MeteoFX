@@ -8,6 +8,8 @@ public abstract class Sensor extends Thread{
     private String name;
     private double currentTemperature;
     private int timeUpdate;
+    private final double min=-273.15;
+    private final double max=100;
 
     public Sensor(int id)
     {
@@ -58,5 +60,13 @@ public abstract class Sensor extends Thread{
                 e.printStackTrace();
             }
         }
+    }
+
+    public double getMax() {
+        return max;
+    }
+
+    public double getMin() {
+        return min;
     }
 }

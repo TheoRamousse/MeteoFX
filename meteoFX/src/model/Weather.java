@@ -51,4 +51,10 @@ public class Weather {
     {
         this.name = name;
     }
+
+    public boolean isTemperatureInInterval(double temperature) {
+        if(getMinTemperature()>= temperature && getMaxTemperature()<=temperature)
+            return true;
+        return false;
+    }
 }
