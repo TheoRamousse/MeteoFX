@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.ListProperty;
+
 import java.util.List;
 
 public interface Persistence<T> {

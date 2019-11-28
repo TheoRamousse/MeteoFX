@@ -3,9 +3,12 @@ package model;
 /* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
 */
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public abstract class Sensor extends Thread{
     private int id;
-    private String name;
+    private StringProperty name = new SimpleStringProperty();
     private double currentTemperature;
     private int timeUpdate;
     private final double min=-273.15;
@@ -20,9 +23,11 @@ public abstract class Sensor extends Thread{
         return id;
     }
 
-    public String getSensorName() {
+    public StringProperty nameProperty() {
         return name;
     }
+
+    public String getSensorName(){ return name.get();}
 
     public double getCurrentTemperature(){
         return currentTemperature;
@@ -37,7 +42,7 @@ public abstract class Sensor extends Thread{
     }
 
     public void setSensorName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public void setCurrentTemperature(double temperature){

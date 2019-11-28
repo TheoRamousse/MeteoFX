@@ -3,14 +3,16 @@ package model;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.*;
 
 public class SensorManager {
-    private ListProperty<Sensor> sensorList = new SimpleListProperty();
+    private ListProperty<Sensor> sensorList = new SimpleListProperty<Sensor>();
     private Persistence<Sensor> persistence;
 
     public SensorManager(Persistence<Sensor> persistence) {
         this.persistence = persistence;
-        sensorList = (ListProperty<Sensor>) persistence.load();
+        ObservableList<Sensor> test =FXCollections.observableArrayList(persistence.load());
+        sensorList =new SimpleListProperty<>(test);
         startSensors();
     }
 
@@ -19,6 +21,10 @@ public class SensorManager {
         for (Sensor s: sensorList) {
             s.start();
         }
+    }
+
+    public ListProperty<Sensor> getSensorList(){
+        return sensorList;
     }
 
     private boolean addSensor(Sensor s)

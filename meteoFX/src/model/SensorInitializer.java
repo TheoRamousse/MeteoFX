@@ -1,7 +1,12 @@
 package model;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 
 public class SensorInitializer implements Persistence<Sensor> {
 

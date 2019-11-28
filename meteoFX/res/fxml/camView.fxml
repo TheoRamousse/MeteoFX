@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="controllers.CamView"
+          prefHeight="400.0" prefWidth="600.0">
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: red;">
+        <font>
+            <Font size="18"/>
+        </font>
+        Capteur #1 :
+    </Label>
+    <BorderPane  style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <center>
+            <ImageView preserveRatio="true">
+                <Image url="/img/lava.jpg"/>
+            </ImageView>
+        </center>
+    </BorderPane>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints  percentHeight="5.0" vgrow="ALWAYS" />
+        <RowConstraints percentHeight="95.0"  vgrow="ALWAYS" />
+    </rowConstraints>
+</GridPane>
