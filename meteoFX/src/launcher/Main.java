@@ -23,7 +23,7 @@ public class Main extends Application {
         MainView cv = new MainView(sm);
         loader.setController(cv);
         primaryStage.setTitle("MeteoFX");
-        primaryStage.setScene(new Scene(loader.load(), 1200, 800));
+        primaryStage.setScene(new Scene(loader.load()));
         primaryStage.show();
     }
 

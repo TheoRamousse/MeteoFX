@@ -10,9 +10,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
-<GridPane xmlns="http://javafx.com/javafx"
+<GridPane maxWidth="900" xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml">
-        <ListView fx:id="menuListeView" minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <ListView fx:id="menuListeView" minWidth="150.0" maxWidth="200" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <!--<ListCell>
                 <HBox prefHeight="25.0" alignment="CENTER_LEFT">
                     <Label fx:id="surveyName" text="Field A" styleClass="Name">

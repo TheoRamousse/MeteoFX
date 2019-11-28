@@ -90,7 +90,7 @@ public class MainView {
         CamView cv = new CamView(sensorSelected, new WeatherManager(new WeatherInitializer()));
         loader.setController(cv);
         primaryStage.setTitle("CAM : "+sensorSelected.getSensorName());
-        primaryStage.setScene(new Scene(loader.load(), 1200, 800));
+        primaryStage.setScene(new Scene(loader.load(), 800, 400));
         primaryStage.show();
     }
 }
