@@ -18,10 +18,9 @@
         </font>
         Capteur #1 :
     </Label>
-    <BorderPane  style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <BorderPane fx:id="weatherImageContainer" maxHeight="600" maxWidth="800" style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <center>
-            <ImageView fx:id="weatherImageContainer" preserveRatio="true">
-                <Image fx:id="weatherImage" url="/img/lava.jpg"/>
+            <ImageView fx:id="weatherImageView" preserveRatio="true">
             </ImageView>
         </center>
     </BorderPane>
