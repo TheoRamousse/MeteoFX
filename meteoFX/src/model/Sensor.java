@@ -3,24 +3,24 @@ package model;
 /* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
 */
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public abstract class Sensor extends Thread{
-    private int id;
+    private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty name = new SimpleStringProperty();
-    private double currentTemperature;
-    private int timeUpdate;
+    private DoubleProperty currentTemperature = new SimpleDoubleProperty();
+    private IntegerProperty timeUpdate = new SimpleIntegerProperty();
     private final double min=-273.15;
     private final double max=100;
+    public IntegerProperty idProperty(){ return id;}
 
     public Sensor(int id)
     {
-        this.id = id;
+        this.id.set(id);
     }
 
     public int getSensorId() {
-        return id;
+        return id.get();
     }
 
     public StringProperty nameProperty() {
@@ -30,28 +30,34 @@ public abstract class Sensor extends Thread{
     public String getSensorName(){ return name.get();}
 
     public double getCurrentTemperature(){
-        return currentTemperature;
+        return currentTemperature.get();
     }
 
     public int getTimeUpdate() {
-        return timeUpdate;
+        return timeUpdate.get();
     }
 
     public void setId(int id){
-        this.id = id;
+        this.id.set(id);
     }
 
     public void setSensorName(String name) {
         this.name.set(name);
     }
 
+    public DoubleProperty currentTemperatureProperty() {
+        return currentTemperature;
+    }
+
     public void setCurrentTemperature(double temperature){
-        currentTemperature = temperature;
+        currentTemperature.set(temperature);
     }
 
     public void setTimeUpdate(int timeUpdate) {
-        this.timeUpdate = timeUpdate;
+        this.timeUpdate.set(timeUpdate);
     }
+
+    public IntegerProperty timeUpdateProperty(){ return timeUpdate; }
 
     abstract public void doTemperature();
 
@@ -60,7 +66,7 @@ public abstract class Sensor extends Thread{
         while (true){
             doTemperature();
             try {
-                sleep((long)timeUpdate*1000);
+                sleep((long)getTimeUpdate()*1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

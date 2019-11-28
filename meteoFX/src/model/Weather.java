@@ -6,11 +6,11 @@ The image isn't stocked in the object but the variable path is the relative path
 
 public class Weather {
     private String name;
-    private float minTemperature;
-    private float maxTemperature;
+    private double minTemperature;
+    private double maxTemperature;
     private String pathImage;
 
-    public Weather(String name, float minTemperature, float maxTemperature, String pathImage)
+    public Weather(String name, double minTemperature, double maxTemperature, String pathImage)
     {
         this.name = name;
         this.minTemperature = minTemperature;
@@ -26,7 +26,7 @@ public class Weather {
         this.pathImage = pathImage;
     }
 
-    public float getMaxTemperature() {
+    public double getMaxTemperature() {
         return maxTemperature;
     }
 
@@ -34,7 +34,7 @@ public class Weather {
         this.maxTemperature = maxTemperature;
     }
 
-    public float getMinTemperature() {
+    public double getMinTemperature() {
         return minTemperature;
     }
 
@@ -53,7 +53,7 @@ public class Weather {
     }
 
     public boolean isTemperatureInInterval(double temperature) {
-        if(getMinTemperature()>= temperature && getMaxTemperature()<=temperature)
+        if(getMinTemperature()<= temperature && getMaxTemperature()>=temperature)
             return true;
         return false;
     }

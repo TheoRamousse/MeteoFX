@@ -11,18 +11,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 <GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="controllers.MainView">
-        <ListView minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-            <HBox prefHeight="25.0" alignment="CENTER_LEFT">
-                <Label fx:id="surveyName" text="Field A" styleClass="Name">
-                    Capteur 1
-                    <graphic>
-                        <ImageView fx:id="imageSensor" fitWidth="25.0" preserveRatio="true"><Image url="/img/sensor.png"></Image></ImageView>
-                    </graphic>
-                </Label>
-            </HBox>
-        </ListView>
+          xmlns:fx="http://javafx.com/fxml">
+        <ListView fx:id="menuListeView" minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <!--<ListCell>
+                <HBox prefHeight="25.0" alignment="CENTER_LEFT">
+                    <Label fx:id="surveyName" text="Field A" styleClass="Name">
+                        Capteur 1
+                        <graphic>
+                            <ImageView fx:id="imageSensor" fitWidth="25.0" preserveRatio="true"><Image url="/img/sensor.png"></Image></ImageView>
+                        </graphic>
+                    </Label>
+                </HBox>
+            </ListCell>-->
     <BorderPane style="-fx-background-color: #EAEAEA;"  GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
         <center>
             <VBox alignment="CENTER">
@@ -34,7 +34,7 @@
                         </font>
                         Nom du capteur :
                     </Label>
-                    <TextField minWidth="100.0" prefWidth="200.0"></TextField>
+                    <TextField fx:id="nameInput" minWidth="100.0" prefWidth="200.0"></TextField>
                 </HBox>
                 <HBox spacing="15" alignment="CENTER" prefWidth="250.0">
                     <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
@@ -44,7 +44,13 @@
                         </font>
                         Fréquence de rafraichissement :
                     </Label>
-                    <TextField minWidth="100.0" prefWidth="200.0"></TextField>
+                    <TextField fx:id="freqInput" minWidth="50.0" prefWidth="100.0"></TextField>
+                    <Label style="-fx-text-fill: black;" >
+                        <font>
+                            <Font size="18"></Font>
+                        </font>
+                        secondes
+                    </Label>
                 </HBox>
                 <HBox spacing="15" alignment="CENTER" prefWidth="250.0">
                     <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
@@ -54,27 +60,41 @@
                         </font>
                         Température actuelle :
                     </Label>
+                    <TextField fx:id="temperatureInput" minWidth="50.0" prefWidth="100.0"></TextField>
                     <Label style="-fx-text-fill: black;" >
                         <font>
                             <Font size="18"></Font>
                         </font>
-                        18 °C
+                        °C
                     </Label>
                 </HBox>
             </VBox>
         </center>
         <top>
-            <Label style="-fx-text-fill: red;" BorderPane.alignment="TOP_LEFT">
-                <font>
-                    <Font size="18"></Font>
-                </font>
-                Capteur #1 :
-            </Label>
+            <HBox BorderPane.alignment="TOP_LEFT">
+                <Label style="-fx-text-fill: red;">
+                    <font>
+                        <Font size="18"></Font>
+                    </font>
+                    Capteur n°
+                </Label>
+                <Label fx:id="sensorNum" style="-fx-text-fill: red;">
+                    <font>
+                        <Font size="18"></Font>
+                    </font>
+                </Label>
+                <Label style="-fx-text-fill: red;">
+                    <font>
+                        <Font size="18"></Font>
+                    </font>
+                    :
+                </Label>
+            </HBox>
         </top>
         <bottom>
             <HBox spacing="15.0" alignment="CENTER">
                 <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
-                <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Afficher la caméra"/>
+                <Button onAction="#showCamView" style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Afficher la caméra"/>
                 <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage analogique"/>
                 <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage thermomètre"/>
             </HBox>

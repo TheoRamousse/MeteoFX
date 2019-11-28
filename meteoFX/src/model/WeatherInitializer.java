@@ -12,11 +12,11 @@ public class WeatherInitializer implements Persistence<Weather> {
     @Override
     public List<Weather> load() {
         List<Weather> l = new ArrayList<>();
-        l.add(new Weather("Lava", 51, 4000, "/img/lava.jpg"));
+        l.add(new Weather("Lava", 50, 4000, "/img/lava.jpg"));
         l.add(new Weather("Good Weather", 20, 50, "/img/goodWeather.jpg"));
-        l.add(new Weather("Cloudy", 4, 19, "/img/cloudy.jpg"));
-        l.add(new Weather("Snowy", -30, 3, "/img/snow.jpg"));
-        l.add(new Weather("Frozen", -274, -31, "/img/frozen.jpg"));
+        l.add(new Weather("Cloudy", 4, 20, "/img/cloudy.jpeg"));
+        l.add(new Weather("Snowy", -30, 4, "/img/snow.jpg"));
+        l.add(new Weather("Frozen", -274, -30, "/img/frozen.jpg"));
         return l;
     }
 

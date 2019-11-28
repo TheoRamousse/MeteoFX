@@ -12,6 +12,7 @@ public class WeatherManager {
     private Persistence<Weather> persistence;
 
     public WeatherManager(Persistence<Weather> persistence){
+        this.persistence = persistence;
         weatherList = new ArrayList<>();
         weatherList = this.persistence.load();
     }
@@ -41,7 +42,7 @@ public class WeatherManager {
         return true;
     }
 
-    private Weather findWeatherByTemperature(double temperature)
+    public Weather findWeatherByTemperature(double temperature)
     {
         for (Weather w : weatherList) {
             if(w.isTemperatureInInterval(temperature))

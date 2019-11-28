@@ -22,7 +22,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainView.fxml"));
         MainView cv = new MainView(sm);
         loader.setController(cv);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("MeteoFX");
         primaryStage.setScene(new Scene(loader.load(), 1200, 800));
         primaryStage.show();
     }

@@ -23,8 +23,10 @@ public class SensorManager {
         }
     }
 
-    public ListProperty<Sensor> getSensorList(){
-        return sensorList;
+    public ListProperty<Sensor> sensorListProperty() {return sensorList;}
+
+    public ObservableList<Sensor> getSensorList(){
+        return sensorList.get();
     }
 
     private boolean addSensor(Sensor s)
@@ -48,6 +50,15 @@ public class SensorManager {
     {
         for (Sensor s: sensorList) {
             if(s.getSensorId() == id)
+                return s;
+        }
+        return null;
+    }
+
+    public Sensor findSensorByName(String name)
+    {
+        for (Sensor s: sensorList) {
+            if(s.getSensorName() == name)
                 return s;
         }
         return null;

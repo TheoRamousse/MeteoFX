@@ -11,7 +11,6 @@
 <?import javafx.scene.image.Image?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="controllers.CamView"
           prefHeight="400.0" prefWidth="600.0">
     <Label GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: red;">
         <font>
@@ -21,8 +20,8 @@
     </Label>
     <BorderPane  style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <center>
-            <ImageView preserveRatio="true">
-                <Image url="/img/lava.jpg"/>
+            <ImageView fx:id="weatherImageContainer" preserveRatio="true">
+                <Image fx:id="weatherImage" url="/img/lava.jpg"/>
             </ImageView>
         </center>
     </BorderPane>
