@@ -1,3 +1,7 @@
+/*
+copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javafx.controls,javafx.fxml
+* */
+
 package launcher;
 
 import Tests.SensorManagerTest;
