@@ -8,6 +8,7 @@
 
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.image.ImageView?>
+<?import GraphicNodes.ResizableImageView?>
 <?import javafx.scene.image.Image?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
@@ -20,8 +21,8 @@
     </Label>
     <BorderPane fx:id="weatherImageContainer" style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <center>
-            <ImageView fx:id="weatherImageView" preserveRatio="true">
-            </ImageView>
+            <ResizableImageView  fx:id="weatherImageView" preserveRatio="true">
+            </ResizableImageView>
         </center>
     </BorderPane>
 
