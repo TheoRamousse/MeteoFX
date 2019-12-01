@@ -95,7 +95,7 @@
             <HBox spacing="15.0" alignment="CENTER">
                 <padding><Insets left="10.0" top="10.0" bottom="10.0" right="10.0"></Insets></padding>
                 <Button onAction="#showCamView" style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Afficher la caméra"/>
-                <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage analogique"/>
+                <Button onAction="#showDigitalView" style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage digital"/>
                 <Button style="-fx-text-fill: white; -fx-background-color: #24C600;" text="Affichage thermomètre"/>
             </HBox>
         </bottom>

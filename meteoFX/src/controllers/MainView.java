@@ -93,6 +93,14 @@ public class MainView {
         primaryStage.setScene(new Scene(loader.load(), 800, 400));
         primaryStage.show();
     }
+
+    public void showDigitalView(ActionEvent actionEvent) throws  IOException{
+        Stage digitalStage = new Stage();
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/fxml/digitalView.fxml")));
+        digitalStage.setTitle("DIGITAL TEMP : "+sensorSelected.getSensorName());
+        digitalStage.setScene(new Scene(loader.load(), 600,400));
+        digitalStage.show();
+    }
 }
 
 

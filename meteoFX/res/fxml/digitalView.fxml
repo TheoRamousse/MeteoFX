@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="controllers.DigitalView"
+          prefHeight="400.0" prefWidth="600.0">
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: red;">
+        <font>
+            <Font size="18"/>
+        </font>
+        Capteur #1 :
+    </Label>
+    <BorderPane GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <center>
+            <Label>
+                15°C
+            </Label>
+        </center>
+    </BorderPane>
+</GridPane>
