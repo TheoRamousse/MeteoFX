@@ -93,6 +93,16 @@ public class MainView {
         primaryStage.setScene(new Scene(loader.load(), 800, 400));
         primaryStage.show();
     }
+
+    public void showDigitalView(ActionEvent actionEvent) throws IOException {
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/digitalView.fxml"));
+        DigitalView cv = new DigitalView(sensorSelected);
+        loader.setController(cv);
+        primaryStage.setTitle("Digital : "+sensorSelected.getSensorName());
+        primaryStage.setScene(new Scene(loader.load(), 800, 400));
+        primaryStage.show();
+    }
 }
 
 

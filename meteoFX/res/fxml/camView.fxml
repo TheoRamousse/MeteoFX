@@ -13,13 +13,13 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="400.0" prefWidth="600.0">
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: red;">
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #24C600;">
         <font>
             <Font size="18"/>
         </font>
         Capteur #1 :
     </Label>
-    <BorderPane fx:id="weatherImageContainer" style="-fx-background-color: black;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <BorderPane fx:id="weatherImageContainer" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <center>
             <ResizableImageView  fx:id="weatherImageView" preserveRatio="true">
             </ResizableImageView>
@@ -30,7 +30,7 @@
         <ColumnConstraints hgrow="ALWAYS" percentWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints  percentHeight="5.0" vgrow="ALWAYS" />
-        <RowConstraints percentHeight="95.0"  vgrow="ALWAYS" />
+        <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+        <RowConstraints percentHeight="90.0"  vgrow="ALWAYS" />
     </rowConstraints>
 </GridPane>

@@ -18,6 +18,6 @@ public class RandomSensor extends Sensor{
         //minimum temperature : -273.15 maximum here : 4000
         double max = 100;
         double min = -273.15;
-        super.setCurrentTemperature(super.getMin()+(super.getMax()-super.getMin())*new Random().nextDouble());
+        super.setCurrentTemperature(Math.round((super.getMin()+(super.getMax()-super.getMin())*new Random().nextDouble())*100.0)/100.0);
     }
 }

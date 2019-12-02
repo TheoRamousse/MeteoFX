@@ -53,7 +53,7 @@ public class ResizableImageView extends ImageView {
     public void resize(double width, double height)
     {
         setFitWidth(width);
-        setFitHeight(height);
+        setFitHeight(height-15);
     }
 
 }

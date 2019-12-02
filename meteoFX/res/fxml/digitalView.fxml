@@ -6,9 +6,37 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.DigitalView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefHeight="400.0" prefWidth="600.0">
+    <Text >
+        <font>
+            <Font size="25"></Font>
+        </font>
+        Température relevée par le capteur n°
+    </Text>
+    <Text fx:id="nameContainer">
+        <font>
+            <Font size="25"></Font>
+        </font>
+    </Text>
+    <Text text=" : ">
+        <font>
+            <Font size="25"></Font>
+        </font>
+    </Text>
 
-</AnchorPane>
+    <Text fx:id="temperatureContainer">
+        <font>
+            <Font size="25"></Font>
+        </font>
+    </Text>
+    <Text>
+        <font>
+            <Font size="25"></Font>
+        </font>
+        °c
+    </Text>
+</HBox>
