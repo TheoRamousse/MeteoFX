@@ -12,6 +12,7 @@ public abstract class Sensor extends Thread{
     private IntegerProperty timeUpdate = new SimpleIntegerProperty();
     private final double min=-273.15;
     private final double max=100;
+
     public IntegerProperty idProperty(){ return id;}
 
     public Sensor(int id)
