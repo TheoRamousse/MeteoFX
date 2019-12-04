@@ -1,22 +1,18 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import launcher.Main;
-import model.Sensor;
-import model.SensorManager;
-import model.WeatherInitializer;
-import model.WeatherManager;
+import model.*;
 
 
 import java.io.IOException;
@@ -40,6 +36,9 @@ public class MainView {
     @FXML
     private TextField nameInput;
 
+    @FXML
+    private ComboBox comboBoxAlgos;
+
     public MainView(SensorManager sm) {
 
         this.sm = sm;
@@ -54,8 +53,11 @@ public class MainView {
         freqInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).timeUpdateProperty().asString());
         temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
         nameInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).nameProperty());
-
-
+        comboBoxAlgos.getItems().addAll(
+                "Random",
+                "Bounded Random"
+        );
+        comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
         menuListeView.setCellFactory(__ ->
                 new ListCell<Sensor>(){
                     @Override
@@ -78,6 +80,28 @@ public class MainView {
             freqInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).timeUpdateProperty().asString());
             temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
             nameInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).nameProperty());
+            comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
+        });
+
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue ov, String t, String t1) {
+                switch (t1) {
+                    case "Random" :
+                        sensorSelected.setSensorAlgoChanger(new AlgoRandom());
+                        break;
+                    case "Bounded Random" :
+                        sensorSelected.setSensorAlgoChanger(new AlgoBoundedRandom());
+                        break;
+                    default:
+                        try {
+                            throw new Exception("No existant item selected");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
         });
 
 

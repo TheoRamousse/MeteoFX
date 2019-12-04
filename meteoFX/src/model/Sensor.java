@@ -28,6 +28,10 @@ public class Sensor extends Thread{
         this.sensorAlgoChanger = sac;
     }
 
+    public String getSensorAlgoType() {
+        return sensorAlgoChanger.getAlgoType();
+    }
+
     public int getSensorId() {
         return id.get();
     }
