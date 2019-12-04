@@ -17,7 +17,7 @@ public class SensorInitializer implements Persistence<Sensor> {
         List<Sensor> l = new ArrayList<>();
         l.add(new Sensor(1, "First Sensor", new AlgoBoundedRandom(), 5));
         l.add(new Sensor(2, "Second Sensor", new AlgoBoundedRandom(), 1));
-        l.add(new Sensor(3, "Third Sensor", new AlgoBoundedRandom(), 9));
+        l.add(new Sensor(3, "Third Sensor", new AlgoRandom(), 1));
         return l;
     }
 
