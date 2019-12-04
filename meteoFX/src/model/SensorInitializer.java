@@ -1,12 +1,7 @@
 package model;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 
 public class SensorInitializer implements Persistence<Sensor> {
 
@@ -20,9 +15,9 @@ public class SensorInitializer implements Persistence<Sensor> {
     @Override
     public List<Sensor> load() {
         List<Sensor> l = new ArrayList<>();
-        l.add(new RandomSensor(1, "First Sensor", 5));
-        l.add(new RandomSensor(2, "Second Sensor", 1));
-        l.add(new RandomSensor(3, "Third Sensor", 9));
+        l.add(new Sensor(1, "First Sensor", new AlgoBoundedRandom(), 5));
+        l.add(new Sensor(2, "Second Sensor", new AlgoBoundedRandom(), 1));
+        l.add(new Sensor(3, "Third Sensor", new AlgoBoundedRandom(), 9));
         return l;
     }
 

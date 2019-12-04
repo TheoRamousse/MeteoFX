@@ -1,11 +1,11 @@
 package Tests;
 
-import model.RandomSensor;
+import model.AlgoBoundedRandom;
 import model.Sensor;
 
 public class SensorTest {
-    public void testRandomCensor(){
-        Sensor rs = new RandomSensor(0,"rs0", 2);
+   /* public void testRandomCensor(){
+        Sensor rs = new AlgoBoundedRandom(0,"rs0", 2);
         rs.start();
         while (true){
             try {
@@ -15,5 +15,5 @@ public class SensorTest {
             }
             System.out.println(rs.getCurrentTemperature());
         }
-    }
+    }*/
 }

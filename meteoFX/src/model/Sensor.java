@@ -5,19 +5,27 @@ package model;
 
 import javafx.beans.property.*;
 
-public abstract class Sensor extends Thread{
+public class Sensor extends Thread{
+    private SensorAlgoChanger sensorAlgoChanger;
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty name = new SimpleStringProperty();
     private DoubleProperty currentTemperature = new SimpleDoubleProperty();
     private IntegerProperty timeUpdate = new SimpleIntegerProperty();
-    private final double min=-273.15;
-    private final double max=100;
+
 
     public IntegerProperty idProperty(){ return id;}
 
-    public Sensor(int id)
+    public Sensor(int id, String name, SensorAlgoChanger sac, int timeUpdate)
     {
-        this.id.set(id);
+        this.setId(id);
+        this.setSensorName(name);
+        this.sensorAlgoChanger = sac;
+        this.setTimeUpdate(timeUpdate);
+    }
+
+    public void setSensorAlgoChanger(SensorAlgoChanger sac)
+    {
+        this.sensorAlgoChanger = sac;
     }
 
     public int getSensorId() {
@@ -60,7 +68,9 @@ public abstract class Sensor extends Thread{
 
     public IntegerProperty timeUpdateProperty(){ return timeUpdate; }
 
-    abstract public void doTemperature();
+    public void doTemperature() {
+        setCurrentTemperature(sensorAlgoChanger.doTemperature());
+    }
 
     @Override
     public void run(){
@@ -72,13 +82,5 @@ public abstract class Sensor extends Thread{
                 e.printStackTrace();
             }
         }
-    }
-
-    public double getMax() {
-        return max;
-    }
-
-    public double getMin() {
-        return min;
     }
 }
