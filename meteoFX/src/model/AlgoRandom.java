@@ -2,15 +2,18 @@ package model;
 
 import java.util.Random;
 
-public class AlgoRandom implements SensorAlgoChanger{
-    private final String algoType = "Random";
+public class AlgoRandom extends SensorAlgoChanger{
+    private final static Random RANDOM = new Random();
 
+    public AlgoRandom()
+    {
+        super.setAlgoType("Random");
+    }
+
+    @Override
     public double doTemperature()
     {
-        return new Random().nextInt()+ new Random().nextDouble();
+        return (super.getMIN()+(Double.MAX_VALUE)* RANDOM.nextDouble());
     }
 
-    public String getAlgoType() {
-        return algoType;
-    }
 }
