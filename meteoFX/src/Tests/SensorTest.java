@@ -1,19 +1,32 @@
 package Tests;
 
 import model.AlgoBoundedRandom;
+import model.AlgoRandom;
+import model.AlgoSmallFluctuation;
 import model.Sensor;
 
 public class SensorTest {
-   /* public void testRandomCensor(){
-        Sensor rs = new AlgoBoundedRandom(0,"rs0", 2);
-        rs.start();
+
+    private Sensor s;
+
+    public void testRandomSensor(){
+        s = new Sensor(0,"sensor 0", new AlgoRandom(), 1);
+        testSensor();
+    }
+    public void testSmallFluctuationSensor(){
+        s = new Sensor(0, "sensor 0", new AlgoSmallFluctuation(2, -272), 1);
+        testSensor();
+    }
+
+    private void testSensor (){
+        s.start();
         while (true){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(rs.getCurrentTemperature());
+            System.out.println(s.getCurrentTemperature());
         }
-    }*/
+    }
 }

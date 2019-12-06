@@ -56,7 +56,7 @@ public class MainView {
         comboBoxAlgos.getItems().addAll(
                 "Random",
                 "Bounded Random",
-                "AlgoFluctuation"
+                "Small Fluctuation"
         );
         comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
         menuListeView.setCellFactory(__ ->
@@ -94,7 +94,7 @@ public class MainView {
                     case "Bounded Random" :
                         sensorSelected.setSensorAlgoChanger(new AlgoBoundedRandom());
                         break;
-                    case "AlgoFluctuation" :
+                    case "Small Fluctuation" :
                         sensorSelected.setSensorAlgoChanger(new AlgoSmallFluctuation(0.5,0));
                         break;
                     default:

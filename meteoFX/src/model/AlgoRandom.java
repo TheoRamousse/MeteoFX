@@ -3,7 +3,6 @@ package model;
 import java.util.Random;
 
 public class AlgoRandom extends SensorAlgoChanger{
-    private final static Random RANDOM = new Random();
 
     public AlgoRandom()
     {
@@ -13,7 +12,7 @@ public class AlgoRandom extends SensorAlgoChanger{
     @Override
     public double doTemperature()
     {
-        return (super.getMIN()+(Double.MAX_VALUE)* RANDOM.nextDouble());
+        return getRandom().nextDouble()*(Double.MAX_VALUE-getMin())+getMin();
     }
 
 }

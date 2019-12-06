@@ -4,6 +4,7 @@ copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javaf
 
 package launcher;
 
+import Tests.SensorTest;
 import controllers.MainView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,11 +28,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        /*try {
-            SensorManagerTest.testSM();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         launch(args);
     }
 }
