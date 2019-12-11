@@ -3,7 +3,7 @@ package model;
 public class AlgoSmallFluctuation extends SensorAlgoChanger {
 
     private double currentTemperature;
-    private Double firstTemperature;
+    private boolean isFirstTemperature;
     private double delta;
 
 
@@ -12,13 +12,13 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
         delta = coef;
         super.setAlgoType("Small Fluctuation");
         currentTemperature = firstTemperature;
-        this.firstTemperature = firstTemperature;
+        this.isFirstTemperature = true;
     }
 
     @Override
     public double doTemperature() {
-        if (firstTemperature != null){
-            firstTemperature = null;
+        if (isFirstTemperature){
+            isFirstTemperature = false;
             return currentTemperature;
         }
         currentTemperature = currentTemperature + (getRandom().nextDouble()*(delta + delta) - delta);
