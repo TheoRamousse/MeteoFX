@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import launcher.Main;
@@ -23,7 +25,10 @@ import java.io.IOException;
 public class MainView {
     private SensorManager sm;
     private Sensor sensorSelected;
-
+    @FXML
+    private BorderPane displayPane;
+    @FXML
+    private BorderPane welcomePane;
     @FXML
     private ListView<Sensor> menuListeView;
 
@@ -51,15 +56,6 @@ public class MainView {
     public void initialize()
     {
 
-       /* //Bindings.bindBidirectional(nameInput.textProperty(), sm.findSensorById(sensorSelected.getSensorId()).nameProperty());
-        //Bindings.bindBidirectional(freqInput.textProperty(), sm.findSensorById(sensorSelected.getSensorId()).timeUpdateProperty(), new NumberStringConverter());
-
-
-        sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
-        menuListeView.itemsProperty().bind(sm.sensorListProperty());
-        //freqInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).timeUpdateProperty().asString());
-        temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());*/
-
 
         menuListeView.itemsProperty().bind(sm.sensorListProperty());
         menuListeView.setCellFactory(__ ->
@@ -85,6 +81,7 @@ public class MainView {
         );
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             sensorSelected=newV;
+            setDisplayVisible(true);
             if(oldV != null) {
                 nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
                 freqInput.textProperty().unbindBidirectional(oldV.timeUpdateProperty());
@@ -92,22 +89,16 @@ public class MainView {
             sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
             nameInput.textProperty().bindBidirectional(newV.nameProperty());
             freqInput.textProperty().bindBidirectional(newV.timeUpdateProperty(), new NumberStringConverter());
-            temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
-            comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
+
+            temperatureInput.textProperty().bind(Bindings.createDoubleBinding(
+                    () -> Math.round(100.0*sm.findSensorById(sensorSelected.getSensorId()).getCurrentTemperature())/100.0, sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()).asString());
+
+
+            //temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
+            //comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
         });
 
-        /*menuListeView.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-
-
-            sensorSelected = menuListeView.getSelectionModel().getSelectedItem();
-            sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
-            menuListeView.itemsProperty().bind(sm.sensorListProperty());
-            //freqInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).timeUpdateProperty().asString());
-            temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
-            comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
-        });*/
-
-        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+        /*comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
                 switch (t1) {
@@ -118,7 +109,7 @@ public class MainView {
                         sensorSelected.setSensorAlgoChanger(new AlgoBoundedRandom());
                         break;
                     case "Small Fluctuation" :
-                        sensorSelected.setSensorAlgoChanger(new AlgoSmallFluctuation(0.5,0));
+                        sensorSelected.setSensorAlgoChanger(new AlgoSmallFluctuation(0.5,80));
                         break;
                     default:
                         try {
@@ -129,11 +120,23 @@ public class MainView {
                         break;
                 }
             }
-        });
+        });*/
 
         if (menuListeView.getItems().size() != 0) {
             menuListeView.getSelectionModel().selectFirst();
+            setDisplayVisible(true);
         }
+    }
+
+    public void setDisplayVisible(boolean show)
+    {
+        welcomePane.setVisible(!show);
+        displayPane.setVisible(show);
+    }
+
+    public void hideWelcome()
+    {
+
     }
 
 
