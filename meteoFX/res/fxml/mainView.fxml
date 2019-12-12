@@ -48,7 +48,7 @@
                         </font>
                         Fréquence de rafraichissement :
                     </Label>
-                    <TextField fx:id="freqInput" minWidth="50.0" prefWidth="100.0" />
+                    <ComboBox fx:id="freqInput" prefWidth="150.0" />
                     <Label style="-fx-text-fill: black;">
                         <font>
                             <Font size="18" />
@@ -77,7 +77,7 @@
                         <font>
                             <Font size="18" />
                         </font>
-                        Algoriythmique utilisé :
+                        Algorithme utilisé :
                     </Label>
                     <ComboBox fx:id="comboBoxAlgos" prefWidth="150.0" />
                 </HBox>

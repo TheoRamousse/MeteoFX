@@ -23,13 +23,15 @@ public class Sensor extends Thread{
         this.setTimeUpdate(timeUpdate);
     }
 
+    public String getAlgoType()
+    {
+        int start = this.getClass().getName().indexOf(".")+1;
+        return sensorAlgoChanger.getClass().getName().substring(start);
+    }
+
     public void setSensorAlgoChanger(SensorAlgoChanger sac)
     {
         this.sensorAlgoChanger = sac;
-    }
-
-    public String getSensorAlgoType() {
-        return sensorAlgoChanger.getAlgoType();
     }
 
     public int getSensorId() {

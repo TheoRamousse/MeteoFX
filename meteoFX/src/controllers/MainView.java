@@ -21,6 +21,7 @@ import model.*;
 
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 public class MainView {
     private SensorManager sm;
@@ -36,9 +37,6 @@ public class MainView {
     private Label sensorNum;
 
     @FXML
-    private TextField freqInput;
-
-    @FXML
     private TextField temperatureInput;
 
     @FXML
@@ -51,6 +49,9 @@ public class MainView {
 
         this.sm = sm;
     }
+
+    @FXML
+    private ComboBox freqInput;
 
     @FXML
     public void initialize()
@@ -75,28 +76,33 @@ public class MainView {
         );
 
         comboBoxAlgos.getItems().addAll(
-                "Random",
-                "Bounded Random",
-                "Small Fluctuation"
+                SensorAlgoChanger.getSons()
         );
+
+        for(int i=1; i<61; i++)
+        {
+            freqInput.getItems().add(i);
+        }
+
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             sensorSelected=newV;
             setDisplayVisible(true);
             if(oldV != null) {
                 nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
-                freqInput.textProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
             }
             sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
             nameInput.textProperty().bindBidirectional(newV.nameProperty());
-            freqInput.textProperty().bindBidirectional(newV.timeUpdateProperty(), new NumberStringConverter());
+            freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
+            comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
+            temperatureInput.textProperty().bind(Bindings.format("%.2f",sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
 
-            temperatureInput.textProperty().bind(Bindings.createDoubleBinding(
-                    () -> Math.round(100.0*sm.findSensorById(sensorSelected.getSensorId()).getCurrentTemperature())/100.0, sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()).asString());
-
-
-            //temperatureInput.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty().asString());
             //comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
         });
+
+//        comboBoxAlgos.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
+//            sensorSelected.setSensorAlgoChanger(new newV());
+//        });
 
         /*comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
             @Override

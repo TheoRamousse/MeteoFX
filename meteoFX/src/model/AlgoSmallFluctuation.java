@@ -10,9 +10,9 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
     public AlgoSmallFluctuation(double coef, double firstTemperature)
     {
         delta = coef;
-        super.setAlgoType("Small Fluctuation");
         currentTemperature = firstTemperature;
         this.isFirstTemperature = true;
+        notifyFatherIExist();
     }
 
     @Override
@@ -29,5 +29,6 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
         //System.out.println(previousTemperature);
         return currentTemperature;
     }
+
 
 }

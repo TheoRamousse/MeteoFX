@@ -6,7 +6,7 @@ public class AlgoRandom extends SensorAlgoChanger{
 
     public AlgoRandom()
     {
-        super.setAlgoType("Random");
+        notifyFatherIExist();
     }
 
     @Override
@@ -14,5 +14,6 @@ public class AlgoRandom extends SensorAlgoChanger{
     {
         return getRandom().nextDouble()*(Double.MAX_VALUE-getMin())+getMin();
     }
+
 
 }

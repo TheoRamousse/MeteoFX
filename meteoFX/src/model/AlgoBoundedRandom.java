@@ -8,7 +8,7 @@ public class AlgoBoundedRandom extends SensorAlgoChanger{
 
     public AlgoBoundedRandom()
     {
-        super.setAlgoType("Bounded Random");
+        notifyFatherIExist();
     }
 
     @Override
