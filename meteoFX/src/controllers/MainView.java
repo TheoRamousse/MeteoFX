@@ -3,6 +3,7 @@ package controllers;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import launcher.Main;
@@ -21,7 +23,9 @@ import model.*;
 
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class MainView {
     private SensorManager sm;
@@ -34,6 +38,9 @@ public class MainView {
     private ListView<Sensor> menuListeView;
 
     @FXML
+    private VBox algoContainer;
+
+    @FXML
     private Label sensorNum;
 
     @FXML
@@ -43,7 +50,7 @@ public class MainView {
     private TextField nameInput;
 
     @FXML
-    private ComboBox comboBoxAlgos;
+    private ComboBox<String> comboBoxAlgos;
 
     public MainView(SensorManager sm) {
 
@@ -79,6 +86,7 @@ public class MainView {
                 SensorAlgoChanger.getSons()
         );
 
+
         for(int i=1; i<61; i++)
         {
             freqInput.getItems().add(i);
@@ -104,10 +112,10 @@ public class MainView {
 //            sensorSelected.setSensorAlgoChanger(new newV());
 //        });
 
-        /*comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
-                switch (t1) {
+                /*switch (t1) {
                     case "Random" :
                         sensorSelected.setSensorAlgoChanger(new AlgoRandom());
                         break;
@@ -124,9 +132,23 @@ public class MainView {
                             e.printStackTrace();
                         }
                         break;
+                }*/
+                try {
+                    Constructor<?>[] algoSelected=Class.forName("model."+t1).getConstructors();
+                    for(Constructor<?> c : algoSelected){
+                        if(c.getParameterTypes().length != 0) {
+                            for (int i = 0; i < c.getParameterTypes().length; i++) {
+                                algoContainer.getChildren().add(new TextField());
+                            }
+                            break;
+                        }
+                    }
+                    //sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) Class.forName("model."+t1).newInstance());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
-        });*/
+        });
 
         if (menuListeView.getItems().size() != 0) {
             menuListeView.getSelectionModel().selectFirst();

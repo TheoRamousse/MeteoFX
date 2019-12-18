@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Random;
 
 public class AlgoBoundedRandom extends SensorAlgoChanger{
@@ -8,13 +9,17 @@ public class AlgoBoundedRandom extends SensorAlgoChanger{
 
     public AlgoBoundedRandom()
     {
-        notifyFatherIExist();
     }
 
     @Override
     public double doTemperature()
     {
         return super.getMin()+(getMax()-super.getMin())*getRandom().nextDouble();
+    }
+
+    static
+    {
+        notifyFatherIExist(AlgoBoundedRandom.class);
     }
 
 }
