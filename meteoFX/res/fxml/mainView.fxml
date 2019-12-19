@@ -29,7 +29,7 @@
     </BorderPane>
     <BorderPane visible="false" fx:id="displayPane" style="-fx-background-color: #EAEAEA;" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
         <center>
-            <VBox fx:id="algoContainer" alignment="CENTER">
+            <VBox alignment="CENTER">
                 <HBox alignment="CENTER" prefWidth="250.0" spacing="15">
                     <padding><Insets bottom="10.0" left="10.0" right="10.0" top="10.0" /></padding>
                     <Label style="-fx-text-fill: black;">
@@ -81,6 +81,9 @@
                     </Label>
                     <ComboBox fx:id="comboBoxAlgos" prefWidth="150.0" />
                 </HBox>
+                <VBox spacing="20" fx:id="algoContainer">
+                    <padding><Insets bottom="30.0" left="30.0" right="30.0" top="30.0" /></padding>
+                </VBox>
             </VBox>
         </center>
         <top>

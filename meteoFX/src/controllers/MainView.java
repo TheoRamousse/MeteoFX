@@ -4,11 +4,14 @@ import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,8 +25,10 @@ import launcher.Main;
 import model.*;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -58,7 +63,7 @@ public class MainView {
     }
 
     @FXML
-    private ComboBox freqInput;
+    private ComboBox<Integer> freqInput;
 
     @FXML
     public void initialize()
@@ -94,59 +99,59 @@ public class MainView {
 
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             sensorSelected=newV;
+            Property<Integer> bindedValue= newV.timeUpdateProperty().asObject();
             setDisplayVisible(true);
             if(oldV != null) {
                 nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
-                freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                freqInput.valueProperty().unbindBidirectional(bindedValue);
             }
             sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
             nameInput.textProperty().bindBidirectional(newV.nameProperty());
-            freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
+            freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty().asObject());
             comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
             temperatureInput.textProperty().bind(Bindings.format("%.2f",sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
 
-            //comboBoxAlgos.setValue(sensorSelected.getSensorAlgoType());
         });
-
-//        comboBoxAlgos.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
-//            sensorSelected.setSensorAlgoChanger(new newV());
-//        });
 
         comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
-                /*switch (t1) {
-                    case "Random" :
-                        sensorSelected.setSensorAlgoChanger(new AlgoRandom());
-                        break;
-                    case "Bounded Random" :
-                        sensorSelected.setSensorAlgoChanger(new AlgoBoundedRandom());
-                        break;
-                    case "Small Fluctuation" :
-                        sensorSelected.setSensorAlgoChanger(new AlgoSmallFluctuation(0.5,80));
-                        break;
-                    default:
-                        try {
-                            throw new Exception("No existant item selected");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                }*/
                 try {
                     Constructor<?>[] algoSelected=Class.forName("model."+t1).getConstructors();
-                    for(Constructor<?> c : algoSelected){
-                        if(c.getParameterTypes().length != 0) {
-                            for (int i = 0; i < c.getParameterTypes().length; i++) {
-                                algoContainer.getChildren().add(new TextField());
+                    for(Constructor<?> c : algoSelected) {
+                        if (c.getParameterTypes().length != 0) {
+                            String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
+                            algoContainer.getChildren().add(fxmlLoader.load());
+
+                            ArrayList<Object> listParameters = new ArrayList<>();
+                            int i = 0;
+                            for(Class<?> currentClass : c.getParameterTypes())
+                            {
+                                TextField curentTextField =(TextField) algoContainer.lookup("paramContainer").lookup("arg"+i);
+                                switch(currentClass.getName()) {
+                                    case "Double":
+                                        Double currentNodeD = Double.valueOf(curentTextField.getText());
+                                        break;
+                                    case "Integer":
+                                        Integer currentNodeI = Integer.valueOf(curentTextField.getText());
+                                        break;
+                                    default:
+                                        String currentNodeS = curentTextField.getText();
+                                        break;
+                                }
+
                             }
-                            break;
+                            i++;
+                            return;
                         }
                     }
-                    //sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) Class.forName("model."+t1).newInstance());
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
+                if(algoContainer.getChildren().toArray().length != 0)
+                    algoContainer.getChildren().remove(0);
+                //sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) Class.forName("model."+t1).newInstance());
             }
         });
 
@@ -156,15 +161,10 @@ public class MainView {
         }
     }
 
-    public void setDisplayVisible(boolean show)
+    private void setDisplayVisible(boolean show)
     {
         welcomePane.setVisible(!show);
         displayPane.setVisible(show);
-    }
-
-    public void hideWelcome()
-    {
-
     }
 
 
