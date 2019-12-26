@@ -43,6 +43,8 @@ public class MainView {
      * Current sensor selected by the user
      */
 
+
+
     @FXML
     private BorderPane displayPane;
     @FXML
@@ -66,7 +68,7 @@ public class MainView {
     private ComboBox<String> comboBoxAlgos;
 
     @FXML
-    private ComboBox<Integer> freqInput;
+    private ComboBox freqInput;
 
     public MainView(SensorManager sm) {
 
@@ -119,19 +121,20 @@ public class MainView {
          */
 
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
-            sensorSelected=newV;
-            Property<Integer> bindedValue= newV.timeUpdateProperty().asObject();
-            setDisplayVisible(true);
-            if(oldV != null) {
-                nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
-                freqInput.valueProperty().unbindBidirectional(bindedValue);
+            try {
+                sensorSelected = newV;
+                setDisplayVisible(true);
+                if (oldV != null) {
+                    nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
+                    freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                }
+                sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
+                nameInput.textProperty().bindBidirectional(newV.nameProperty());
+                freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
+                comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
+                temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
             }
-            sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
-            nameInput.textProperty().bindBidirectional(newV.nameProperty());
-            freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty().asObject());
-            comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
-            temperatureInput.textProperty().bind(Bindings.format("%.2f",sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
-
+            catch(Exception e){}
         });
         /**
          * Change values of the detail when a new sensor is selected in the master (menuListView)
@@ -150,6 +153,7 @@ public class MainView {
                     Constructor<?>[] constructorsOfAlgoSelected=Class.forName("model."+t1).getConstructors();
                     for(Constructor<?> c : constructorsOfAlgoSelected) {
                         if (c.getParameterTypes().length != 0) {
+                            constructorOfAlgo = c;
                             try {
                                 String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
@@ -192,7 +196,6 @@ public class MainView {
                             }catch(Exception ex) {
                                 throw new Exception("Your view needs a submit button");
                             }
-                            constructorOfAlgo = c;
                             return;
                         }
                     }
@@ -201,7 +204,6 @@ public class MainView {
                 }
                 if(algoContainer.getChildren().toArray().length != 0)
                     algoContainer.getChildren().remove(0);
-                //sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) Class.forName("model."+t1).newInstance());
             }
 
         });
@@ -257,6 +259,28 @@ public class MainView {
     /**
      * Display the view with digital temperature if the button is pressed
      */
+
+    public void deleteSensor(ActionEvent actionEvent){
+        sm.deleteSensor(sensorSelected);
+        if (menuListeView.getItems().size() != 0) {
+            menuListeView.getSelectionModel().selectFirst();
+            setDisplayVisible(true);
+        }
+        else{
+            setDisplayVisible(false);
+            sensorSelected=null;
+        }
+    }
+
+    public void showAddView(ActionEvent actionEvent) throws IOException {
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
+        AddSensorView cv = new AddSensorView(sm);
+        loader.setController(cv);
+        primaryStage.setTitle("Ajouter un sensor");
+        primaryStage.setScene(new Scene(loader.load(), 600, 400));
+        primaryStage.show();
+    }
 
 
 }

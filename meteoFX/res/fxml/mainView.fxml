@@ -118,7 +118,8 @@
     </BorderPane>
 
     <VBox alignment="CENTER" style="-fx-background-color: #EAEAEA;" GridPane.columnIndex="0" GridPane.rowIndex="1">
-        <Button alignment="CENTER" minWidth="150.0" style="-fx-text-fill: white; -fx-background-color: #24C600;">AJOUTER</Button>
+        <Button alignment="CENTER" minWidth="150.0" style="-fx-text-fill: white; -fx-background-color: #24C600;" onAction="#showAddView">AJOUTER</Button>
+        <Button alignment="CENTER" minWidth="150.0"  style="-fx-text-fill: white; -fx-background-color: #24C600;" onAction="#deleteSensor">Supprimer</Button>
     </VBox>
 
 

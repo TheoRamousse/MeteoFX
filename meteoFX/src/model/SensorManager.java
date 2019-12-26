@@ -11,8 +11,8 @@ public class SensorManager {
 
     public SensorManager(Persistence<Sensor> persistence) {
         this.persistence = persistence;
-        ObservableList<Sensor> test =FXCollections.observableArrayList(persistence.load());
-        sensorList =new SimpleListProperty<>(test);
+        ObservableList<Sensor> observableList =FXCollections.observableArrayList(persistence.load());
+        sensorList =new SimpleListProperty<>(observableList);
         startSensors();
     }
 
@@ -29,21 +29,30 @@ public class SensorManager {
         return sensorList.get();
     }
 
-    private boolean addSensor(Sensor s)
+    public boolean addSensor(Sensor s)
     {
-        if(findSensorById(s.getSensorId()) == null)
+        if(findSensorById(s.getSensorId()) != null)
             return false;
+        s.start();
         sensorList.add(s);
+        System.out.println(this.sensorList);
         return true;
     }
 
-    private boolean deleteSensor(int id)
+    public void deleteSensor(Sensor sensorDeleted)
     {
-        Sensor s = findSensorById(id);
-        if(s == null)
-            return false;
-        sensorList.remove(s);
-        return true;
+        sensorDeleted.stop();
+        sensorList.remove(sensorDeleted);
+    }
+
+    public int getMaxId(){
+        int max=0;
+        for (Sensor s: sensorList) {
+            if(s.getSensorId() > max)
+                max = s.getSensorId();
+
+        }
+        return max;
     }
 
     public Sensor findSensorById(int id)
