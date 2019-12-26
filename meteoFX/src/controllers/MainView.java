@@ -28,13 +28,21 @@ import model.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainView {
     private SensorManager sm;
+    /**
+     * This attribute manage has the list of sensors and manage them
+     */
     private Sensor sensorSelected;
+    /**
+     * Current sensor selected by the user
+     */
+
     @FXML
     private BorderPane displayPane;
     @FXML
@@ -57,13 +65,17 @@ public class MainView {
     @FXML
     private ComboBox<String> comboBoxAlgos;
 
+    @FXML
+    private ComboBox<Integer> freqInput;
+
     public MainView(SensorManager sm) {
 
         this.sm = sm;
     }
 
-    @FXML
-    private ComboBox<Integer> freqInput;
+    /**
+     * Constructor of MainView : Take the sensor manager in parameter
+     */
 
     @FXML
     public void initialize()
@@ -86,16 +98,25 @@ public class MainView {
 
                 }
         );
+        /**
+         * Display sensors in the master
+         */
 
         comboBoxAlgos.getItems().addAll(
                 SensorAlgoChanger.getSons()
         );
+        /**
+         * Add the name of all sensors known by the class SensorAlgoChanger
+         */
 
 
         for(int i=1; i<61; i++)
         {
             freqInput.getItems().add(i);
         }
+        /**
+         * Set values of freqInput (number of seconds to update the sensor : from 1s to 60s)
+         */
 
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             sensorSelected=newV;
@@ -112,53 +133,91 @@ public class MainView {
             temperatureInput.textProperty().bind(Bindings.format("%.2f",sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
 
         });
+        /**
+         * Change values of the detail when a new sensor is selected in the master (menuListView)
+         */
 
         comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+            private Constructor<?> constructorOfAlgo;
+
+            /**
+             *Constructor of algorithm selected
+             */
+
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
                 try {
-                    Constructor<?>[] algoSelected=Class.forName("model."+t1).getConstructors();
-                    for(Constructor<?> c : algoSelected) {
+                    Constructor<?>[] constructorsOfAlgoSelected=Class.forName("model."+t1).getConstructors();
+                    for(Constructor<?> c : constructorsOfAlgoSelected) {
                         if (c.getParameterTypes().length != 0) {
-                            String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
-                            algoContainer.getChildren().add(fxmlLoader.load());
-
-                            ArrayList<Object> listParameters = new ArrayList<>();
-                            int i = 0;
-                            for(Class<?> currentClass : c.getParameterTypes())
-                            {
-                                TextField curentTextField =(TextField) algoContainer.lookup("paramContainer").lookup("arg"+i);
-                                switch(currentClass.getName()) {
-                                    case "Double":
-                                        Double currentNodeD = Double.valueOf(curentTextField.getText());
-                                        break;
-                                    case "Integer":
-                                        Integer currentNodeI = Integer.valueOf(curentTextField.getText());
-                                        break;
-                                    default:
-                                        String currentNodeS = curentTextField.getText();
-                                        break;
-                                }
-
+                            try {
+                                String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
+                                FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
+                                algoContainer.getChildren().add(fxmlLoader.load());
+                            }catch(Exception ex){
+                                throw new Exception("Your algo needs a fxml view");
                             }
-                            i++;
+
+                            try {
+                                Button validate = (Button) algoContainer.lookup("#paramContainer").lookup("#submit");
+                                validate.setOnAction((event) -> {
+                                    ArrayList<Object> listParameters = new ArrayList<>();
+                                    int i = 0;
+                                    for(Class<?> currentClass : constructorOfAlgo.getParameterTypes())
+                                    {
+                                        TextField curentTextField =(TextField) algoContainer.lookup("#paramContainer").lookup("#arg"+i);
+                                        switch(currentClass.getName()) {
+                                            case "double":
+                                                Double currentNodeD = Double.valueOf(curentTextField.getText());
+                                                listParameters.add(currentNodeD);
+                                                break;
+                                            case "int":
+                                                Integer currentNodeI = Integer.valueOf(curentTextField.getText());
+                                                listParameters.add(currentNodeI);
+                                                break;
+                                            default:
+                                                String currentNodeS = curentTextField.getText();
+                                                listParameters.add(currentNodeS);
+                                                break;
+                                        }
+                                        i++;
+                                    }
+                                    try {
+                                        Object[] parametersConverted = listParameters.toArray();
+                                        sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
+                                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                            }catch(Exception ex) {
+                                throw new Exception("Your view needs a submit button");
+                            }
+                            constructorOfAlgo = c;
                             return;
                         }
                     }
-                } catch (ClassNotFoundException | IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if(algoContainer.getChildren().toArray().length != 0)
                     algoContainer.getChildren().remove(0);
                 //sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) Class.forName("model."+t1).newInstance());
             }
+
         });
+        /**
+         * Adapt the view of detail according to the algorithm selected
+         * Take parameters entered by the user
+         * Change the algorithm of the sensor
+         */
 
         if (menuListeView.getItems().size() != 0) {
             menuListeView.getSelectionModel().selectFirst();
             setDisplayVisible(true);
         }
+        /**
+         * Display the first sensor in the detail if the list of sensor isn't empty
+         */
     }
 
     private void setDisplayVisible(boolean show)
@@ -166,6 +225,10 @@ public class MainView {
         welcomePane.setVisible(!show);
         displayPane.setVisible(show);
     }
+
+    /**
+     * If the user doesn't have sensors, a welcome page is shown instead of the detail
+     */
 
 
     public void showCamView(ActionEvent actionEvent) throws IOException {
@@ -178,6 +241,10 @@ public class MainView {
         primaryStage.show();
     }
 
+    /**
+     * Display the view with the camera if the button is pressed
+     */
+
     public void showDigitalView(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/digitalView.fxml"));
@@ -187,6 +254,11 @@ public class MainView {
         primaryStage.setScene(new Scene(loader.load(), 800, 400));
         primaryStage.show();
     }
+    /**
+     * Display the view with digital temperature if the button is pressed
+     */
+
+
 }
 
 

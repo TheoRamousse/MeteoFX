@@ -11,4 +11,5 @@
             fx:controller="controllers.AlgoSmallFluctuationView">
     <TextField id="arg0" promptText="Coefficient"></TextField>
     <TextField id="arg1" promptText="Température de départ"></TextField>
+    <Button id="submit">Valider</Button>
 </VBox>
