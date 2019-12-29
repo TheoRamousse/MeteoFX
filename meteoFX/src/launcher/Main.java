@@ -22,7 +22,9 @@ public class Main extends Application {
         MainView cv = new MainView(sm);
         loader.setController(cv);
         primaryStage.setTitle("MeteoFX");
-        primaryStage.setScene(new Scene(loader.load()));
+        Scene mainScene = new Scene(loader.load(), 1000, 650);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 

@@ -239,7 +239,9 @@ public class MainView {
         CamView cv = new CamView(sensorSelected, new WeatherManager(new WeatherInitializer()));
         loader.setController(cv);
         primaryStage.setTitle("CAM : "+sensorSelected.getSensorName());
-        primaryStage.setScene(new Scene(loader.load(), 800, 400));
+        Scene mainScene = new Scene(loader.load(), 800, 400);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 
@@ -253,7 +255,9 @@ public class MainView {
         DigitalView cv = new DigitalView(sensorSelected);
         loader.setController(cv);
         primaryStage.setTitle("Digital : "+sensorSelected.getSensorName());
-        primaryStage.setScene(new Scene(loader.load(), 800, 400));
+        Scene mainScene = new Scene(loader.load(), 800, 400);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
         primaryStage.show();
     }
     /**
@@ -278,7 +282,9 @@ public class MainView {
         AddSensorView cv = new AddSensorView(sm);
         loader.setController(cv);
         primaryStage.setTitle("Ajouter un sensor");
-        primaryStage.setScene(new Scene(loader.load(), 600, 400));
+        Scene mainScene = new Scene(loader.load(), 600, 400);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 

@@ -11,32 +11,17 @@
 <HBox alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       prefHeight="400.0" prefWidth="600.0">
-    <Text >
-        <font>
-            <Font size="25"></Font>
-        </font>
+    <Text id="bigLabel">
         Température relevée par le capteur n°
     </Text>
-    <Text fx:id="nameContainer">
-        <font>
-            <Font size="25"></Font>
-        </font>
+    <Text id="bigLabel" fx:id="nameContainer">
     </Text>
-    <Text text=" : ">
-        <font>
-            <Font size="25"></Font>
-        </font>
+    <Text id="bigLabel" text=" : ">
     </Text>
 
-    <Text fx:id="temperatureContainer">
-        <font>
-            <Font size="25"></Font>
-        </font>
+    <Text id="bigLabel" fx:id="temperatureContainer">
     </Text>
-    <Text>
-        <font>
-            <Font size="25"></Font>
-        </font>
-        °c
+    <Text id="bigLabel">
+        °C
     </Text>
 </HBox>

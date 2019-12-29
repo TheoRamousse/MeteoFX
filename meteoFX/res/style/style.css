@@ -1,0 +1,51 @@
+Button {
+    -fx-background-color: #24C600;
+    -fx-text-fill: white;
+}
+
+VBox {
+    -fx-background-color: #EAEAEA;
+}
+
+HBox {
+    -fx-background-color: #EAEAEA;
+}
+
+BorderPane {
+    -fx-background-color: #EAEAEA;
+}
+
+ListView {
+    -fx-background-color: #EAEAEA;
+}
+
+GridPane {
+    -fx-background-color: #EAEAEA;
+}
+
+#labelDetail {
+    -fx-font-size : 18px;
+    -fx-text-fill : black;
+}
+
+#labelTitle {
+    -fx-font-size : 18px;
+    -fx-text-fill : #24C600;
+}
+
+#bigLabel {
+    -fx-font-size : 25px;
+    -fx-text-fill : black;
+}
+
+#algoContainer {
+    -fx-alignment : center;
+    -fx-spacing : 20px;
+    -fx-padding : 30px 0 0 0;
+}
+
+#paramContainer {
+    -fx-spacing : 7px;
+    -fx-alignment : center;
+    -fx-max-width : 300px;
+}
