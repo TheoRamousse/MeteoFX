@@ -1,5 +1,7 @@
 package model;
 
+import java.lang.invoke.MethodHandles;
+
 public class AlgoSmallFluctuation extends SensorAlgoChanger {
 
     private double currentTemperature;
@@ -12,8 +14,8 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
         delta = coef;
         currentTemperature = firstTemperature;
         this.isFirstTemperature = true;
-        notifyFatherIExist();
     }
+
 
     @Override
     public double doTemperature() {
@@ -30,5 +32,10 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
         return currentTemperature;
     }
 
+    static
+    {
+        notifyFatherIExist(AlgoSmallFluctuation.class);
+    }
 
 }
+
