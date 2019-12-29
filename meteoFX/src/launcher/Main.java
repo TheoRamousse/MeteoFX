@@ -4,12 +4,14 @@ copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javaf
 
 package launcher;
 
+import Tests.MeanSensorTest;
 import Tests.SensorTest;
 import controllers.MainView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.MeanSensor;
 import model.SensorInitializer;
 import model.SensorManager;
 

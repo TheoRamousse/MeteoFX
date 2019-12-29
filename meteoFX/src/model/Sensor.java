@@ -5,22 +5,24 @@ package model;
 
 import javafx.beans.property.*;
 
-public class Sensor extends Thread{
+public class Sensor extends LeafSensor{
     private SensorAlgoChanger sensorAlgoChanger;
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty name = new SimpleStringProperty();
-    private DoubleProperty currentTemperature = new SimpleDoubleProperty();
     private IntegerProperty timeUpdate = new SimpleIntegerProperty();
-
-
-    public IntegerProperty idProperty(){ return id;}
 
     public Sensor(int id, String name, SensorAlgoChanger sac, int timeUpdate)
     {
-        this.setId(id);
-        this.setSensorName(name);
+        super(id, name);
         this.sensorAlgoChanger = sac;
         this.setTimeUpdate(timeUpdate);
+        start();
+    }
+
+    public Sensor(int id, String name, MeanSensor observer, SensorAlgoChanger sac, int timeUpdate)
+    {
+        super(id, name, observer);
+        this.sensorAlgoChanger = sac;
+        this.setTimeUpdate(timeUpdate);
+        start();
     }
 
     public String getAlgoType()
@@ -34,38 +36,8 @@ public class Sensor extends Thread{
         this.sensorAlgoChanger = sac;
     }
 
-    public int getSensorId() {
-        return id.get();
-    }
-
-    public StringProperty nameProperty() {
-        return name;
-    }
-
-    public String getSensorName(){ return name.get();}
-
-    public double getCurrentTemperature(){
-        return currentTemperature.get();
-    }
-
     public int getTimeUpdate() {
         return timeUpdate.get();
-    }
-
-    public void setId(int id){
-        this.id.set(id);
-    }
-
-    public void setSensorName(String name) {
-        this.name.set(name);
-    }
-
-    public DoubleProperty currentTemperatureProperty() {
-        return currentTemperature;
-    }
-
-    public void setCurrentTemperature(double temperature){
-        currentTemperature.set(temperature);
     }
 
     public void setTimeUpdate(int timeUpdate) {
@@ -76,6 +48,10 @@ public class Sensor extends Thread{
 
     public void doTemperature() {
         setCurrentTemperature(sensorAlgoChanger.doTemperature());
+        try {
+            notifyObserver();
+        } catch (Exception e) {
+        }
     }
 
     @Override
