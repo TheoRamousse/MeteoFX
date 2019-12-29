@@ -14,6 +14,15 @@ public class Sensor extends LeafSensor{
         super(id, name);
         this.sensorAlgoChanger = sac;
         this.setTimeUpdate(timeUpdate);
+        start();
+    }
+
+    public Sensor(int id, String name, MeanSensor observer, SensorAlgoChanger sac, int timeUpdate)
+    {
+        super(id, name, observer);
+        this.sensorAlgoChanger = sac;
+        this.setTimeUpdate(timeUpdate);
+        start();
     }
 
     public String getAlgoType()
@@ -39,6 +48,10 @@ public class Sensor extends LeafSensor{
 
     public void doTemperature() {
         setCurrentTemperature(sensorAlgoChanger.doTemperature());
+        try {
+            notifyObserver();
+        } catch (Exception e) {
+        }
     }
 
     @Override

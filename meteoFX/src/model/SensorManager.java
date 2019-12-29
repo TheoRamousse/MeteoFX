@@ -12,15 +12,7 @@ public class SensorManager {
     public SensorManager(Persistence<Sensor> persistence) {
         this.persistence = persistence;
         ObservableList<Sensor> test =FXCollections.observableArrayList(persistence.load());
-        sensorList =new SimpleListProperty<>(test);
-        startSensors();
-    }
-
-    private void startSensors()
-    {
-        for (Sensor s: sensorList) {
-            s.start();
-        }
+        sensorList = new SimpleListProperty<>(test);
     }
 
     public ListProperty<Sensor> sensorListProperty() {return sensorList;}
