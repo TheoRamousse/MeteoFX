@@ -18,6 +18,7 @@ public class SensorInitializer implements Persistence<Sensor> {
         l.add(new Sensor(1, "First Sensor", new AlgoBoundedRandom(), 5));
         l.add(new Sensor(2, "Second Sensor", new AlgoSmallFluctuation(0.2,200), 2));
         l.add(new Sensor(3, "Third Sensor", new AlgoRandom(), 1));
+
         return l;
     }
 

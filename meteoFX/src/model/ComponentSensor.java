@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 
 import java.awt.*;
 
-public abstract class ComponentSensor extends Thread{
+public abstract class ComponentSensor extends Thread implements ProxyCreator{
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty name = new SimpleStringProperty();
     private DoubleProperty currentTemperature = new SimpleDoubleProperty();

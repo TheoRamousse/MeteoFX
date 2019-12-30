@@ -29,4 +29,9 @@ public class MeanSensor extends CompositeSensor {
         else
             setCurrentTemperature(numerator/denominator);
     }
+
+    @Override
+    public Object createProxy() {
+        return new MeanSensorProxy(this);
+    }
 }

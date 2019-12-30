@@ -5,6 +5,7 @@ copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javaf
 package launcher;
 
 import Tests.MeanSensorTest;
+import Tests.SensorPersistanceTest;
 import Tests.SensorTest;
 import controllers.MainView;
 import javafx.application.Application;
@@ -33,5 +34,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        SensorPersistanceTest.main(args);
     }
 }

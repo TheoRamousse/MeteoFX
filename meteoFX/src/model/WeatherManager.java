@@ -14,7 +14,11 @@ public class WeatherManager {
     public WeatherManager(Persistence<Weather> persistence){
         this.persistence = persistence;
         weatherList = new ArrayList<>();
-        weatherList = this.persistence.load();
+        try {
+            weatherList = this.persistence.load();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public List<Weather> getWeatherList(){

@@ -5,7 +5,9 @@ package model;
 
 import javafx.beans.property.*;
 
-public class Sensor extends LeafSensor{
+import java.io.Serializable;
+
+public class Sensor extends LeafSensor implements Serializable {
     private SensorAlgoChanger sensorAlgoChanger;
     private IntegerProperty timeUpdate = new SimpleIntegerProperty();
 
@@ -64,5 +66,15 @@ public class Sensor extends LeafSensor{
                 e.printStackTrace();
             }
         }
+    }
+
+    public SensorAlgoChanger getSensorAlgoChanger()
+    {
+        return this.sensorAlgoChanger;
+    }
+
+    @Override
+    public Object createProxy() {
+        return new SensorProxy(this);
     }
 }
