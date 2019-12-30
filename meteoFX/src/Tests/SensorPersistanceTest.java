@@ -2,7 +2,6 @@ package Tests;
 
 import model.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class SensorPersistanceTest {
         l.add(ms1);
 
 
-        SensorPersistance sp = new SensorPersistance();
+        SensorPersistance<ComponentSensor> sp = new SensorPersistance<ComponentSensor>("sensor.txt");
 
         try {
             sp.save(l);

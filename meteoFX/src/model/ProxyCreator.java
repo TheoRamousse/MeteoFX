@@ -1,5 +1,5 @@
 package model;
 
 public interface ProxyCreator {
-    public Object createProxy();
+    public ComponentSensorProxy createProxy();
 }

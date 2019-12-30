@@ -31,7 +31,7 @@ public class MeanSensor extends CompositeSensor {
     }
 
     @Override
-    public Object createProxy() {
+    public ComponentSensorProxy createProxy() {
         return new MeanSensorProxy(this);
     }
 }

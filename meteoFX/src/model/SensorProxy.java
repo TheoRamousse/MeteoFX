@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SensorProxy extends ComponentSensorProxy implements Serializable {
-    int timeUpdate;
-    SensorAlgoChanger sensorAlgoChanger;
+    private int timeUpdate;
+    private SensorAlgoChanger sensorAlgoChanger;
 
     public SensorProxy(Sensor s){
         super(s);

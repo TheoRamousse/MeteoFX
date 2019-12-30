@@ -74,7 +74,7 @@ public class Sensor extends LeafSensor implements Serializable {
     }
 
     @Override
-    public Object createProxy() {
+    public ComponentSensorProxy createProxy() {
         return new SensorProxy(this);
     }
 }

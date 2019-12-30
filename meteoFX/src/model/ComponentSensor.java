@@ -88,6 +88,7 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
         this.observer = observer;
     }
 
+
 /*    public abstract void add(ComponentSensor child);
 
     public abstract void remove(ComponentSensor child);*/

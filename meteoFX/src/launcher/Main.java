@@ -4,21 +4,16 @@ copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javaf
 
 package launcher;
 
-import Tests.MeanSensorTest;
-import Tests.SensorPersistanceTest;
-import Tests.SensorTest;
 import controllers.MainView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.MeanSensor;
-import model.SensorInitializer;
-import model.SensorManager;
+import model.*;
 
 public class Main extends Application {
 
-    public SensorManager sm = new SensorManager(new SensorInitializer("coucou"));
+    public SensorManager sm = new SensorManager(new SensorInitializer("sensor.txt"));
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainView.fxml"));
@@ -34,6 +29,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        SensorPersistanceTest.main(args);
     }
 }
