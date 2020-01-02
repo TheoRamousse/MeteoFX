@@ -3,8 +3,8 @@
 
 English :
 
-The goal of this project is to create a graphical software to simulate temperatures detected by diferents types of sensors.
-These sensors will generate temperature according to diferents algorithms configurables by users.
+The goal of this project is to create a graphical software to simulate temperatures detected by different types of sensors.
+These sensors will generate temperature according to different algorithms configurables by users.
 The main page of the software is made of two parts : a master and a detail. On the right, there is the list of sensors and on the left, there is the detail of the selected sensor.
 
 The user will be able to :
@@ -12,17 +12,17 @@ The user will be able to :
 - Create sensors that he will have to configure
 - Modify existing sensors
 - See temperatures simulated by sensors with a digital format
-- See the current weather thanks to a simuled cam associated to sensors
+- See the current weather thanks to a simulated cam associated to sensors
 - Load and save sensors
 - See the sensor tree (a sensor can be made of others sensors)
 
 Sensors can be configurate according to :
 - The name
-- The refresh frequency in sconds (from 1 to 60 seconds)
+- The refresh frequency in seconds (from 1 to 60 seconds)
 - The temperature generation algorithm
-- Others elements needed to configurate the algorithm
+- Others elements required to configurate the algorithm
 
-Others developers will be able to add some new algorithms. Each algorithm will be linked to a view. This view correspond to the configuration elements that the user will have to complete during the sensor creation
+Others developers will be able to add some new algorithms. Each algorithm will be linked to a graphical view. This view corresponds to the configuration elements that the user will have to complete during the sensor creation
 
 
 
@@ -49,7 +49,7 @@ L'utilisateur pourra ainsi :
 Les capteurs sont configurables selon :
 
 - Leur nom
-- La fréquence de rafraîchissement en secondes (de 1 seconde à 60 secondes)
+- La fréquence de rafraîchissement en seconde (de 1 seconde à 60 secondes)
 - L'alogrithme de génération des températures
 - D'autres éléments de configuration requis par l'algorithme de génération des températures
 
