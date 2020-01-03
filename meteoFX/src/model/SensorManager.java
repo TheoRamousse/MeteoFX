@@ -5,14 +5,20 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.*;
 
+import java.io.IOException;
+
 public class SensorManager {
     private ListProperty<Sensor> sensorList = new SimpleListProperty<Sensor>();
     private Persistence<Sensor> persistence;
 
-    public SensorManager(Persistence<Sensor> persistence) {
+    public SensorManager(Persistence<Sensor> persistence){
         this.persistence = persistence;
-        ObservableList<Sensor> test =FXCollections.observableArrayList(persistence.load());
-        sensorList = new SimpleListProperty<>(test);
+        try {
+            ObservableList<Sensor> test = FXCollections.observableArrayList(persistence.load());
+            sensorList = new SimpleListProperty<>(test);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public ListProperty<Sensor> sensorListProperty() {return sensorList;}
@@ -21,7 +27,7 @@ public class SensorManager {
         return sensorList.get();
     }
 
-    private boolean addSensor(Sensor s)
+    public boolean addSensor(Sensor s)
     {
         if(findSensorById(s.getSensorId()) == null)
             return false;
@@ -29,9 +35,8 @@ public class SensorManager {
         return true;
     }
 
-    private boolean deleteSensor(int id)
+    public boolean deleteSensor(Sensor s)
     {
-        Sensor s = findSensorById(id);
         if(s == null)
             return false;
         sensorList.remove(s);
@@ -45,6 +50,15 @@ public class SensorManager {
                 return s;
         }
         return null;
+    }
+
+    public int getMaxId() {
+        int result=0;
+        for (Sensor s: sensorList) {
+            if(s.getSensorId() > result)
+                result=s.getSensorId();
+        }
+        return result;
     }
 
     public Sensor findSensorByName(String name)

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,7 +8,7 @@ import java.util.Random;
  * WARNING : Don't forget to call notifyFatherIExist() in a static block to display this algo in the mainView comboBox
  */
 
-public abstract class SensorAlgoChanger {
+public abstract class SensorAlgoChanger implements Serializable {
     private static ArrayList<Class> listSons = new ArrayList<>();
     private final double MIN =-273.15;
     private final double MAX = 4000;

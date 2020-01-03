@@ -25,4 +25,8 @@ public abstract class CompositeSensor extends ComponentSensor{
     public HashMap<ComponentSensor, Double> getChildren() {
         return children;
     }
+
+    public void setChildren(HashMap<ComponentSensor, Double> children) {
+        this.children = children;
+    }
 }
