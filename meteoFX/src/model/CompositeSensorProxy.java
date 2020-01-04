@@ -1,39 +1,42 @@
 package model;
 
+import com.sun.source.tree.Tree;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class CompositeSensorProxy extends ComponentSensorProxy{
 
-    private HashMap<ComponentSensorProxy, Double> children = new HashMap<>();
+    private TreeMap<ComponentSensorProxy, Double> children = new TreeMap<>();
 
     public CompositeSensorProxy(CompositeSensor cs){
         super(cs);
-        this.children = hashMapConverterSerialize(cs.getChildren());
+        this.children = treeMapConverterSerialize(cs.getChildren());
     }
 
-    private HashMap<ComponentSensorProxy, Double> hashMapConverterSerialize(HashMap<ComponentSensor, Double> hashMapNotConverted){
-        HashMap<ComponentSensorProxy, Double> result = new HashMap<>();
-        for (Map.Entry<ComponentSensor, Double> currentEntry : hashMapNotConverted.entrySet()) {
+    private TreeMap<ComponentSensorProxy, Double> treeMapConverterSerialize(TreeMap<ComponentSensor, Double> treeMapNotConverted){
+        TreeMap<ComponentSensorProxy, Double> result = new TreeMap<>();
+        for (Map.Entry<ComponentSensor, Double> currentEntry : treeMapNotConverted.entrySet()) {
             result.put((ComponentSensorProxy)currentEntry.getKey().createProxy(), currentEntry.getValue());
         }
         children = result;
         return result;
     }
 
-    public HashMap<ComponentSensor, Double> hashMapConverterSerializeRevert(){
-        HashMap<ComponentSensor, Double> result = new HashMap<>();
+    public TreeMap<ComponentSensor, Double> treeMapConverterSerializeRevert(){
+        TreeMap<ComponentSensor, Double> result = new TreeMap<>();
         for (Map.Entry<ComponentSensorProxy, Double> currentEntry : children.entrySet()) {
             result.put((ComponentSensor) currentEntry.getKey().computeSensor(), currentEntry.getValue());
         }
         return result;
     }
 
-    public HashMap<ComponentSensorProxy, Double> getChildren() {
+    public TreeMap<ComponentSensorProxy, Double> getChildren() {
         return children;
     }
 
-    public void setChildren(HashMap<ComponentSensorProxy, Double> children) {
+    public void setChildren(TreeMap<ComponentSensorProxy, Double> children) {
         this.children = children;
     }
 }

@@ -4,7 +4,7 @@ import java.util.*;
 
 public abstract class CompositeSensor extends ComponentSensor{
 
-    private HashMap<ComponentSensor, Double> children = new HashMap<>();
+    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
     public CompositeSensor(int id, String name) {
         super(id, name);
@@ -22,11 +22,16 @@ public abstract class CompositeSensor extends ComponentSensor{
         children.remove(child);
     }
 
-    public HashMap<ComponentSensor, Double> getChildren() {
+    public TreeMap<ComponentSensor, Double> getChildren() {
         return children;
     }
 
-    public void setChildren(HashMap<ComponentSensor, Double> children) {
+    public List<ComponentSensor> getListChildren() {
+        Set<ComponentSensor> keySet = children.keySet();
+        return new ArrayList<ComponentSensor>(keySet);
+    }
+
+    public void setChildren(TreeMap<ComponentSensor, Double> children) {
         this.children = children;
     }
 }

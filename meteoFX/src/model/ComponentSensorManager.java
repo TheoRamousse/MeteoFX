@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ComponentSensorManager {
     private ListProperty<ComponentSensor> cSensorList;
@@ -19,6 +20,12 @@ public class ComponentSensorManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ComponentSensorManager(List<ComponentSensor> cps){
+        persistence = null;
+        ObservableList<ComponentSensor> oList = FXCollections.observableArrayList(cps);
+        cSensorList = new SimpleListProperty<ComponentSensor>(oList);
     }
 
     public ListProperty<ComponentSensor> componentSensorListProperty() {return cSensorList;}

@@ -133,13 +133,17 @@ public class MainView {
                 sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
                 nameInput.textProperty().bindBidirectional(newV.nameProperty());
                 if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
+                    hBoxChildren.setVisible(false);
                     hBoxFreq.setVisible(true);
                     hBoxAlgo.setVisible(true);
                     freqInput.valueProperty().bindBidirectional(((Sensor)newV).timeUpdateProperty());
                     comboBoxAlgos.getSelectionModel().select(((Sensor)newV).getAlgoType());
                 }
-                if (sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                if (sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxChildren.setVisible(true);
+                    hBoxFreq.setVisible(false);
+                    hBoxAlgo.setVisible(false);
+                }
                 temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findComponentSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
             }
             catch(Exception e){}
@@ -243,7 +247,15 @@ public class MainView {
      */
 
     public void showChildren(ActionEvent actionEvent) throws IOException {
-        System.out.println("blabla");
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainView.fxml"));
+        MainView mv = new MainView(new ComponentSensorManager(((MeanSensor)sensorSelected).getListChildren()));
+        loader.setController(mv);
+        primaryStage.setTitle("Children of "+sensorSelected.getSensorName());
+        Scene mainScene = new Scene(loader.load(), 1000, 650);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
     }
 
 
