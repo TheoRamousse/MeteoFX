@@ -6,13 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import model.ComponentSensor;
 import model.Sensor;
 import model.SensorManager;
 import model.WeatherManager;
 
 
 public class CamView {
-    private Sensor currentSensor;
+    private ComponentSensor currentSensor;
     private WeatherManager wm;
 
     @FXML
@@ -21,7 +22,7 @@ public class CamView {
     @FXML
     private BorderPane weatherImageContainer;
 
-    public CamView(Sensor currentSensor, WeatherManager wm)
+    public CamView(ComponentSensor currentSensor, WeatherManager wm)
     {
         this.currentSensor = currentSensor;
         this.wm = wm;

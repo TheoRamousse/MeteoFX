@@ -22,11 +22,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class MainView {
-    private SensorManager sm;
+    private ComponentSensorManager sm;
     /**
      * This attribute manage has the list of sensors and manage them
      */
-    private Sensor sensorSelected;
+    private ComponentSensor sensorSelected;
     /**
      * Current sensor selected by the user
      */
@@ -38,7 +38,7 @@ public class MainView {
     @FXML
     private BorderPane welcomePane;
     @FXML
-    private ListView<Sensor> menuListeView;
+    private ListView<ComponentSensor> menuListeView;
 
 
     @FXML
@@ -68,7 +68,7 @@ public class MainView {
     @FXML
     private ComboBox freqInput;
 
-    public MainView(SensorManager sm) {
+    public MainView(ComponentSensorManager sm) {
 
         this.sm = sm;
     }
@@ -82,11 +82,11 @@ public class MainView {
     {
 
 
-        menuListeView.itemsProperty().bind(sm.sensorListProperty());
+        menuListeView.itemsProperty().bind(sm.componentSensorListProperty());
         menuListeView.setCellFactory(__ ->
-                new ListCell<Sensor>(){
+                new ListCell<ComponentSensor>(){
                     @Override
-                    protected void updateItem(Sensor item, boolean empty) {
+                    protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
                         if (!empty) {
                             textProperty().bind(item.nameProperty());
@@ -127,20 +127,20 @@ public class MainView {
                 if (oldV != null) {
                     nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
                     if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
-                        freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                        freqInput.valueProperty().unbindBidirectional(((Sensor)oldV).timeUpdateProperty());
                     }
                 }
-                sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
+                sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
                 nameInput.textProperty().bindBidirectional(newV.nameProperty());
                 if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxFreq.setVisible(true);
                     hBoxAlgo.setVisible(true);
-                    freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
-                    comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
+                    freqInput.valueProperty().bindBidirectional(((Sensor)newV).timeUpdateProperty());
+                    comboBoxAlgos.getSelectionModel().select(((Sensor)newV).getAlgoType());
                 }
                 if (sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
                     hBoxChildren.setVisible(true);
-                temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
+                temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findComponentSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
             }
             catch(Exception e){}
         });
@@ -196,7 +196,8 @@ public class MainView {
                                     }
                                     try {
                                         Object[] parametersConverted = listParameters.toArray();
-                                        sensorSelected.setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
+                                        if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                                            ((Sensor)sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                                         e.printStackTrace();
                                     }

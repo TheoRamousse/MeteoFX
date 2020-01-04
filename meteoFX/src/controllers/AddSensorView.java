@@ -12,10 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import model.Sensor;
-import model.SensorAlgoChanger;
-import model.SensorManager;
-import model.WeatherManager;
+import model.*;
 
 import javafx.event.ActionEvent;
 import java.io.File;
@@ -25,7 +22,7 @@ import java.util.ArrayList;
 
 public class AddSensorView {
 
-    private SensorManager sm;
+    private ComponentSensorManager sm;
     private Constructor<?> constructorOfAlgo = null;
 
     @FXML
@@ -41,7 +38,7 @@ public class AddSensorView {
     private VBox algoContainer;
 
 
-    public AddSensorView(SensorManager sm) {
+    public AddSensorView(ComponentSensorManager sm) {
         this.sm = sm;
     }
 
@@ -122,7 +119,7 @@ public class AddSensorView {
             try {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
-                System.out.println(sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue())));
+                //System.out.println(sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue())));
                 System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();

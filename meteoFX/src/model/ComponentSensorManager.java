@@ -14,7 +14,8 @@ public class ComponentSensorManager {
     public ComponentSensorManager(Persistence<ComponentSensor> persistence) {
         this.persistence = persistence;
         try {
-            cSensorList = new SimpleListProperty<ComponentSensor>((ObservableList<ComponentSensor>) persistence.load());
+            ObservableList<ComponentSensor> oList = FXCollections.observableArrayList(persistence.load());
+            cSensorList = new SimpleListProperty<ComponentSensor>(oList);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -23,4 +24,18 @@ public class ComponentSensorManager {
     public ListProperty<ComponentSensor> componentSensorListProperty() {return cSensorList;}
 
 
+    public ComponentSensor findComponentSensorById(int sensorId) {
+        for (ComponentSensor s: cSensorList) {
+            if(s.getSensorId() == sensorId)
+                return s;
+        }
+        return null;
+    }
+
+    public boolean deleteSensor(ComponentSensor s) {
+        if(s == null)
+            return false;
+        cSensorList.remove(s);
+        return true;
+    }
 }

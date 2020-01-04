@@ -13,7 +13,7 @@ import model.*;
 
 public class Main extends Application {
 
-    public SensorManager sm = new SensorManager(new SensorInitializer("sensor.txt"));
+    public ComponentSensorManager sm = new ComponentSensorManager(new ComponentSensorInitializer());
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainView.fxml"));
