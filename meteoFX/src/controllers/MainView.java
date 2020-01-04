@@ -1,27 +1,17 @@
 package controllers;
 
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.converter.NumberStringConverter;
-import launcher.Main;
 import model.*;
 
 
@@ -29,8 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class MainView {
@@ -52,6 +40,7 @@ public class MainView {
     @FXML
     private ListView<Sensor> menuListeView;
 
+
     @FXML
     private VBox algoContainer;
 
@@ -65,7 +54,16 @@ public class MainView {
     private TextField nameInput;
 
     @FXML
+    private HBox hBoxAlgo;
+
+    @FXML
     private ComboBox<String> comboBoxAlgos;
+
+    @FXML
+    private HBox hBoxChildren;
+
+    @FXML
+    private HBox hBoxFreq;
 
     @FXML
     private ComboBox freqInput;
@@ -100,6 +98,7 @@ public class MainView {
 
                 }
         );
+
         /**
          * Display sensors in the master
          */
@@ -112,8 +111,9 @@ public class MainView {
          */
 
 
-        for(int i=1; i<61; i++)
-        {
+
+
+        for (int i = 1; i < 61; i++) {
             freqInput.getItems().add(i);
         }
         /**
@@ -126,12 +126,20 @@ public class MainView {
                 setDisplayVisible(true);
                 if (oldV != null) {
                     nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
-                    freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                    if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
+                        freqInput.valueProperty().unbindBidirectional(oldV.timeUpdateProperty());
+                    }
                 }
                 sensorNum.textProperty().bind(sm.findSensorById(sensorSelected.getSensorId()).idProperty().asString());
                 nameInput.textProperty().bindBidirectional(newV.nameProperty());
-                freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
-                comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
+                if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
+                    hBoxFreq.setVisible(true);
+                    hBoxAlgo.setVisible(true);
+                    freqInput.valueProperty().bindBidirectional(newV.timeUpdateProperty());
+                    comboBoxAlgos.getSelectionModel().select(newV.getAlgoType());
+                }
+                if (sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                    hBoxChildren.setVisible(true);
                 temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
             }
             catch(Exception e){}
@@ -222,6 +230,7 @@ public class MainView {
          */
     }
 
+
     private void setDisplayVisible(boolean show)
     {
         welcomePane.setVisible(!show);
@@ -231,6 +240,10 @@ public class MainView {
     /**
      * If the user doesn't have sensors, a welcome page is shown instead of the detail
      */
+
+    public void showChildren(ActionEvent actionEvent) throws IOException {
+        System.out.println("blabla");
+    }
 
 
     public void showCamView(ActionEvent actionEvent) throws IOException {

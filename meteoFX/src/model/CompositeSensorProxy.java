@@ -1,7 +1,5 @@
 package model;
 
-import javafx.util.Pair;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,12 +12,13 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         this.children = hashMapConverterSerialize(cs.getChildren());
     }
 
-    private void hashMapConverterSerialize(HashMap<ComponentSensor, Double> hashMapNotConverted){
+    private HashMap<ComponentSensorProxy, Double> hashMapConverterSerialize(HashMap<ComponentSensor, Double> hashMapNotConverted){
         HashMap<ComponentSensorProxy, Double> result = new HashMap<>();
         for (Map.Entry<ComponentSensor, Double> currentEntry : hashMapNotConverted.entrySet()) {
             result.put((ComponentSensorProxy)currentEntry.getKey().createProxy(), currentEntry.getValue());
         }
         children = result;
+        return result;
     }
 
     public HashMap<ComponentSensor, Double> hashMapConverterSerializeRevert(){
