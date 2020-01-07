@@ -14,14 +14,9 @@
     <Text id="bigLabel">
         Température relevée par le capteur n°
     </Text>
-    <Text id="bigLabel" fx:id="nameContainer">
-    </Text>
-    <Text id="bigLabel" text=" : ">
-    </Text>
+    <Text id="bigLabel" fx:id="nameContainer"/>
+    <Text id="bigLabel" text=" : "/>
 
-    <Text id="bigLabel" fx:id="temperatureContainer">
-    </Text>
-    <Text id="bigLabel">
-        °C
-    </Text>
+    <Text id="bigLabel" fx:id="temperatureContainer"/>
+    <Text id="bigLabel" text="°C"/>
 </HBox>

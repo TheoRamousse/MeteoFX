@@ -66,7 +66,7 @@ public class MainView {
     private HBox hBoxFreq;
 
     @FXML
-    private ComboBox freqInput;
+    private ComboBox<Number> freqInput;
 
     public MainView(ComponentSensorManager sm) {
 

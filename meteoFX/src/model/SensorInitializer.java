@@ -3,13 +3,16 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stub of sensors (used for the tests)
+ */
 public class SensorInitializer implements Persistence<Sensor> {
 
-    private String nomDuFichier;
+    private String fileName;
 
-    public SensorInitializer(String nomDuFichier)
+    public SensorInitializer(String fileName)
     {
-        this.nomDuFichier = nomDuFichier;
+        this.fileName = fileName;
     }
 
     @Override

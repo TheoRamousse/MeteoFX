@@ -18,8 +18,7 @@
     </Label>
     <BorderPane fx:id="weatherImageContainer" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <center>
-            <ResizableImageView  fx:id="weatherImageView" preserveRatio="true">
-            </ResizableImageView>
+            <ResizableImageView  fx:id="weatherImageView" preserveRatio="true" />
         </center>
     </BorderPane>
 

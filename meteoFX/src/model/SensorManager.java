@@ -7,6 +7,9 @@ import javafx.collections.*;
 
 import java.io.IOException;
 
+/**
+ * Manage the sensors created in the software
+ */
 public class SensorManager {
     private ListProperty<Sensor> sensorList = new SimpleListProperty<Sensor>();
     private Persistence<Sensor> persistence;
@@ -64,7 +67,7 @@ public class SensorManager {
     public Sensor findSensorByName(String name)
     {
         for (Sensor s: sensorList) {
-            if(s.getSensorName() == name)
+            if(s.getSensorName().equals(name))
                 return s;
         }
         return null;

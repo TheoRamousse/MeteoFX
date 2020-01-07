@@ -2,13 +2,20 @@ package model;
 
 import java.lang.invoke.MethodHandles;
 
+/**
+ * This algorithm is used to generate random temperatures with a coefficient to reduce the difference between the previous and the new temperature
+ */
 public class AlgoSmallFluctuation extends SensorAlgoChanger {
 
     private double currentTemperature;
     private boolean isFirstTemperature;
     private double delta;
 
-
+    /**
+     *
+     * @param coef Coefficient used to to reduce the difference between the previous and the new temperature
+     * @param firstTemperature First temperature used by the algorithm
+     */
     public AlgoSmallFluctuation(double coef, double firstTemperature)
     {
         delta = coef;
