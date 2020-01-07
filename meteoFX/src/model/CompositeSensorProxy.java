@@ -11,7 +11,7 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
 
     public CompositeSensorProxy(CompositeSensor cs){
         super(cs);
-        this.children = hashMapConverterSerialize(cs.getChildren());
+        hashMapConverterSerialize(cs.getChildren());
     }
 
     private void hashMapConverterSerialize(HashMap<ComponentSensor, Double> hashMapNotConverted){
