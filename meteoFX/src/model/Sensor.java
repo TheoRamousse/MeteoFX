@@ -7,21 +7,13 @@ import javafx.beans.property.*;
 
 import java.io.Serializable;
 
-public class Sensor extends LeafSensor implements Serializable {
+public class Sensor extends ComponentSensor implements Serializable {
     private SensorAlgoChanger sensorAlgoChanger;
     private IntegerProperty timeUpdate = new SimpleIntegerProperty();
 
     public Sensor(int id, String name, SensorAlgoChanger sac, int timeUpdate)
     {
         super(id, name);
-        this.sensorAlgoChanger = sac;
-        this.setTimeUpdate(timeUpdate);
-        start();
-    }
-
-    public Sensor(int id, String name, MeanSensor observer, SensorAlgoChanger sac, int timeUpdate)
-    {
-        super(id, name, observer);
         this.sensorAlgoChanger = sac;
         this.setTimeUpdate(timeUpdate);
         start();
@@ -78,3 +70,4 @@ public class Sensor extends LeafSensor implements Serializable {
         return new SensorProxy(this);
     }
 }
+

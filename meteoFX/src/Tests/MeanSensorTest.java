@@ -7,11 +7,18 @@ import model.Sensor;
 
 public class MeanSensorTest {
     private MeanSensor ms1 = new MeanSensor(1, "ms 1");
-    private Sensor s1 = new Sensor(1, "s 1", ms1, new AlgoSmallFluctuation(2, 4), 1);
-    private Sensor s2 = new Sensor(2, "s 2", ms1, new AlgoBoundedRandom(), 2);
-    private Sensor s3 = new Sensor(3, "s 3", ms1, new AlgoSmallFluctuation(2, 4), 3);
+    private Sensor s1 = new Sensor(1, "s 1", new AlgoSmallFluctuation(2, 4), 1);
+    private Sensor s2 = new Sensor(2, "s 2", new AlgoBoundedRandom(), 2);
+    private Sensor s3 = new Sensor(3, "s 3", new AlgoSmallFluctuation(2, 4), 3);
 
     public void testMeanSensor() {
+        try {
+            s1.addObserver(ms1);
+            s2.addObserver(ms1);
+            s3.addObserver(ms1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ms1.add(s1, 3);
         ms1.add(s2, 6);
         ms1.add(s3, 2);

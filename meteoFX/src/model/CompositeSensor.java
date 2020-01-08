@@ -10,9 +10,6 @@ public abstract class CompositeSensor extends ComponentSensor{
         super(id, name);
     }
 
-    public CompositeSensor(int id, String name, MeanSensor observer){
-        super(id, name, observer);
-    }
 
     public void add(ComponentSensor child, double coef){
         children.put(child, coef);
