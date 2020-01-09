@@ -3,6 +3,7 @@ package model;
 /* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
 */
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 
 import java.io.Serializable;
@@ -50,10 +51,15 @@ public class Sensor extends ComponentSensor implements Serializable {
 
     @Override
     public void run(){
+        final int SECOND=1000;
         while (true){
-            doTemperature();
+            Platform.runLater(new Runnable() {
+                @Override public void run() {
+                    doTemperature();
+                }
+            });
             try {
-                sleep((long)getTimeUpdate()*1000);
+                sleep((long)getTimeUpdate()*SECOND);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

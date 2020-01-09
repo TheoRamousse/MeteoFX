@@ -32,17 +32,47 @@ public class ComponentSensorManager {
 
 
     public ComponentSensor findComponentSensorById(int sensorId) {
-        for (ComponentSensor s: cSensorList) {
-            if(s.getSensorId() == sensorId)
-                return s;
+        for (ComponentSensor cs: cSensorList) {
+            if(cs.getSensorId() == sensorId)
+                return cs;
         }
         return null;
     }
 
-    public boolean deleteSensor(ComponentSensor s) {
-        if(s == null)
+    public ObservableList<ComponentSensor> getSensorList(){
+        return cSensorList.get();
+    }
+
+    public boolean deleteSensor(ComponentSensor cs) {
+        if(cs == null)
             return false;
-        cSensorList.remove(s);
+        cSensorList.remove(cs);
         return true;
+    }
+
+    public boolean addSensor(ComponentSensor cs)
+    {
+        if(findComponentSensorById(cs.getSensorId()) != null)
+            return false;
+        cSensorList.add(cs);
+        return true;
+    }
+
+    public int getMaxId() {
+        int result=0;
+        for (ComponentSensor s: cSensorList) {
+            if(s.getSensorId() > result)
+                result=s.getSensorId();
+        }
+        return result;
+    }
+
+    public ComponentSensor findSensorByName(String name)
+    {
+        for (ComponentSensor cs: cSensorList) {
+            if(cs.getSensorName().equals(name))
+                return cs;
+        }
+        return null;
     }
 }

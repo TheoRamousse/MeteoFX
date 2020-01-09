@@ -64,7 +64,7 @@ public class SensorManager {
     public Sensor findSensorByName(String name)
     {
         for (Sensor s: sensorList) {
-            if(s.getSensorName() == name)
+            if(s.getSensorName().equals(name))
                 return s;
         }
         return null;

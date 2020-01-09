@@ -49,3 +49,13 @@ GridPane {
     -fx-alignment : center;
     -fx-max-width : 300px;
 }
+
+ToggleButton{
+    -fx-background-color: gray;
+    -fx-text-fill: white;
+}
+
+ToggleButton:selected{
+    -fx-background-color: #24C600;
+    -fx-text-fill: white;
+}

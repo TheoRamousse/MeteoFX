@@ -126,7 +126,8 @@ public class MainView {
                 setDisplayVisible(true);
                 if (oldV != null) {
                     nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
-                    if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
+                    System.out.println(sensorSelected.getClass().getSimpleName());
+                    if(!oldV.getClass().getSimpleName().equals("MeanSensor")) {
                         freqInput.valueProperty().unbindBidirectional(((Sensor)oldV).timeUpdateProperty());
                     }
                 }
@@ -146,7 +147,7 @@ public class MainView {
                 }
                 temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findComponentSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
             }
-            catch(Exception e){}
+            catch(Exception e){ }
         });
         /**
          * Change values of the detail when a new sensor is selected in the master (menuListView)
@@ -164,8 +165,9 @@ public class MainView {
                 try {
                     Constructor<?>[] constructorsOfAlgoSelected=Class.forName("model."+t1).getConstructors();
                     for(Constructor<?> c : constructorsOfAlgoSelected) {
+                        constructorOfAlgo = c;
                         if (c.getParameterTypes().length != 0) {
-                            constructorOfAlgo = c;
+                            //constructorOfAlgo = c;
                             try {
                                 String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
@@ -210,6 +212,13 @@ public class MainView {
                                 throw new Exception("Your view needs a submit button");
                             }
                             return;
+                        }
+                        try {
+                            if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                                ((Sensor)sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance());
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                            System.out.println("aie");
+                            e.printStackTrace();
                         }
                     }
                 } catch (Exception e) {
