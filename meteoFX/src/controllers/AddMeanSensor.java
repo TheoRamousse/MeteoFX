@@ -1,17 +1,34 @@
 package controllers;
 
+import com.sun.source.tree.Tree;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import model.ComponentSensorManager;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
+import model.*;
 
 import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AddMeanSensor {
+    @FXML
+    TextField nameInput;
 
     @FXML
-    ComboBox<String> sensorContainer;
+    TextField coeffField;
+
+    @FXML
+    ComboBox<ComponentSensor> listSensors;
+
 
     private ComponentSensorManager sm;
+
+    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
     public AddMeanSensor(ComponentSensorManager sm) {
 
@@ -21,5 +38,70 @@ public class AddMeanSensor {
     @FXML
     public void initialize() {
 
+        listSensors.itemsProperty().bind(
+                sm.componentSensorListProperty()
+        );
+
+        listSensors.getSelectionModel().selectFirst();
+
+        listSensors.setCellFactory(__ ->
+                new ListCell<ComponentSensor>(){
+                    @Override
+                    protected void updateItem(ComponentSensor item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            textProperty().bind(item.nameProperty());
+                        } else {
+                            textProperty().unbind();
+                            setText("");
+                        }
+
+                    }
+
+                }
+        );
+
+        coeffField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    coeffField.setText(oldValue);
+                }
+            }
+        });
+
     }
+
+    public void addChild(ActionEvent actionEvent){
+        children.put(listSensors.getValue(), Double.valueOf(coeffField.getText()));
+        coeffField.setText("");
+    }
+
+    public void createMeanSensor(ActionEvent actionEvent){
+        if(!nameInput.getText().isEmpty() && !coeffField.getText().isEmpty())
+        {
+            MeanSensor newMs = new MeanSensor(sm.getMaxId()+1, nameInput.getText());
+            for (Map.Entry<ComponentSensor, Double> entry: children.entrySet()) {
+                try {
+                    entry.getKey().addObserver(newMs);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            newMs.setChildren(children);
+            sm.addSensor(newMs);
+        }
+        else{
+            displayAlert("Veuillez remplir tous les champs");
+        }
+    }
+
+    private void displayAlert(String msg){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Alerte");
+        alert.setContentText(msg);
+
+        alert.showAndWait();
+    }
+
 }

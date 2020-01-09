@@ -39,9 +39,10 @@ public class ComponentSensorManager {
         return null;
     }
 
-    public ObservableList<ComponentSensor> getSensorList(){
+    public List<ComponentSensor> getSensorList(){
         return cSensorList.get();
     }
+
 
     public boolean deleteSensor(ComponentSensor cs) {
         if(cs == null)

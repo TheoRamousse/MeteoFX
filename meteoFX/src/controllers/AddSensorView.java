@@ -4,14 +4,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.*;
 
 import javafx.event.ActionEvent;
@@ -32,10 +35,17 @@ public class AddSensorView {
     private ComboBox<String> comboBoxAlgos;
 
     @FXML
+    private ToggleButton selectButton;
+
+    @FXML
     private ComboBox<Integer> freqInput;
 
     @FXML
     private VBox algoContainer;
+
+    @FXML
+    private VBox displayContainer;
+
 
 
     public AddSensorView(ComponentSensorManager sm) {
@@ -44,17 +54,18 @@ public class AddSensorView {
 
     @FXML
     public void initialize() {
-        comboBoxAlgos.getItems().addAll(
+
+        /*comboBoxAlgos.getItems().addAll(
                 SensorAlgoChanger.getSons()
         );
 
-        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {*/
 
             /**
              *Constructor of algorithm selected
              */
 
-            @Override
+            /*@Override
             public void changed(ObservableValue ov, String t, String t1) {
                 try {
                     Constructor<?>[] constructorsOfAlgoSelected = Class.forName("model." + t1).getConstructors();
@@ -91,6 +102,33 @@ public class AddSensorView {
 
         for (int i = 1; i < 61; i++) {
             freqInput.getItems().add(i);
+        }*/
+        showGoodSettings(null);
+    }
+    public void showGoodSettings(ActionEvent actionEvent){
+        if(displayContainer.getChildren().size() != 0)
+            displayContainer.getChildren().remove(0);
+        if(selectButton.isSelected()){
+            try {
+                AddMeanSensor ams = new AddMeanSensor(sm);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
+                loader.setController(ams);
+                displayContainer.getChildren().add(loader.load());
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+
+
+        }
+        else{
+            try {
+                AddDefaultSensor ads = new AddDefaultSensor(sm);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
+                loader.setController(ads);
+                displayContainer.getChildren().add(loader.load());
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 

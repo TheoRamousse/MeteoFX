@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -120,13 +121,22 @@ public class AddDefaultSensor {
                 sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));
                 //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                displayAlert("Veuillez remplir tous les champs de la création");
             }
         }
         else
         {
-            System.out.println("coucou");
+            displayAlert("Veuillez remplir tous les champs de la création");
         }
+    }
+
+
+    private void displayAlert(String msg){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Alerte");
+        alert.setContentText(msg);
+
+        alert.showAndWait();
     }
 
 
