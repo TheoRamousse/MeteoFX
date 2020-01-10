@@ -16,7 +16,7 @@ public class MeanSensor extends CompositeSensor {
         double denominator = 0;
         for (Map.Entry<ComponentSensor, Double> entry : getChildren().entrySet()) {
             ComponentSensor sensor = entry.getKey();
-            Double coef = entry.getValue();
+            double coef = entry.getValue();
             numerator += sensor.getCurrentTemperature() * coef;
             denominator += coef;
         }

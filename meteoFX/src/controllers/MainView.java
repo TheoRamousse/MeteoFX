@@ -186,7 +186,7 @@ public class MainView {
                                         TextField curentTextField =(TextField) algoContainer.lookup("#paramContainer").lookup("#arg"+i);
                                         switch(currentClass.getName()) {
                                             case "double":
-                                                Double currentNodeD = Double.valueOf(curentTextField.getText());
+                                                double currentNodeD = Double.parseDouble(curentTextField.getText());
                                                 listParameters.add(currentNodeD);
                                                 break;
                                             case "int":
