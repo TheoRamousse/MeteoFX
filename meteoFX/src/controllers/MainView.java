@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class MainView {
     private ComponentSensorManager sm;
@@ -39,6 +41,9 @@ public class MainView {
     private BorderPane welcomePane;
     @FXML
     private ListView<ComponentSensor> menuListeView;
+
+    @FXML
+    private TreeView<ComponentSensor> menuTreeView;
 
 
     @FXML
@@ -80,9 +85,18 @@ public class MainView {
     @FXML
     public void initialize()
     {
+        RootSensor rootSensor = new RootSensor();
+        for (ComponentSensor cs: sm.getSensorList()) {
+            rootSensor.add(cs, 0);
+        }
+        TreeItem<ComponentSensor> rootItem = new TreeItem<>(rootSensor);
+        rootItem.setExpanded(true);
+        rootItem = itemAdd(rootSensor, rootItem);
+        menuTreeView.setRoot(rootItem);
+        menuTreeView.setShowRoot(false);
 
 
-        menuListeView.itemsProperty().bind(sm.componentSensorListProperty());
+        /*menuListeView.itemsProperty().bind(sm.componentSensorListProperty());
         menuListeView.setCellFactory(__ ->
                 new ListCell<ComponentSensor>(){
                     @Override
@@ -97,7 +111,7 @@ public class MainView {
                     }
 
                 }
-        );
+        );*/
 
         /**
          * Display sensors in the master
@@ -120,6 +134,7 @@ public class MainView {
          * Set values of freqInput (number of seconds to update the sensor : from 1s to 60s)
          */
 
+/*
         menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             try {
                 sensorSelected = newV;
@@ -149,6 +164,7 @@ public class MainView {
             }
             catch(Exception e){ }
         });
+*/
         /**
          * Change values of the detail when a new sensor is selected in the master (menuListView)
          */
@@ -235,13 +251,26 @@ public class MainView {
          * Change the algorithm of the sensor
          */
 
+/*
         if (menuListeView.getItems().size() != 0) {
             menuListeView.getSelectionModel().selectFirst();
             setDisplayVisible(true);
         }
+*/
         /**
          * Display the first sensor in the detail if the list of sensor isn't empty
          */
+    }
+
+    private TreeItem<ComponentSensor> itemAdd(CompositeSensor compositeSensor, TreeItem<ComponentSensor> treeItem) {
+        for (ComponentSensor sens: compositeSensor.getChildren().keySet()) {
+            TreeItem<ComponentSensor> treeItemChild = new TreeItem<>(sens);
+            if (sens.getClass().getSimpleName().equals("MeanSensor") || sens.getClass().getSimpleName().equals("RootSensor")){
+                treeItemChild = itemAdd((CompositeSensor) sens, treeItemChild);
+            }
+            treeItem.getChildren().add(treeItemChild);
+        }
+        return treeItem;
     }
 
 

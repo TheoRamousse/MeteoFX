@@ -18,7 +18,7 @@
 <?import javafx.scene.control.Cell?>
 <?import javafx.scene.control.TreeView?>
 <GridPane maxWidth="900" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <ListView fx:id="menuListeView" maxWidth="200" minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TreeView fx:id="menuTreeView" maxWidth="200" minWidth="150.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <BorderPane visible="true" maxHeight="200" fx:id="welcomePane" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2">
         <center>
             <Label alignment="CENTER" style="-fx-text-fill: green;">

@@ -83,8 +83,12 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
         this.listObserver = observer;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(name);
+    }
 
-/*    public abstract void add(ComponentSensor child);
+    /*    public abstract void add(ComponentSensor child);
 
     public abstract void remove(ComponentSensor child);*/
 
