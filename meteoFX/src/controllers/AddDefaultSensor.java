@@ -121,22 +121,13 @@ public class AddDefaultSensor {
                 sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));
                 //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                displayAlert("Veuillez remplir tous les champs de la création");
+                AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
             }
         }
         else
         {
-            displayAlert("Veuillez remplir tous les champs de la création");
+            AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
         }
-    }
-
-
-    private void displayAlert(String msg){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Alerte");
-        alert.setContentText(msg);
-
-        alert.showAndWait();
     }
 
 

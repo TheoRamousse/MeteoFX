@@ -92,16 +92,8 @@ public class AddMeanSensor {
             sm.addSensor(newMs);
         }
         else{
-            displayAlert("Veuillez remplir tous les champs");
+            AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs");
         }
-    }
-
-    private void displayAlert(String msg){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Alerte");
-        alert.setContentText(msg);
-
-        alert.showAndWait();
     }
 
 }
