@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class AddSensorView {
 
     private ComponentSensorManager sm;
+    private RootSensor rs;
     private Constructor<?> constructorOfAlgo = null;
 
     @FXML
@@ -50,6 +51,10 @@ public class AddSensorView {
 
     public AddSensorView(ComponentSensorManager sm) {
         this.sm = sm;
+    }
+
+    public AddSensorView(RootSensor rs){
+        this.rs = rs;
     }
 
     @FXML
@@ -110,7 +115,7 @@ public class AddSensorView {
             displayContainer.getChildren().remove(0);
         if(selectButton.isSelected()){
             try {
-                AddMeanSensor ams = new AddMeanSensor(sm);
+                AddMeanSensor ams = new AddMeanSensor(/*sm*/rs);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
                 loader.setController(ams);
                 displayContainer.getChildren().add(loader.load());
@@ -122,7 +127,7 @@ public class AddSensorView {
         }
         else{
             try {
-                AddDefaultSensor ads = new AddDefaultSensor(sm);
+                AddDefaultSensor ads = new AddDefaultSensor(/*sm*/rs);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
                 loader.setController(ads);
                 displayContainer.getChildren().add(loader.load());

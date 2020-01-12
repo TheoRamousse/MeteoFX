@@ -27,6 +27,7 @@ public class AddMeanSensor {
 
 
     private ComponentSensorManager sm;
+    private RootSensor rs;
 
     private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
@@ -35,11 +36,15 @@ public class AddMeanSensor {
         this.sm = sm;
     }
 
+    public AddMeanSensor(RootSensor rs){
+        this.rs = rs;
+    }
+
     @FXML
     public void initialize() {
 
         listSensors.itemsProperty().bind(
-                sm.componentSensorListProperty()
+                /*sm.componentSensorListProperty()*/rs.componentSensorListProperty()
         );
 
         listSensors.getSelectionModel().selectFirst();
@@ -80,7 +85,7 @@ public class AddMeanSensor {
     public void createMeanSensor(ActionEvent actionEvent){
         if(!nameInput.getText().isEmpty() && !coeffField.getText().isEmpty())
         {
-            MeanSensor newMs = new MeanSensor(sm.getMaxId()+1, nameInput.getText());
+            MeanSensor newMs = new MeanSensor(/*sm.getMaxId()+1*/rs.maxIdChildren()+1, nameInput.getText());
             for (Map.Entry<ComponentSensor, Double> entry: children.entrySet()) {
                 try {
                     entry.getKey().addObserver(newMs);
@@ -89,7 +94,8 @@ public class AddMeanSensor {
                 }
             }
             newMs.setChildren(children);
-            sm.addSensor(newMs);
+            /*sm.addSensor(newMs);*/
+            rs.add(newMs, 1);
         }
         else{
             AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs");

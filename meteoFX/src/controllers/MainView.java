@@ -25,6 +25,7 @@ import java.util.Set;
 
 public class MainView {
     private ComponentSensorManager sm;
+    private RootSensor rootSensor;
     /**
      * This attribute manage has the list of sensors and manage them
      */
@@ -85,7 +86,7 @@ public class MainView {
     @FXML
     public void initialize()
     {
-        RootSensor rootSensor = new RootSensor();
+        rootSensor = new RootSensor();
         for (ComponentSensor cs: sm.getSensorList()) {
             rootSensor.add(cs, 0);
         }
@@ -95,10 +96,8 @@ public class MainView {
         menuTreeView.setRoot(rootItem);
         menuTreeView.setShowRoot(false);
 
-
-        /*menuListeView.itemsProperty().bind(sm.componentSensorListProperty());
-        menuListeView.setCellFactory(__ ->
-                new ListCell<ComponentSensor>(){
+        menuTreeView.setCellFactory(__ ->
+                new TreeCell<ComponentSensor>(){
                     @Override
                     protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
@@ -109,9 +108,7 @@ public class MainView {
                             setText("");
                         }
                     }
-
-                }
-        );*/
+                });
 
         /**
          * Display sensors in the master
@@ -134,26 +131,29 @@ public class MainView {
          * Set values of freqInput (number of seconds to update the sensor : from 1s to 60s)
          */
 
-/*
-        menuListeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
+
+
+        menuTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             try {
-                sensorSelected = newV;
+                ComponentSensor oldSensorSelected;
+                sensorSelected = newV.getValue();
                 setDisplayVisible(true);
                 if (oldV != null) {
-                    nameInput.textProperty().unbindBidirectional(oldV.nameProperty());
+                    oldSensorSelected = oldV.getValue();
+                    nameInput.textProperty().unbindBidirectional(oldSensorSelected.nameProperty());
                     System.out.println(sensorSelected.getClass().getSimpleName());
-                    if(!oldV.getClass().getSimpleName().equals("MeanSensor")) {
-                        freqInput.valueProperty().unbindBidirectional(((Sensor)oldV).timeUpdateProperty());
+                    if(!oldSensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
+                        freqInput.valueProperty().unbindBidirectional(((Sensor)oldSensorSelected).timeUpdateProperty());
                     }
                 }
-                sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
-                nameInput.textProperty().bindBidirectional(newV.nameProperty());
+                //sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
+                nameInput.textProperty().bindBidirectional(sensorSelected.nameProperty());
                 if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxChildren.setVisible(false);
                     hBoxFreq.setVisible(true);
                     hBoxAlgo.setVisible(true);
-                    freqInput.valueProperty().bindBidirectional(((Sensor)newV).timeUpdateProperty());
-                    comboBoxAlgos.getSelectionModel().select(((Sensor)newV).getAlgoType());
+                    freqInput.valueProperty().bindBidirectional(((Sensor)sensorSelected).timeUpdateProperty());
+                    comboBoxAlgos.getSelectionModel().select(((Sensor)sensorSelected).getAlgoType());
                 }
                 if (sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxChildren.setVisible(true);
@@ -164,7 +164,7 @@ public class MainView {
             }
             catch(Exception e){ }
         });
-*/
+
         /**
          * Change values of the detail when a new sensor is selected in the master (menuListView)
          */
@@ -250,6 +250,9 @@ public class MainView {
          * Take parameters entered by the user
          * Change the algorithm of the sensor
          */
+
+    if (rootSensor.getChildren().size() != 0)
+        menuTreeView.getSelectionModel().selectFirst();
 
 /*
         if (menuListeView.getItems().size() != 0) {
@@ -343,7 +346,7 @@ public class MainView {
     public void showAddView(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
-        AddSensorView cv = new AddSensorView(sm);
+        AddSensorView cv = new AddSensorView(/*sm*/rootSensor);
         loader.setController(cv);
         primaryStage.setTitle("Ajouter un sensor");
         Scene mainScene = new Scene(loader.load(), 600, 400);

@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.ComponentSensorManager;
+import model.RootSensor;
 import model.Sensor;
 import model.SensorAlgoChanger;
 
@@ -23,6 +24,7 @@ public class AddDefaultSensor {
 
     private Constructor<?> constructorOfAlgo = null;
     private ComponentSensorManager sm;
+    private RootSensor rs;
 
     @FXML
     private TextField nameInput;
@@ -39,6 +41,10 @@ public class AddDefaultSensor {
 
     public AddDefaultSensor(ComponentSensorManager sm) {
         this.sm = sm;
+    }
+
+    public AddDefaultSensor(RootSensor rs){
+        this.rs = rs;
     }
 
     @FXML
@@ -118,7 +124,8 @@ public class AddDefaultSensor {
             try {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
-                sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));
+                /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
+                rs.add(new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue()), 1);
                 //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
