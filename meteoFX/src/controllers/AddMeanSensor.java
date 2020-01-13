@@ -28,6 +28,7 @@ public class AddMeanSensor {
 
     private ComponentSensorManager sm;
     private RootSensor rs;
+    private TreeItem<ComponentSensor> root;
 
     private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
@@ -36,8 +37,9 @@ public class AddMeanSensor {
         this.sm = sm;
     }
 
-    public AddMeanSensor(RootSensor rs){
+    public AddMeanSensor(RootSensor rs, TreeItem root){
         this.rs = rs;
+        this.root = root;
     }
 
     @FXML
@@ -96,6 +98,7 @@ public class AddMeanSensor {
             newMs.setChildren(children);
             /*sm.addSensor(newMs);*/
             rs.add(newMs, 1);
+            root.getChildren().add(new TreeItem<>(newMs));
         }
         else{
             AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs");

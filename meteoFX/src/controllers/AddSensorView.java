@@ -5,10 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +24,7 @@ public class AddSensorView {
 
     private ComponentSensorManager sm;
     private RootSensor rs;
+    private TreeItem<ComponentSensor> root;
     private Constructor<?> constructorOfAlgo = null;
 
     @FXML
@@ -53,8 +51,9 @@ public class AddSensorView {
         this.sm = sm;
     }
 
-    public AddSensorView(RootSensor rs){
+    public AddSensorView(RootSensor rs, TreeItem root){
         this.rs = rs;
+        this.root = root;
     }
 
     @FXML
@@ -115,7 +114,7 @@ public class AddSensorView {
             displayContainer.getChildren().remove(0);
         if(selectButton.isSelected()){
             try {
-                AddMeanSensor ams = new AddMeanSensor(/*sm*/rs);
+                AddMeanSensor ams = new AddMeanSensor(/*sm*/rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
                 loader.setController(ams);
                 displayContainer.getChildren().add(loader.load());
@@ -127,7 +126,7 @@ public class AddSensorView {
         }
         else{
             try {
-                AddDefaultSensor ads = new AddDefaultSensor(/*sm*/rs);
+                AddDefaultSensor ads = new AddDefaultSensor(/*sm*/rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
                 loader.setController(ads);
                 displayContainer.getChildren().add(loader.load());

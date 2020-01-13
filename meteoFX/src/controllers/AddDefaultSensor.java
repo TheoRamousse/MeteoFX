@@ -5,15 +5,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import model.ComponentSensorManager;
-import model.RootSensor;
-import model.Sensor;
-import model.SensorAlgoChanger;
+import model.*;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -25,6 +19,7 @@ public class AddDefaultSensor {
     private Constructor<?> constructorOfAlgo = null;
     private ComponentSensorManager sm;
     private RootSensor rs;
+    private TreeItem<ComponentSensor> root;
 
     @FXML
     private TextField nameInput;
@@ -43,8 +38,9 @@ public class AddDefaultSensor {
         this.sm = sm;
     }
 
-    public AddDefaultSensor(RootSensor rs){
+    public AddDefaultSensor(RootSensor rs, TreeItem root){
         this.rs = rs;
+        this.root = root;
     }
 
     @FXML
@@ -125,7 +121,9 @@ public class AddDefaultSensor {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
                 /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
-                rs.add(new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue()), 1);
+                Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
+                rs.add(newS, 1);
+                root.getChildren().add(new TreeItem<>(newS));
                 //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");

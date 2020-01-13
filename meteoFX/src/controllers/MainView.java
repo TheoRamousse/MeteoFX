@@ -26,6 +26,7 @@ import java.util.Set;
 public class MainView {
     private ComponentSensorManager sm;
     private RootSensor rootSensor;
+    private TreeItem<ComponentSensor> rootItem;
     /**
      * This attribute manage has the list of sensors and manage them
      */
@@ -90,7 +91,7 @@ public class MainView {
         for (ComponentSensor cs: sm.getSensorList()) {
             rootSensor.add(cs, 0);
         }
-        TreeItem<ComponentSensor> rootItem = new TreeItem<>(rootSensor);
+        rootItem = new TreeItem<>(rootSensor);
         rootItem.setExpanded(true);
         rootItem = itemAdd(rootSensor, rootItem);
         menuTreeView.setRoot(rootItem);
@@ -346,7 +347,7 @@ public class MainView {
     public void showAddView(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
-        AddSensorView cv = new AddSensorView(/*sm*/rootSensor);
+        AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
         loader.setController(cv);
         primaryStage.setTitle("Ajouter un sensor");
         Scene mainScene = new Scene(loader.load(), 600, 400);
