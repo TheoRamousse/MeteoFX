@@ -68,12 +68,6 @@
                 </HBox>
                 <VBox id="algoContainer" fx:id="algoContainer">
                 </VBox>
-                <HBox fx:id="hBoxChildren" visible="false" alignment="CENTER" prefWidth="250.0" spacing="15">
-                    <Button onAction="#showChildren" text="Voir les enfants" />
-<!--
-                    <Button onAction="#showChildren" text="Voir les enfants"/>
--->
-                </HBox>
             </VBox>
         </center>
         <bottom>

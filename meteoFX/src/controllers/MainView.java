@@ -289,18 +289,6 @@ public class MainView {
      * If the user doesn't have sensors, a welcome page is shown instead of the detail
      */
 
-    public void showChildren(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainView.fxml"));
-        MainView mv = new MainView(new ComponentSensorManager(((MeanSensor)sensorSelected).getListChildren()));
-        loader.setController(mv);
-        primaryStage.setTitle("Children of "+sensorSelected.getSensorName());
-        Scene mainScene = new Scene(loader.load(), 1000, 650);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
-
 
     public void showCamView(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
