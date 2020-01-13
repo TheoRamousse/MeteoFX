@@ -31,6 +31,7 @@ public class MainView {
      * This attribute manage has the list of sensors and manage them
      */
     private ComponentSensor sensorSelected;
+    private TreeItem selectedItem;
     /**
      * Current sensor selected by the user
      */
@@ -138,11 +139,11 @@ public class MainView {
             try {
                 ComponentSensor oldSensorSelected;
                 sensorSelected = newV.getValue();
+                selectedItem = newV;
                 setDisplayVisible(true);
                 if (oldV != null) {
                     oldSensorSelected = oldV.getValue();
                     nameInput.textProperty().unbindBidirectional(oldSensorSelected.nameProperty());
-                    System.out.println(sensorSelected.getClass().getSimpleName());
                     if(!oldSensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                         freqInput.valueProperty().unbindBidirectional(((Sensor)oldSensorSelected).timeUpdateProperty());
                     }
@@ -161,7 +162,7 @@ public class MainView {
                     hBoxFreq.setVisible(false);
                     hBoxAlgo.setVisible(false);
                 }
-                temperatureInput.textProperty().bind(Bindings.format("%.2f", sm.findComponentSensorById(sensorSelected.getSensorId()).currentTemperatureProperty()));
+                temperatureInput.textProperty().bind(Bindings.format("%.2f", sensorSelected.currentTemperatureProperty()));
             }
             catch(Exception e){ }
         });
@@ -333,14 +334,14 @@ public class MainView {
      */
 
     public void deleteSensor(ActionEvent actionEvent){
-        sm.deleteSensor(sensorSelected);
-        if (menuListeView.getItems().size() != 0) {
-            menuListeView.getSelectionModel().selectFirst();
-            setDisplayVisible(true);
+        selectedItem.getParent().getChildren().remove(selectedItem);
+        ((CompositeSensor)selectedItem.getParent().getValue()).remove(sensorSelected);
+        if (rootItem.getChildren().size() != 0) {
+            menuTreeView.getSelectionModel().selectFirst();
         }
         else{
-            setDisplayVisible(false);
             sensorSelected=null;
+            setDisplayVisible(false);
         }
     }
 

@@ -13,6 +13,7 @@ import model.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class AddMeanSensor {
@@ -85,7 +86,7 @@ public class AddMeanSensor {
     }
 
     public void createMeanSensor(ActionEvent actionEvent){
-        if(!nameInput.getText().isEmpty() && !coeffField.getText().isEmpty())
+        if(!nameInput.getText().isEmpty())
         {
             MeanSensor newMs = new MeanSensor(/*sm.getMaxId()+1*/rs.maxIdChildren()+1, nameInput.getText());
             for (Map.Entry<ComponentSensor, Double> entry: children.entrySet()) {
@@ -98,7 +99,11 @@ public class AddMeanSensor {
             newMs.setChildren(children);
             /*sm.addSensor(newMs);*/
             rs.add(newMs, 1);
-            root.getChildren().add(new TreeItem<>(newMs));
+            TreeItem<ComponentSensor> newMsItem = new TreeItem<>(newMs);
+            for (ComponentSensor cs: children.keySet()) {
+                newMsItem.getChildren().add(new TreeItem<>(cs));
+            }
+            root.getChildren().add(newMsItem);
         }
         else{
             AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs");
