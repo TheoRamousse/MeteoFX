@@ -19,6 +19,6 @@
         <Text>Ajouter : </Text>
         <ComboBox fx:id="listSensors"></ComboBox>
         <TextField maxWidth="100.0" fx:id="coeffField" promptText="Coefficient"></TextField>
-        <!--<Button onAction="#addChild">OK</Button>-->
+        <Button onAction="#addChild">OK</Button>
     </HBox>
 </VBox>

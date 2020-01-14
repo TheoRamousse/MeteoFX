@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class ModifyChildrenMeanSensor {
     private RootSensor rootSensor;
-    private TreeItem msItem;
+    private TreeItem<ComponentSensor> msItem;
 
     @FXML
     private ComboBox<ComponentSensor> listChildrenSensors;
@@ -25,7 +25,7 @@ public class ModifyChildrenMeanSensor {
     private TextField coefChildfField;
 
     @FXML
-    private ComboBox listSensors;
+    private ComboBox<ComponentSensor> listSensors;
 
     @FXML
     private TextField coeffField;
@@ -60,10 +60,6 @@ public class ModifyChildrenMeanSensor {
 
         listChildrenSensors.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             try {
-                /*if (oldV != null) {
-                    coefChildfField.textProperty().unbindBidirectional(((MeanSensor)msItem.getValue()).getChildren().get(oldV));
-                }
-                coefChildfField.textProperty().bindBidirectional(((MeanSensor)msItem.getValue()).getChildren().get(newV).d);*/
                 coefChildfField.setText(((MeanSensor)msItem.getValue()).getChildren().get(newV).toString());
             }
             catch (Exception e){
@@ -82,11 +78,46 @@ public class ModifyChildrenMeanSensor {
             }
         });
 
+        listSensors.itemsProperty().bind(
+                rootSensor.componentSensorListProperty()
+        );
+
+        listSensors.setCellFactory(__ ->
+                new ListCell<ComponentSensor>(){
+                    @Override
+                    protected void updateItem(ComponentSensor item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            textProperty().bind(item.nameProperty());
+                        } else {
+                            textProperty().unbind();
+                            setText("");
+                        }
+                    }
+
+                }
+        );
+
+        listSensors.getSelectionModel().selectFirst();
+
+        coeffField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    coeffField.setText(oldValue);
+                }
+            }
+        });
 
 
     }
 
     public void validateModif(ActionEvent actionEvent) throws IOException {
         ((MeanSensor)msItem.getValue()).getChildren().replace(listChildrenSensors.getValue(), ((MeanSensor)msItem.getValue()).getChildren().get(listChildrenSensors.getValue()), Double.parseDouble(coefChildfField.getText()));
+    }
+
+    public void addChild(ActionEvent actionEvent) throws IOException {
+        ((MeanSensor)msItem.getValue()).add(listSensors.getValue(), Double.parseDouble(coeffField.getText()));
+        msItem.getChildren().add(new TreeItem<ComponentSensor>(listSensors.getValue()));
     }
 }
