@@ -151,20 +151,20 @@ public class MainView {
                 //sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
                 nameInput.textProperty().bindBidirectional(sensorSelected.nameProperty());
                 if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
-                    hBoxChildren.setVisible(false);
                     hBoxFreq.setVisible(true);
                     hBoxAlgo.setVisible(true);
                     freqInput.valueProperty().bindBidirectional(((Sensor)sensorSelected).timeUpdateProperty());
                     comboBoxAlgos.getSelectionModel().select(((Sensor)sensorSelected).getAlgoType());
                 }
                 if (sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
-                    hBoxChildren.setVisible(true);
                     hBoxFreq.setVisible(false);
                     hBoxAlgo.setVisible(false);
                 }
                 temperatureInput.textProperty().bind(Bindings.format("%.2f", sensorSelected.currentTemperatureProperty()));
             }
-            catch(Exception e){ }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         });
 
         /**
@@ -322,8 +322,8 @@ public class MainView {
      */
 
     public void deleteSensor(ActionEvent actionEvent){
-        selectedItem.getParent().getChildren().remove(selectedItem);
         ((CompositeSensor)selectedItem.getParent().getValue()).remove(sensorSelected);
+        selectedItem.getParent().getChildren().remove(selectedItem);
         if (rootItem.getChildren().size() != 0) {
             menuTreeView.getSelectionModel().selectFirst();
         }
