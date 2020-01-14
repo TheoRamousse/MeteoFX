@@ -6,16 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml">
     <HBox alignment="CENTER">
+        <Text>Modifier : </Text>
         <ComboBox fx:id="listChildrenSensors"></ComboBox>
         <TextField maxWidth="100.0" fx:id="coefChildfField" promptText="Coefficient"></TextField>
+        <Button onAction="#validateModif">OK</Button>
     </HBox>
     <HBox alignment="CENTER">
-
+        <Text>Ajouter : </Text>
         <ComboBox fx:id="listSensors"></ComboBox>
         <TextField maxWidth="100.0" fx:id="coeffField" promptText="Coefficient"></TextField>
-        <Button onAction="#addChild">Ajouter</Button>
+        <!--<Button onAction="#addChild">OK</Button>-->
     </HBox>
 </VBox>

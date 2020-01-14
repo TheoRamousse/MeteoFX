@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,6 +76,9 @@ public class MainView {
 
     @FXML
     private ComboBox freqInput;
+
+    @FXML
+    private HBox modifyChildrenContainer;
 
     public MainView(ComponentSensorManager sm) {
 
@@ -153,12 +157,24 @@ public class MainView {
                 if(!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxFreq.setVisible(true);
                     hBoxAlgo.setVisible(true);
+                    modifyChildrenContainer.setVisible(false);
                     freqInput.valueProperty().bindBidirectional(((Sensor)sensorSelected).timeUpdateProperty());
                     comboBoxAlgos.getSelectionModel().select(((Sensor)sensorSelected).getAlgoType());
                 }
                 if (sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                     hBoxFreq.setVisible(false);
                     hBoxAlgo.setVisible(false);
+                    modifyChildrenContainer.setVisible(true);
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/modifyChildrenMeanSensor.fxml"));
+                        ModifyChildrenMeanSensor modifyView = new ModifyChildrenMeanSensor(rootSensor, selectedItem);
+                        fxmlLoader.setController(modifyView);
+                        if(modifyChildrenContainer.getChildren().size() != 0)
+                            modifyChildrenContainer.getChildren().remove(0);
+                        modifyChildrenContainer.getChildren().add(fxmlLoader.load());
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
                 }
                 temperatureInput.textProperty().bind(Bindings.format("%.2f", sensorSelected.currentTemperatureProperty()));
             }
