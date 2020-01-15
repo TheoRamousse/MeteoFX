@@ -81,8 +81,10 @@ public class AddMeanSensor {
     }
 
     public void addChild(ActionEvent actionEvent){
-        children.put(listSensors.getValue(), Double.valueOf(coeffField.getText()));
-        coeffField.setText("");
+        if (children.get(listSensors.getValue()) == null) {
+            children.put(listSensors.getValue(), Double.valueOf(coeffField.getText()));
+            coeffField.setText("");
+        }
     }
 
     public void createMeanSensor(ActionEvent actionEvent){
@@ -98,7 +100,11 @@ public class AddMeanSensor {
             }
             newMs.setChildren(children);
             /*sm.addSensor(newMs);*/
-            rs.add(newMs, 1);
+            try {
+                rs.add(newMs, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             TreeItem<ComponentSensor> newMsItem = new TreeItem<>(newMs);
             for (ComponentSensor cs: children.keySet()) {
                 newMsItem.getChildren().add(new TreeItem<>(cs));

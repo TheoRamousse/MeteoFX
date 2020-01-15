@@ -68,7 +68,7 @@
                 </HBox>
                 <VBox id="algoContainer" fx:id="algoContainer">
                 </VBox>
-                <HBox fx:id="modifyChildrenContainer"></HBox>
+                <VBox fx:id="modifyChildrenContainer"></VBox>
             </VBox>
         </center>
         <bottom>

@@ -16,8 +16,11 @@ public abstract class CompositeSensor extends ComponentSensor{
     }
 
 
-    public void add(ComponentSensor child, double coef){
-        children.put(child, coef);
+    public void add(ComponentSensor child, double coef) throws Exception {
+        if (child == this)
+            throw new Exception("Cannot add itself to itself");
+        else
+            children.put(child, coef);
     }
 
     public void remove(ComponentSensor child){
@@ -26,6 +29,10 @@ public abstract class CompositeSensor extends ComponentSensor{
 
     public TreeMap<ComponentSensor, Double> getChildren() {
         return children;
+    }
+
+    public boolean childExists (ComponentSensor sensor){
+        return children.get(sensor) != null;
     }
 
     public List<ComponentSensor> getListChildren() {

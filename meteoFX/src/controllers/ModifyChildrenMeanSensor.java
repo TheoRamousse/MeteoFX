@@ -117,7 +117,14 @@ public class ModifyChildrenMeanSensor {
     }
 
     public void addChild(ActionEvent actionEvent) throws IOException {
-        ((MeanSensor)msItem.getValue()).add(listSensors.getValue(), Double.parseDouble(coeffField.getText()));
-        msItem.getChildren().add(new TreeItem<ComponentSensor>(listSensors.getValue()));
+        if(!((MeanSensor)msItem.getValue()).childExists(listSensors.getValue()) && msItem.getValue() != listSensors.getValue()) {
+            try {
+                listSensors.getValue().addObserver(((MeanSensor) msItem.getValue()));
+                ((MeanSensor) msItem.getValue()).add(listSensors.getValue(), Double.parseDouble(coeffField.getText()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            msItem.getChildren().add(new TreeItem<ComponentSensor>(listSensors.getValue()));
+        }
     }
 }

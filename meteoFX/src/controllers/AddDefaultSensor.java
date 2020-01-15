@@ -122,7 +122,11 @@ public class AddDefaultSensor {
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
                 /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
                 Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
-                rs.add(newS, 1);
+                try {
+                    rs.add(newS, 1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 root.getChildren().add(new TreeItem<>(newS));
                 //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {

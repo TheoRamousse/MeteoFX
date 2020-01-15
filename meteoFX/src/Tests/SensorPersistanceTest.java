@@ -13,9 +13,14 @@ public class SensorPersistanceTest {
         l.add(new Sensor(2, "Second Sensor", new AlgoSmallFluctuation(0.2, 200), 2));
         l.add(new Sensor(3, "Third Sensor", new AlgoRandom(), 1));
         MeanSensor ms1 = new MeanSensor(1, "ms 1");
-        ms1.add(l.get(0), 3);
-        ms1.add(l.get(1), 6);
-        ms1.add(l.get(2), 2);
+        try {
+            ms1.add(l.get(0), 3);
+            ms1.add(l.get(1), 6);
+            ms1.add(l.get(2), 2);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         l.add(ms1);
 
 

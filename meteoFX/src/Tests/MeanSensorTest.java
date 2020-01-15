@@ -19,9 +19,14 @@ public class MeanSensorTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ms1.add(s1, 3);
-        ms1.add(s2, 6);
-        ms1.add(s3, 2);
+        try {
+            ms1.add(s1, 3);
+            ms1.add(s2, 6);
+            ms1.add(s3, 2);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         while (true){
             try {
                 Thread.sleep(1000);
