@@ -344,6 +344,7 @@ public class MainView {
         if (selectedItem != null) {
             ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
             selectedItem.getParent().getChildren().remove(selectedItem);
+            sm.deleteSensor(sensorSelected);
             if (rootItem.getChildren().size() != 0) {
                 menuTreeView.getSelectionModel().selectFirst();
             } else {
