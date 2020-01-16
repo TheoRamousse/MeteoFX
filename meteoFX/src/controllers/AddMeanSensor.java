@@ -80,6 +80,9 @@ public class AddMeanSensor {
 
     }
 
+    /**
+     * Add a new sensor used by the meanSensor
+     */
     public void addChild(ActionEvent actionEvent){
         if (children.get(listSensors.getValue()) == null) {
             children.put(listSensors.getValue(), Double.valueOf(coeffField.getText()));
@@ -87,6 +90,9 @@ public class AddMeanSensor {
         }
     }
 
+    /**
+     * Create the meanSensor configurated
+     */
     public void createMeanSensor(ActionEvent actionEvent){
         if(!nameInput.getText().isEmpty())
         {

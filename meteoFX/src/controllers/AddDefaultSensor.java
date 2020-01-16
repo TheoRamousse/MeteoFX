@@ -95,6 +95,9 @@ public class AddDefaultSensor {
         }
     }
 
+    /**
+     * This method create a new sensor
+     */
     public void addSensor(ActionEvent actionEvent) {
         if(constructorOfAlgo != null) {
             ArrayList<Object> listParameters = new ArrayList<>();

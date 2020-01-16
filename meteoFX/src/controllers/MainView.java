@@ -13,18 +13,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+
 
 public class MainView {
+    /**
+     * This attribute is used to manage sensors
+     */
     private ComponentSensorManager sm;
     private RootSensor rootSensor;
     private TreeItem<ComponentSensor> rootItem;
@@ -32,23 +31,24 @@ public class MainView {
      * This attribute manage has the list of sensors and manage them
      */
     private ComponentSensor sensorSelected;
-    private TreeItem selectedItem;
+
     /**
      * Current sensor selected by the user
      */
-
+    private TreeItem selectedItem;
 
 
     @FXML
     private BorderPane displayPane;
+
     @FXML
     private BorderPane welcomePane;
+
     @FXML
     private ListView<ComponentSensor> menuListeView;
 
     @FXML
     private TreeView<ComponentSensor> menuTreeView;
-
 
     @FXML
     private VBox algoContainer;
@@ -80,20 +80,123 @@ public class MainView {
     @FXML
     private VBox modifyChildrenContainer;
 
+
+    /**
+     * Constructor of MainView : Take the sensor manager in parameter
+     */
     public MainView(ComponentSensorManager sm) {
 
         this.sm = sm;
     }
 
-    /**
-     * Constructor of MainView : Take the sensor manager in parameter
-     */
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
+        initializeTreeView();
+
+        initializeComboBoxAlgo();
+
+        initializeFreqInput();
+
+        /*
+         * Display the first sensor in the detail if the list of sensor isn't empty
+         */
+        if (rootSensor.getChildren().size() != 0)
+            menuTreeView.getSelectionModel().selectFirst();
+
+    }
+
+
+
+    private TreeItem<ComponentSensor> itemAdd(CompositeSensor compositeSensor, TreeItem<ComponentSensor> treeItem) {
+        for (ComponentSensor sens : compositeSensor.getChildren().keySet()) {
+            TreeItem<ComponentSensor> treeItemChild = new TreeItem<>(sens);
+            if (sens.getClass().getSimpleName().equals("MeanSensor") || sens.getClass().getSimpleName().equals("RootSensor")) {
+                treeItemChild = itemAdd((CompositeSensor) sens, treeItemChild);
+            }
+            treeItem.getChildren().add(treeItemChild);
+        }
+        return treeItem;
+    }
+
+    /**
+     * If the user doesn't have sensors, a welcome page is shown instead of the detail
+     */
+    private void setDisplayVisible(boolean show) {
+        welcomePane.setVisible(!show);
+        displayPane.setVisible(show);
+    }
+
+
+    /**
+     * Display the view with the camera if method is called
+     */
+    public void showCamView(ActionEvent actionEvent) throws IOException {
+        CamView cv = new CamView(sensorSelected, new WeatherManager(new WeatherInitializer()));
+        Stage mainStage = createStage(cv, "/fxml/camView.fxml", "CAM : " + sensorSelected.getSensorName(), 800, 400);
+        mainStage.show();
+    }
+
+    /**
+     * Display the view with digital temperature if method is called
+     */
+    public void showDigitalView(ActionEvent actionEvent) throws IOException {
+        DigitalView cv = new DigitalView(sensorSelected);
+        Stage mainStage = createStage(cv, "/fxml/digitalView.fxml", "Digital : " + sensorSelected.getSensorName(), 800, 400);
+        mainStage.show();
+    }
+
+    /**
+     * This method is used to delete the sensor selected in the tree view
+     */
+    public void deleteSensor(ActionEvent actionEvent) {
+        if (selectedItem != null) {
+            ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
+            selectedItem.getParent().getChildren().remove(selectedItem);
+            if (rootItem.getChildren().size() != 0) {
+                menuTreeView.getSelectionModel().selectFirst();
+            } else {
+                sensorSelected = null;
+                setDisplayVisible(false);
+            }
+        }
+    }
+
+    /**
+     * This method show the view which is used to add a new sensor
+     */
+    public void showAddView(ActionEvent actionEvent) throws IOException {
+        AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
+        Stage mainStage = createStage(cv, "/fxml/addSensorView.fxml", "Ajouter un sensor", 600, 400);
+        mainStage.show();
+    }
+
+    /**
+     * This method is used to create and configure a stage easily thanks to parameters given in parameters
+     * @param  controller Controller used by the view to work
+     * @param pathFxml Path of the FXML view to show
+     * @param windowTitle Title of the window
+     * @param width Width of the window
+     * @param height Height of the window
+     * @return Stage configured and ready to be shown
+     */
+    private Stage createStage(Object controller, String pathFxml, String windowTitle, int width, int height) throws IOException {
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxml));
+        loader.setController(controller);
+        primaryStage.setTitle(windowTitle);
+        Scene mainScene = new Scene(loader.load(), width, height);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
+        return primaryStage;
+    }
+
+    /**
+     * Initialize the tree view which display a tree view of sensors in the master
+     */
+    private void initializeTreeView() {
         rootSensor = new RootSensor();
-        for (ComponentSensor cs: sm.getSensorList()) {
+        for (ComponentSensor cs : sm.getSensorList()) {
             try {
                 rootSensor.add(cs, 0);
             } catch (Exception e) {
@@ -106,8 +209,9 @@ public class MainView {
         menuTreeView.setRoot(rootItem);
         menuTreeView.setShowRoot(false);
 
+
         menuTreeView.setCellFactory(__ ->
-                new TreeCell<ComponentSensor>(){
+                new TreeCell<>() {
                     @Override
                     protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
@@ -120,30 +224,8 @@ public class MainView {
                     }
                 });
 
-        /**
-         * Display sensors in the master
-         */
 
-        comboBoxAlgos.getItems().addAll(
-                SensorAlgoChanger.getSons()
-        );
-        /**
-         * Add the name of all sensors known by the class SensorAlgoChanger
-         */
-
-
-
-
-        for (int i = 1; i < 61; i++) {
-            freqInput.getItems().add(i);
-        }
-        /**
-         * Set values of freqInput (number of seconds to update the sensor : from 1s to 60s)
-         */
-
-
-
-        menuTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
+        menuTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             try {
                 if (newV != null) {
                     ComponentSensor oldSensorSelected;
@@ -185,185 +267,109 @@ public class MainView {
                     }
                     temperatureInput.textProperty().bind(Bindings.format("%.2f", sensorSelected.currentTemperatureProperty()));
                 }
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+    }
 
-        /**
-         * Change values of the detail when a new sensor is selected in the master (menuListView)
-         */
+    /**
+     * This method initialize the list of algorithms available for sensors. This compnent :
+     * Adapt the view of detail according to the algorithm selected
+     * Take parameters entered by the user
+     * Change the algorithm of the sensor
+     */
+    private void initializeComboBoxAlgo() {
 
-//        if (sensorSelected != null && !sensorSelected.getClass().getName().equals("MeanSensor") && !sensorSelected.getClass().getName().equals("RootSensor")) {
-            comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
-                private Constructor<?> constructorOfAlgo;
+        comboBoxAlgos.getItems().addAll(
+                SensorAlgoChanger.getSons()
+        );
 
-                /**
-                 * Constructor of algorithm selected
-                 */
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<>() {
+            private Constructor<?> constructorOfAlgo;
 
-                @Override
-                public void changed(ObservableValue ov, String t, String t1) {
-                    try {
-                        Constructor<?>[] constructorsOfAlgoSelected = Class.forName("model." + t1).getConstructors();
-                        for (Constructor<?> c : constructorsOfAlgoSelected) {
-                            constructorOfAlgo = c;
-                            if (c.getParameterTypes().length != 0) {
-                                //constructorOfAlgo = c;
-                                try {
-                                    String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
-                                    FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
-                                    algoContainer.getChildren().add(fxmlLoader.load());
-                                } catch (Exception ex) {
-                                    throw new Exception("Your algo needs a fxml view");
-                                }
-
-                                try {
-                                    Button validate = (Button) algoContainer.lookup("#paramContainer").lookup("#submit");
-                                    validate.setOnAction((event) -> {
-                                        ArrayList<Object> listParameters = new ArrayList<>();
-                                        int i = 0;
-                                        for (Class<?> currentClass : constructorOfAlgo.getParameterTypes()) {
-                                            TextField curentTextField = (TextField) algoContainer.lookup("#paramContainer").lookup("#arg" + i);
-                                            switch (currentClass.getName()) {
-                                                case "double":
-                                                    double currentNodeD = Double.parseDouble(curentTextField.getText());
-                                                    listParameters.add(currentNodeD);
-                                                    break;
-                                                case "int":
-                                                    Integer currentNodeI = Integer.valueOf(curentTextField.getText());
-                                                    listParameters.add(currentNodeI);
-                                                    break;
-                                                default:
-                                                    String currentNodeS = curentTextField.getText();
-                                                    listParameters.add(currentNodeS);
-                                                    break;
-                                            }
-                                            i++;
-                                        }
-                                        try {
-                                            Object[] parametersConverted = listParameters.toArray();
-                                            if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
-                                                ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
-                                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                } catch (Exception ex) {
-                                    throw new Exception("Your view needs a submit button");
-                                }
-                                return;
-                            }
+            @Override
+            public void changed(ObservableValue ov, String t, String t1) {
+                try {
+                    Constructor<?>[] constructorsOfAlgoSelected = Class.forName("model." + t1).getConstructors();
+                    for (Constructor<?> c : constructorsOfAlgoSelected) {
+                        constructorOfAlgo = c;
+                        if (c.getParameterTypes().length != 0) {
+                            //constructorOfAlgo = c;
                             try {
-                                if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
-                                    ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance());
-                            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                                System.out.println("aie");
-                                e.printStackTrace();
+                                String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
+                                FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
+                                algoContainer.getChildren().add(fxmlLoader.load());
+                            } catch (Exception ex) {
+                                throw new Exception("Your algo needs a fxml view");
                             }
+
+                            try {
+                                Button validate = (Button) algoContainer.lookup("#paramContainer").lookup("#submit");
+                                validate.setOnAction((event) -> {
+                                    ArrayList<Object> listParameters = new ArrayList<>();
+                                    int i = 0;
+                                    for (Class<?> currentClass : constructorOfAlgo.getParameterTypes()) {
+                                        TextField curentTextField = (TextField) algoContainer.lookup("#paramContainer").lookup("#arg" + i);
+                                        switch (currentClass.getName()) {
+                                            case "double":
+                                                double currentNodeD = Double.parseDouble(curentTextField.getText());
+                                                listParameters.add(currentNodeD);
+                                                break;
+                                            case "int":
+                                                Integer currentNodeI = Integer.valueOf(curentTextField.getText());
+                                                listParameters.add(currentNodeI);
+                                                break;
+                                            default:
+                                                String currentNodeS = curentTextField.getText();
+                                                listParameters.add(currentNodeS);
+                                                break;
+                                        }
+                                        i++;
+                                    }
+                                    try {
+                                        Object[] parametersConverted = listParameters.toArray();
+                                        if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                                            ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
+                                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                            } catch (Exception ex) {
+                                throw new Exception("Your view needs a submit button");
+                            }
+                            return;
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        try {
+                            if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
+                                ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance());
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                            System.out.println("aie");
+                            e.printStackTrace();
+                        }
                     }
-                    if (algoContainer.getChildren().toArray().length != 0)
-                        algoContainer.getChildren().remove(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-
-            });
-//        }
-        /**
-         * Adapt the view of detail according to the algorithm selected
-         * Take parameters entered by the user
-         * Change the algorithm of the sensor
-         */
-
-        if (rootSensor.getChildren().size() != 0)
-            menuTreeView.getSelectionModel().selectFirst();
-        /**
-         * Display the first sensor in the detail if the list of sensor isn't empty
-         */
-    }
-
-    private TreeItem<ComponentSensor> itemAdd(CompositeSensor compositeSensor, TreeItem<ComponentSensor> treeItem) {
-        for (ComponentSensor sens: compositeSensor.getChildren().keySet()) {
-            TreeItem<ComponentSensor> treeItemChild = new TreeItem<>(sens);
-            if (sens.getClass().getSimpleName().equals("MeanSensor") || sens.getClass().getSimpleName().equals("RootSensor")){
-                treeItemChild = itemAdd((CompositeSensor) sens, treeItemChild);
+                if (algoContainer.getChildren().toArray().length != 0)
+                    algoContainer.getChildren().remove(0);
             }
-            treeItem.getChildren().add(treeItemChild);
-        }
-        return treeItem;
-    }
 
 
-    private void setDisplayVisible(boolean show)
-    {
-        welcomePane.setVisible(!show);
-        displayPane.setVisible(show);
+        });
     }
 
     /**
-     * If the user doesn't have sensors, a welcome page is shown instead of the detail
+     * Set values of freqInput (number of seconds to update the sensor : from 1s to 60s)
      */
+    private void initializeFreqInput() {
 
-
-    public void showCamView(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/camView.fxml"));
-        CamView cv = new CamView(sensorSelected, new WeatherManager(new WeatherInitializer()));
-        loader.setController(cv);
-        primaryStage.setTitle("CAM : "+sensorSelected.getSensorName());
-        Scene mainScene = new Scene(loader.load(), 800, 400);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
-
-    /**
-     * Display the view with the camera if the button is pressed
-     */
-
-    public void showDigitalView(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/digitalView.fxml"));
-        DigitalView cv = new DigitalView(sensorSelected);
-        loader.setController(cv);
-        primaryStage.setTitle("Digital : "+sensorSelected.getSensorName());
-        Scene mainScene = new Scene(loader.load(), 800, 400);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
-    /**
-     * Display the view with digital temperature if the button is pressed
-     */
-
-    public void deleteSensor(ActionEvent actionEvent){
-        if (selectedItem != null) {
-            ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
-            selectedItem.getParent().getChildren().remove(selectedItem);
-            if (rootItem.getChildren().size() != 0) {
-                menuTreeView.getSelectionModel().selectFirst();
-            } else {
-                sensorSelected = null;
-                setDisplayVisible(false);
-            }
+        for (int i = 1; i < 61; i++) {
+            freqInput.getItems().add(i);
         }
     }
 
-    public void showAddView(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
-        AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
-        loader.setController(cv);
-        primaryStage.setTitle("Ajouter un sensor");
-        Scene mainScene = new Scene(loader.load(), 600, 400);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
+
 
 
 }

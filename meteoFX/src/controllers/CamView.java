@@ -35,5 +35,8 @@ public class CamView {
             weatherImageView.resize(weatherImageContainer.getWidth(), weatherImageContainer.getHeight());
             weatherImageView.imageProperty().setValue(new Image(wm.findWeatherByTemperature(currentSensor.getCurrentTemperature()).getPathImage()));
         });
+        weatherImageView.imageProperty().setValue(new Image(wm.findWeatherByTemperature(currentSensor.getCurrentTemperature()).getPathImage()));
+
+
     }
 }
