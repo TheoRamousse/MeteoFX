@@ -3,6 +3,7 @@ package model;
 /* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
 */
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 /**
  * Basic sensor made of a frequency of update and an algorithm used to generate temperatures
  */
-public class Sensor extends LeafSensor implements Serializable {
+public class Sensor extends ComponentSensor implements Serializable {
     /**
      * Algorithm used to generate temperatures
      */
@@ -32,14 +33,6 @@ public class Sensor extends LeafSensor implements Serializable {
     public Sensor(int id, String name, SensorAlgoChanger sac, int timeUpdate)
     {
         super(id, name);
-        this.sensorAlgoChanger = sac;
-        this.setTimeUpdate(timeUpdate);
-        start();
-    }
-
-    public Sensor(int id, String name, MeanSensor observer, SensorAlgoChanger sac, int timeUpdate)
-    {
-        super(id, name, observer);
         this.sensorAlgoChanger = sac;
         this.setTimeUpdate(timeUpdate);
         start();
@@ -102,10 +95,15 @@ public class Sensor extends LeafSensor implements Serializable {
      */
     @Override
     public void run(){
+        final int SECOND=1000;
         while (true){
-            doTemperature();
+            Platform.runLater(new Runnable() {
+                @Override public void run() {
+                    doTemperature();
+                }
+            });
             try {
-                sleep((long)getTimeUpdate()*1000);
+                sleep((long)getTimeUpdate()*SECOND);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

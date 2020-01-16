@@ -5,13 +5,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class MeanSensor extends CompositeSensor {
-    
+
     public MeanSensor(int id, String name) {
         super(id, name);
-    }
-
-    public MeanSensor(int id, String name, MeanSensor obserever) {
-        super(id, name, obserever);
     }
 
     @Override
@@ -20,7 +16,7 @@ public class MeanSensor extends CompositeSensor {
         double denominator = 0;
         for (Map.Entry<ComponentSensor, Double> entry : getChildren().entrySet()) {
             ComponentSensor sensor = entry.getKey();
-            Double coef = entry.getValue();
+            double coef = entry.getValue();
             numerator += sensor.getCurrentTemperature() * coef;
             denominator += coef;
         }
@@ -28,6 +24,10 @@ public class MeanSensor extends CompositeSensor {
             throw new UnsupportedOperationException();
         else
             setCurrentTemperature(numerator/denominator);
+    }
+
+    public void addObserver(MeanSensor observer){
+
     }
 
     @Override
