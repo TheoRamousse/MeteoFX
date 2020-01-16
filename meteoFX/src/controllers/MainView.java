@@ -356,7 +356,7 @@ public class MainView {
     public void showAddView(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
-        AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
+        AddSensorView cv = new AddSensorView(sm, rootSensor, rootItem);
         loader.setController(cv);
         primaryStage.setTitle("Ajouter un sensor");
         Scene mainScene = new Scene(loader.load(), 600, 400);
@@ -364,6 +364,9 @@ public class MainView {
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
+
+
+
 
 
 }

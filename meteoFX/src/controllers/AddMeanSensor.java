@@ -38,7 +38,8 @@ public class AddMeanSensor {
         this.sm = sm;
     }
 
-    public AddMeanSensor(RootSensor rs, TreeItem root){
+    public AddMeanSensor(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm =sm;
         this.rs = rs;
         this.root = root;
     }
@@ -105,6 +106,7 @@ public class AddMeanSensor {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            sm.addSensor(newMs);
             TreeItem<ComponentSensor> newMsItem = new TreeItem<>(newMs);
             for (ComponentSensor cs: children.keySet()) {
                 newMsItem.getChildren().add(new TreeItem<>(cs));

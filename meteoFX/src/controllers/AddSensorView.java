@@ -51,7 +51,8 @@ public class AddSensorView {
         this.sm = sm;
     }
 
-    public AddSensorView(RootSensor rs, TreeItem root){
+    public AddSensorView(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm = sm;
         this.rs = rs;
         this.root = root;
     }
@@ -114,7 +115,7 @@ public class AddSensorView {
             displayContainer.getChildren().remove(0);
         if(selectButton.isSelected()){
             try {
-                AddMeanSensor ams = new AddMeanSensor(/*sm*/rs, root);
+                AddMeanSensor ams = new AddMeanSensor(sm, rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
                 loader.setController(ams);
                 displayContainer.getChildren().add(loader.load());
@@ -126,7 +127,7 @@ public class AddSensorView {
         }
         else{
             try {
-                AddDefaultSensor ads = new AddDefaultSensor(/*sm*/rs, root);
+                AddDefaultSensor ads = new AddDefaultSensor(sm, rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
                 loader.setController(ads);
                 displayContainer.getChildren().add(loader.load());

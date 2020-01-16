@@ -38,7 +38,8 @@ public class AddDefaultSensor {
         this.sm = sm;
     }
 
-    public AddDefaultSensor(RootSensor rs, TreeItem root){
+    public AddDefaultSensor(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm =sm;
         this.rs = rs;
         this.root = root;
     }
@@ -122,6 +123,7 @@ public class AddDefaultSensor {
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
                 /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
                 Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
+                sm.addSensor(newS);
                 try {
                     rs.add(newS, 1);
                 } catch (Exception e) {

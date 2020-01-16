@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ComponentSensorManager {
-    private ListProperty<ComponentSensor> cSensorList;
+    private ListProperty<ComponentSensor> cSensorList = new SimpleListProperty<>();
     private Persistence<ComponentSensor> persistence;
 
     public ComponentSensorManager(Persistence<ComponentSensor> persistence) {
@@ -75,5 +75,9 @@ public class ComponentSensorManager {
                 return cs;
         }
         return null;
+    }
+
+    public void save() throws IOException {
+        persistence.save(getSensorList());
     }
 }
