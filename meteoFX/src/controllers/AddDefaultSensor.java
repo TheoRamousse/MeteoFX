@@ -49,11 +49,19 @@ public class AddDefaultSensor {
 
     @FXML
     public void initialize() {
+        initializeAlgoBox();
+        initializeFreqInput();
+    }
+
+    /**
+     * Initialize a combobox made of algorithms implemented in the software
+     */
+    private void initializeAlgoBox(){
         comboBoxAlgos.getItems().addAll(
                 SensorAlgoChanger.getSons()
         );
 
-        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<>() {
 
             /**
              *Constructor of algorithm selected
@@ -86,14 +94,18 @@ public class AddDefaultSensor {
 
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    AlertBox.displayWarningAlertBox(e.getMessage());
                 }
                 if (algoContainer.getChildren().toArray().length != 0)
                     algoContainer.getChildren().remove(0);
             }
 
         });
-
+    }
+    /**
+     * Initialize the combo box made of numbers from 1 to 60 (seconds)
+     */
+    private void initializeFreqInput(){
         for (int i = 1; i < 61; i++) {
             freqInput.getItems().add(i);
         }
@@ -128,6 +140,7 @@ public class AddDefaultSensor {
             try {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
+                /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
                 Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
                 try {
                     rs.add(newS, 1);
@@ -135,6 +148,7 @@ public class AddDefaultSensor {
                     e.printStackTrace();
                 }
                 root.getChildren().add(new TreeItem<>(newS));
+                //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
             }

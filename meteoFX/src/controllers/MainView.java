@@ -19,9 +19,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-/**
- * This class has the responsibility to manage the information displayed and the interactions made on the main view.
- */
 
 public class MainView {
     /**
@@ -136,7 +133,7 @@ public class MainView {
      */
     public void showCamView(ActionEvent actionEvent) throws IOException {
         CamView cv = new CamView(sensorSelected, new WeatherManager(new WeatherInitializer()));
-        Stage mainStage = createStage(cv, "/fxml/camView.fxml", "CAM : " + sensorSelected.getSensorName(), 800, 400);
+        Stage mainStage = ControllerUtility.createStage(cv, "/fxml/camView.fxml", "CAM : " + sensorSelected.getSensorName(), 800, 400);
         mainStage.show();
     }
 
@@ -145,7 +142,7 @@ public class MainView {
      */
     public void showDigitalView(ActionEvent actionEvent) throws IOException {
         DigitalView cv = new DigitalView(sensorSelected);
-        Stage mainStage = createStage(cv, "/fxml/digitalView.fxml", "Digital : " + sensorSelected.getSensorName(), 800, 400);
+        Stage mainStage = ControllerUtility.createStage(cv, "/fxml/digitalView.fxml", "Digital : " + sensorSelected.getSensorName(), 800, 400);
         mainStage.show();
     }
 
@@ -153,7 +150,7 @@ public class MainView {
      * This method is used to delete the sensor selected in the tree view
      */
     public void deleteSensor(ActionEvent actionEvent) {
-        if (selectedItem != null) {
+        if (selectedItem != null && sensorSelected != null) {
             ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
             selectedItem.getParent().getChildren().remove(selectedItem);
             if (rootItem.getChildren().size() != 0) {
@@ -163,6 +160,9 @@ public class MainView {
                 setDisplayVisible(false);
             }
         }
+        else{
+            AlertBox.displayWarningAlertBox("Veuillez sélectionner un Capteur à supprimer !");
+        }
     }
 
     /**
@@ -170,29 +170,10 @@ public class MainView {
      */
     public void showAddView(ActionEvent actionEvent) throws IOException {
         AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
-        Stage mainStage = createStage(cv, "/fxml/addSensorView.fxml", "Ajouter un sensor", 600, 400);
+        Stage mainStage = ControllerUtility.createStage(cv, "/fxml/addSensorView.fxml", "Ajouter un sensor", 600, 400);
         mainStage.show();
     }
 
-    /**
-     * This method is used to create and configure a stage easily thanks to parameters given in parameters
-     * @param  controller Controller used by the view to work
-     * @param pathFxml Path of the FXML view to show
-     * @param windowTitle Title of the window
-     * @param width Width of the window
-     * @param height Height of the window
-     * @return Stage configured and ready to be shown
-     */
-    private Stage createStage(Object controller, String pathFxml, String windowTitle, int width, int height) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxml));
-        loader.setController(controller);
-        primaryStage.setTitle(windowTitle);
-        Scene mainScene = new Scene(loader.load(), width, height);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        return primaryStage;
-    }
 
     /**
      * Initialize the tree view which display a tree view of sensors in the master
@@ -203,7 +184,7 @@ public class MainView {
             try {
                 rootSensor.add(cs, 0);
             } catch (Exception e) {
-                e.printStackTrace();
+                AlertBox.displayWarningAlertBox(e.getMessage());
             }
         }
         rootItem = new TreeItem<>(rootSensor);
@@ -264,14 +245,14 @@ public class MainView {
                             if (modifyChildrenContainer.getChildren().size() != 0)
                                 modifyChildrenContainer.getChildren().remove(0);
                             modifyChildrenContainer.getChildren().add(fxmlLoader.load());
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                        } catch (Exception e) {
+                            AlertBox.displayWarningAlertBox(e.getMessage());
                         }
                     }
                     temperatureInput.textProperty().bind(Bindings.format("%.2f", sensorSelected.currentTemperatureProperty()));
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                AlertBox.displayWarningAlertBox(e.getMessage());
             }
         });
     }
@@ -335,7 +316,7 @@ public class MainView {
                                         if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
                                             ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted));
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                                        e.printStackTrace();
+                                        AlertBox.displayWarningAlertBox(e.getMessage());
                                     }
                                 });
                             } catch (Exception ex) {
@@ -347,12 +328,11 @@ public class MainView {
                             if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor"))
                                 ((Sensor) sensorSelected).setSensorAlgoChanger((SensorAlgoChanger) constructorOfAlgo.newInstance());
                         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                            System.out.println("aie");
-                            e.printStackTrace();
+                            AlertBox.displayWarningAlertBox(e.getMessage());
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    AlertBox.displayWarningAlertBox(e.getMessage());
                 }
                 if (algoContainer.getChildren().toArray().length != 0)
                     algoContainer.getChildren().remove(0);

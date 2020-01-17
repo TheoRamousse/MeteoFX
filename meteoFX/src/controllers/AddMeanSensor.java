@@ -40,15 +40,31 @@ public class AddMeanSensor {
 
     @FXML
     public void initialize() {
+        initializeListSensor();
+        initializeCoeffField();
 
+    }
+
+    private void initializeCoeffField(){
+        coeffField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    coeffField.setText(oldValue);
+                }
+            }
+        });
+    }
+
+    private void initializeListSensor(){
         listSensors.itemsProperty().bind(
-                rs.componentSensorListProperty()
+                /*sm.componentSensorListProperty()*/rs.componentSensorListProperty()
         );
 
         listSensors.getSelectionModel().selectFirst();
 
         listSensors.setCellFactory(__ ->
-                new ListCell<ComponentSensor>(){
+                new ListCell<>() {
                     @Override
                     protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
@@ -63,16 +79,6 @@ public class AddMeanSensor {
 
                 }
         );
-
-        coeffField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
-                    coeffField.setText(oldValue);
-                }
-            }
-        });
-
     }
 
     /**
