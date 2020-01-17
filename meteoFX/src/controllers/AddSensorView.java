@@ -1,25 +1,18 @@
 package controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.*;
-
 import javafx.event.ActionEvent;
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view when adding any type of sensor.
+ */
 public class AddSensorView {
 
     private ComponentSensorManager sm;
@@ -47,9 +40,6 @@ public class AddSensorView {
 
 
 
-    public AddSensorView(ComponentSensorManager sm) {
-        this.sm = sm;
-    }
 
     public AddSensorView(RootSensor rs, TreeItem root){
         this.rs = rs;

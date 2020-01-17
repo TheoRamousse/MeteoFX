@@ -9,6 +9,10 @@ import model.ComponentSensor;
 import model.Sensor;
 import model.WeatherManager;
 
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view
+ * displaying the temperature digitally.
+ */
 public class DigitalView {
     private ComponentSensor currentSensor;
 

@@ -14,10 +14,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view when
+ * adding a Sensor.
+ */
 public class AddDefaultSensor {
 
     private Constructor<?> constructorOfAlgo = null;
-    private ComponentSensorManager sm;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
 
@@ -34,10 +37,11 @@ public class AddDefaultSensor {
     private VBox algoContainer;
 
 
-    public AddDefaultSensor(ComponentSensorManager sm) {
-        this.sm = sm;
-    }
-
+    /**
+     * This constructor will take two parameters
+     * @param rs in order to access to all the sensors of the view
+     * @param root in order to manipulate the main item of the TreeView
+     */
     public AddDefaultSensor(RootSensor rs, TreeItem root){
         this.rs = rs;
         this.root = root;
@@ -96,7 +100,8 @@ public class AddDefaultSensor {
     }
 
     /**
-     * This method create a new sensor
+     * This method creates a new sensor and adds it to the RootSensor and the TreeView.
+     * It is called from the add button of the view.
      */
     public void addSensor(ActionEvent actionEvent) {
         if(constructorOfAlgo != null) {
@@ -123,7 +128,6 @@ public class AddDefaultSensor {
             try {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
-                /*sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));*/
                 Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
                 try {
                     rs.add(newS, 1);
@@ -131,7 +135,6 @@ public class AddDefaultSensor {
                     e.printStackTrace();
                 }
                 root.getChildren().add(new TreeItem<>(newS));
-                //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
             }

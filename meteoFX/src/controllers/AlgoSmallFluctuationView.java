@@ -5,7 +5,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view
+ * displayed when a Sensor is using or means to use an AlgoSmallFluctuation class.
+ */
 public class AlgoSmallFluctuationView {
 
     @FXML

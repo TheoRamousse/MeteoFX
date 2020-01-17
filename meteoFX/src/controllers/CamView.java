@@ -1,17 +1,16 @@
 package controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import model.ComponentSensor;
-import model.Sensor;
-import model.SensorManager;
 import model.WeatherManager;
 
-
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view
+ * displaying an image of the temperature.
+ */
 public class CamView {
     private ComponentSensor currentSensor;
     private WeatherManager wm;
@@ -22,6 +21,9 @@ public class CamView {
     @FXML
     private BorderPane weatherImageContainer;
 
+    /**
+     * @param wm is knowing all the weathers and images linked, will be useful for showing the right image.
+     */
     public CamView(ComponentSensor currentSensor, WeatherManager wm)
     {
         this.currentSensor = currentSensor;

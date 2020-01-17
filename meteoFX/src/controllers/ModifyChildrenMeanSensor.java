@@ -14,6 +14,10 @@ import model.RootSensor;
 
 import java.io.IOException;
 
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view
+ * displayed for a MeanSensor in order to modify its children.
+ */
 public class ModifyChildrenMeanSensor {
     private RootSensor rootSensor;
     private TreeItem<ComponentSensor> msItem;
@@ -112,10 +116,16 @@ public class ModifyChildrenMeanSensor {
 
     }
 
+    /**
+     * This method is called when the user clicks on the button to modify a child. It's meant to apply the changes.
+     */
     public void validateModif(ActionEvent actionEvent) throws IOException {
         ((MeanSensor)msItem.getValue()).getChildren().replace(listChildrenSensors.getValue(), ((MeanSensor)msItem.getValue()).getChildren().get(listChildrenSensors.getValue()), Double.parseDouble(coefChildfField.getText()));
     }
 
+    /**
+     * This method is called when the user clicks on the button to add a child. It's meant to add the child selected to the MainSensor.
+     */
     public void addChild(ActionEvent actionEvent) throws IOException {
         if(!((MeanSensor)msItem.getValue()).childExists(listSensors.getValue()) && msItem.getValue() != listSensors.getValue()) {
             try {

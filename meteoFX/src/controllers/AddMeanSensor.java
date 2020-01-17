@@ -1,43 +1,38 @@
 package controllers;
 
-import com.sun.source.tree.Tree;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
 import model.*;
-
-import java.lang.reflect.Constructor;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made with the view when
+ * adding a MeanSensor.
+ */
 public class AddMeanSensor {
     @FXML
-    TextField nameInput;
+    private TextField nameInput;
 
     @FXML
-    TextField coeffField;
+    private TextField coeffField;
 
     @FXML
-    ComboBox<ComponentSensor> listSensors;
+    private ComboBox<ComponentSensor> listSensors;
 
 
-    private ComponentSensorManager sm;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
 
     private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
-    public AddMeanSensor(ComponentSensorManager sm) {
-
-        this.sm = sm;
-    }
-
+    /**
+     * This constructor will take two parameters
+     * @param rs in order to access to all the sensors of the view
+     * @param root in order to manipulate the main item of the TreeView
+     */
     public AddMeanSensor(RootSensor rs, TreeItem root){
         this.rs = rs;
         this.root = root;
@@ -47,7 +42,7 @@ public class AddMeanSensor {
     public void initialize() {
 
         listSensors.itemsProperty().bind(
-                /*sm.componentSensorListProperty()*/rs.componentSensorListProperty()
+                rs.componentSensorListProperty()
         );
 
         listSensors.getSelectionModel().selectFirst();
@@ -81,7 +76,8 @@ public class AddMeanSensor {
     }
 
     /**
-     * Add a new sensor used by the meanSensor
+     * This method creates a new sensor and adds it to the RootSensor and the TreeView.
+     * It is called from the add button of the view.
      */
     public void addChild(ActionEvent actionEvent){
         if (children.get(listSensors.getValue()) == null) {
@@ -91,7 +87,7 @@ public class AddMeanSensor {
     }
 
     /**
-     * Create the meanSensor configurated
+     * Creates the meanSensor and configures it
      */
     public void createMeanSensor(ActionEvent actionEvent){
         if(!nameInput.getText().isEmpty())

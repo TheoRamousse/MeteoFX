@@ -19,6 +19,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * This class has the responsibility to manage the information displayed and the interactions made on the main view.
+ */
 
 public class MainView {
     /**
