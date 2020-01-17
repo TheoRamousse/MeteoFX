@@ -42,6 +42,11 @@ public class ModifyChildrenMeanSensor {
     @FXML
     public void initialize()
     {
+        initializeModifList();
+        initializeAddList();
+    }
+
+    private void initializeModifList(){
         listChildrenSensors.itemsProperty().bind(
                 ((MeanSensor)msItem.getValue()).componentSensorListProperty()
         );
@@ -67,16 +72,18 @@ public class ModifyChildrenMeanSensor {
                 coefChildfField.setText(((MeanSensor)msItem.getValue()).getChildren().get(newV).toString());
             }
             catch (Exception e){
-                e.printStackTrace();
+                AlertBox.displayWarningAlertBox(e.getMessage());
             }
         });
 
         listChildrenSensors.getSelectionModel().selectFirst();
+    }
 
+    private void initializeAddList(){
         coefChildfField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,7}([.]\\d{0,4})?")) {
                     coefChildfField.setText(oldValue);
                 }
             }
@@ -107,13 +114,11 @@ public class ModifyChildrenMeanSensor {
         coeffField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,7}([.]\\d{0,4})?")) {
                     coeffField.setText(oldValue);
                 }
             }
         });
-
-
     }
 
     /**
@@ -132,7 +137,7 @@ public class ModifyChildrenMeanSensor {
                 listSensors.getValue().addObserver(((MeanSensor) msItem.getValue()));
                 ((MeanSensor) msItem.getValue()).add(listSensors.getValue(), Double.parseDouble(coeffField.getText()));
             } catch (Exception e) {
-                e.printStackTrace();
+                AlertBox.displayWarningAlertBox(e.getMessage());
             }
             msItem.getChildren().add(new TreeItem<ComponentSensor>(listSensors.getValue()));
         }

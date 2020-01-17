@@ -30,7 +30,13 @@ public class DigitalView {
     @FXML
     public void initialize()
     {
+        initializeText();
+    }
+
+    private void initializeText()
+    {
         nameContainer.textProperty().bind(currentSensor.idProperty().asString());
         temperatureContainer.textProperty().bind(currentSensor.currentTemperatureProperty().asString());
+
     }
 }

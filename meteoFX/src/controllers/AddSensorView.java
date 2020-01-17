@@ -55,7 +55,7 @@ public class AddSensorView {
             displayContainer.getChildren().remove(0);
         if(selectButton.isSelected()){
             try {
-                AddMeanSensor ams = new AddMeanSensor(/*sm*/rs, root);
+                AddMeanSensor ams = new AddMeanSensor(rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
                 loader.setController(ams);
                 displayContainer.getChildren().add(loader.load());
@@ -67,7 +67,7 @@ public class AddSensorView {
         }
         else{
             try {
-                AddDefaultSensor ads = new AddDefaultSensor(/*sm*/rs, root);
+                AddDefaultSensor ads = new AddDefaultSensor(rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
                 loader.setController(ads);
                 displayContainer.getChildren().add(loader.load());
@@ -103,7 +103,6 @@ public class AddSensorView {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
                 sm.addSensor(new Sensor(sm.getMaxId()+1, nameInput.getText(), algoWanted, freqInput.getValue()));
-                //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox(e.getMessage());
             }

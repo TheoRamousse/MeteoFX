@@ -49,7 +49,7 @@ public class AddMeanSensor {
         coeffField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,7}([.]\\d{0,4})?")) {
                     coeffField.setText(oldValue);
                 }
             }
@@ -58,7 +58,7 @@ public class AddMeanSensor {
 
     private void initializeListSensor(){
         listSensors.itemsProperty().bind(
-                /*sm.componentSensorListProperty()*/rs.componentSensorListProperty()
+                rs.componentSensorListProperty()
         );
 
         listSensors.getSelectionModel().selectFirst();
@@ -98,20 +98,19 @@ public class AddMeanSensor {
     public void createMeanSensor(ActionEvent actionEvent){
         if(!nameInput.getText().isEmpty())
         {
-            MeanSensor newMs = new MeanSensor(/*sm.getMaxId()+1*/rs.maxIdChildren()+1, nameInput.getText());
+            MeanSensor newMs = new MeanSensor(rs.maxIdChildren()+1, nameInput.getText());
             for (Map.Entry<ComponentSensor, Double> entry: children.entrySet()) {
                 try {
                     entry.getKey().addObserver(newMs);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    AlertBox.displayWarningAlertBox(e.getMessage());
                 }
             }
             newMs.setChildren(children);
-            /*sm.addSensor(newMs);*/
             try {
                 rs.add(newMs, 1);
             } catch (Exception e) {
-                e.printStackTrace();
+                AlertBox.displayWarningAlertBox(e.getMessage());
             }
             TreeItem<ComponentSensor> newMsItem = new TreeItem<>(newMs);
             for (ComponentSensor cs: children.keySet()) {

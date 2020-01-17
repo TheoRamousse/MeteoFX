@@ -33,12 +33,16 @@ public class CamView {
     @FXML
     public void initialize()
     {
+        initializeImageView();
+    }
+
+    private void initializeImageView()
+    {
         currentSensor.currentTemperatureProperty().addListener(e -> {
             weatherImageView.resize(weatherImageContainer.getWidth(), weatherImageContainer.getHeight());
             weatherImageView.imageProperty().setValue(new Image(wm.findWeatherByTemperature(currentSensor.getCurrentTemperature()).getPathImage()));
         });
-        weatherImageView.imageProperty().setValue(new Image(wm.findWeatherByTemperature(currentSensor.getCurrentTemperature()).getPathImage()));
-
-
     }
+
+
 }

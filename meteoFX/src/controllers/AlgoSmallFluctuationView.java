@@ -23,7 +23,7 @@ public class AlgoSmallFluctuationView {
         textFieldDefaultTemp.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,7}([.]\\d{0,4})?")) {
                     textFieldDefaultTemp.setText(oldValue);
                 }
             }
@@ -32,7 +32,7 @@ public class AlgoSmallFluctuationView {
         textFieldCoef.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,7}([.]\\d{0,4})?")) {
                     textFieldCoef.setText(oldValue);
                 }
             }

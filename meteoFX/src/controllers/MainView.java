@@ -6,7 +6,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -45,9 +44,6 @@ public class MainView {
     private BorderPane welcomePane;
 
     @FXML
-    private ListView<ComponentSensor> menuListeView;
-
-    @FXML
     private TreeView<ComponentSensor> menuTreeView;
 
     @FXML
@@ -67,9 +63,6 @@ public class MainView {
 
     @FXML
     private ComboBox<String> comboBoxAlgos;
-
-    @FXML
-    private HBox hBoxChildren;
 
     @FXML
     private HBox hBoxFreq;
@@ -108,15 +101,14 @@ public class MainView {
 
 
 
-    private TreeItem<ComponentSensor> itemAdd(CompositeSensor compositeSensor, TreeItem<ComponentSensor> treeItem) {
+    private void itemAdd(CompositeSensor compositeSensor, TreeItem<ComponentSensor> treeItem) {
         for (ComponentSensor sens : compositeSensor.getChildren().keySet()) {
             TreeItem<ComponentSensor> treeItemChild = new TreeItem<>(sens);
             if (sens.getClass().getSimpleName().equals("MeanSensor") || sens.getClass().getSimpleName().equals("RootSensor")) {
-                treeItemChild = itemAdd((CompositeSensor) sens, treeItemChild);
+                itemAdd((CompositeSensor) sens, treeItemChild);
             }
             treeItem.getChildren().add(treeItemChild);
         }
-        return treeItem;
     }
 
     /**
@@ -189,7 +181,7 @@ public class MainView {
         }
         rootItem = new TreeItem<>(rootSensor);
         rootItem.setExpanded(true);
-        rootItem = itemAdd(rootSensor, rootItem);
+        itemAdd(rootSensor, rootItem);
         menuTreeView.setRoot(rootItem);
         menuTreeView.setShowRoot(false);
 
@@ -223,7 +215,6 @@ public class MainView {
                             freqInput.valueProperty().unbindBidirectional(((Sensor) oldSensorSelected).timeUpdateProperty());
                         }
                     }
-                    //sensorNum.textProperty().bind(sm.findComponentSensorById(sensorSelected.getSensorId()).idProperty().asString());
                     nameInput.textProperty().bindBidirectional(sensorSelected.nameProperty());
                     if (!sensorSelected.getClass().getSimpleName().equals("MeanSensor")) {
                         hBoxFreq.setVisible(true);
@@ -279,7 +270,6 @@ public class MainView {
                     for (Constructor<?> c : constructorsOfAlgoSelected) {
                         constructorOfAlgo = c;
                         if (c.getParameterTypes().length != 0) {
-                            //constructorOfAlgo = c;
                             try {
                                 String pathOfView = t1.replaceFirst(".", ("res/fxml/" + t1.charAt(0) + "").toLowerCase()) + "View.fxml";
                                 FXMLLoader fxmlLoader = new FXMLLoader(new File(pathOfView).toURI().toURL());
