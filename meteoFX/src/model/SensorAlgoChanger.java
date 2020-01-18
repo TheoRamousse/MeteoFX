@@ -33,6 +33,16 @@ public abstract class SensorAlgoChanger implements Serializable {
      * Generate a new temperature
      * @return New temperature
      */
+    static{
+        getAllAlgorithmsAvailable();
+    }
+
+    private static void getAllAlgorithmsAvailable(){
+        AlgoBoundedRandom.load();
+        AlgoSmallFluctuation.load();
+        AlgoRandom.load();
+    }
+
     public abstract double doTemperature();
 
     /**

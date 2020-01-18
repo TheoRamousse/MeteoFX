@@ -14,7 +14,7 @@ public class AlgoRandom extends SensorAlgoChanger{
         return getRandom().nextDouble()*(Double.MAX_VALUE-getMin())+getMin();
     }
 
-
+    public static void load(){}
     static
     {
         notifyFatherIExist(AlgoRandom.class);

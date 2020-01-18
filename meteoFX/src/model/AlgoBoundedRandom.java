@@ -14,6 +14,8 @@ public class AlgoBoundedRandom extends SensorAlgoChanger{
     {
     }
 
+    public static void load(){}
+
     @Override
     public double doTemperature()
     {

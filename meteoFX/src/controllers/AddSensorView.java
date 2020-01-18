@@ -1,11 +1,21 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.*;
+
 import javafx.event.ActionEvent;
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -48,7 +58,8 @@ public class AddSensorView {
 
 
 
-    public AddSensorView(RootSensor rs, TreeItem root){
+    public AddSensorView(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm = sm;
         this.rs = rs;
         this.root = root;
     }
@@ -62,7 +73,7 @@ public class AddSensorView {
             displayContainer.getChildren().remove(0);
         if(selectButton.isSelected()){
             try {
-                AddMeanSensor ams = new AddMeanSensor(rs, root);
+                AddMeanSensor ams = new AddMeanSensor(sm, rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMeanSensor.fxml"));
                 loader.setController(ams);
                 displayContainer.getChildren().add(loader.load());
@@ -74,7 +85,7 @@ public class AddSensorView {
         }
         else{
             try {
-                AddDefaultSensor ads = new AddDefaultSensor(rs, root);
+                AddDefaultSensor ads = new AddDefaultSensor(sm, rs, root);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDefaultSensor.fxml"));
                 loader.setController(ads);
                 displayContainer.getChildren().add(loader.load());
@@ -92,18 +103,18 @@ public class AddSensorView {
             ArrayList<Object> listParameters = new ArrayList<>();
             int i = 0;
             for (Class<?> currentClass : constructorOfAlgo.getParameterTypes()) {
-                TextField currentTextField = (TextField) algoContainer.lookup("#paramContainer").lookup("#arg" + i);
+                TextField curentTextField = (TextField) algoContainer.lookup("#paramContainer").lookup("#arg" + i);
                 switch (currentClass.getName()) {
                     case "double":
-                        double currentNodeD = Double.parseDouble(currentTextField.getText());
+                        double currentNodeD = Double.parseDouble(curentTextField.getText());
                         listParameters.add(currentNodeD);
                         break;
                     case "int":
-                        Integer currentNodeI = Integer.valueOf(currentTextField.getText());
+                        Integer currentNodeI = Integer.valueOf(curentTextField.getText());
                         listParameters.add(currentNodeI);
                         break;
                     default:
-                        String currentNodeS = currentTextField.getText();
+                        String currentNodeS = curentTextField.getText();
                         listParameters.add(currentNodeS);
                         break;
                 }

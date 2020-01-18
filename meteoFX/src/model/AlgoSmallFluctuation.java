@@ -11,6 +11,7 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
     private boolean isFirstTemperature;
     private double delta;
 
+    public static void load(){}
     /**
      *
      * @param coef Coefficient used to to reduce the difference between the previous and the new temperature

@@ -12,9 +12,9 @@ import java.util.TreeMap;
 public abstract class CompositeSensorProxy extends ComponentSensorProxy{
 
     /**
-     * TreeMap of sensors and the coefficients associated used by this class
+     * HashMap of sensors and the coefficients associated used by this class
      */
-    private TreeMap<ComponentSensorProxy, Double> children;
+    private HashMap<ComponentSensorProxy, Double> children = new HashMap<>();
 
     /**
      * Constructor of the class
@@ -25,13 +25,8 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         this.children = treeMapConverterSerialize(cs.getChildren());
     }
 
-    /**
-     * Convert the elements of the TreeMap to save them too (change ComponentSensor into ComponentSensorProxy)
-     * @param treeMapNotConverted TreeMap to save
-     * @return TreeMap converted
-     */
-    private TreeMap<ComponentSensorProxy, Double> treeMapConverterSerialize(TreeMap<ComponentSensor, Double> treeMapNotConverted){
-        TreeMap<ComponentSensorProxy, Double> result = new TreeMap<>();
+    private HashMap<ComponentSensorProxy, Double> treeMapConverterSerialize(TreeMap<ComponentSensor, Double> treeMapNotConverted){
+        HashMap<ComponentSensorProxy, Double> result = new HashMap<>();
         for (Map.Entry<ComponentSensor, Double> currentEntry : treeMapNotConverted.entrySet()) {
             result.put((ComponentSensorProxy)currentEntry.getKey().createProxy(), currentEntry.getValue());
         }
@@ -39,31 +34,19 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         return result;
     }
 
-    /**
-     * This is the reverse of treeMapConverterSerialize. Used to convert a TreeMap of proxy into a simple TreeMap
-     * @return TreeMap converted
-     */
-    TreeMap<ComponentSensor, Double> treeMapConverterSerializeRevert(){
-        TreeMap<ComponentSensor, Double> result = new TreeMap<>();
+    public TreeMap<ComponentSensor, Double> treeMapConverterSerializeRevert(){
+        TreeMap<ComponentSensor, Double> result = new TreeMap<>(new NameComparator());
         for (Map.Entry<ComponentSensorProxy, Double> currentEntry : children.entrySet()) {
             result.put((ComponentSensor) currentEntry.getKey().computeSensor(), currentEntry.getValue());
         }
         return result;
     }
 
-    /**
-     * Return the list of children
-     * @return TreeMap of sensors and coefficients associated
-     */
-    public TreeMap<ComponentSensorProxy, Double> getChildren() {
+    public HashMap<ComponentSensorProxy, Double> getChildren() {
         return children;
     }
 
-    /**
-     * Set the TreeMap of children
-     * @param children Children of the component
-     */
-    public void setChildren(TreeMap<ComponentSensorProxy, Double> children) {
+    public void setChildren(HashMap<ComponentSensorProxy, Double> children) {
         this.children = children;
     }
 }

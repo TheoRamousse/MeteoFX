@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,7 +18,9 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class MainView {
     /**
@@ -30,7 +33,6 @@ public class MainView {
      * This attribute manage has the list of sensors and manage them
      */
     private ComponentSensor sensorSelected;
-
     /**
      * Current sensor selected by the user
      */
@@ -82,6 +84,9 @@ public class MainView {
         this.sm = sm;
     }
 
+    /**
+     * Constructor of MainView : Take the sensor manager in parameter
+     */
 
     @FXML
     public void initialize() {
@@ -185,9 +190,8 @@ public class MainView {
         menuTreeView.setRoot(rootItem);
         menuTreeView.setShowRoot(false);
 
-
         menuTreeView.setCellFactory(__ ->
-                new TreeCell<>() {
+                new TreeCell<ComponentSensor>(){
                     @Override
                     protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
@@ -201,7 +205,7 @@ public class MainView {
                 });
 
 
-        menuTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
+        menuTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)->{
             try {
                 if (newV != null) {
                     ComponentSensor oldSensorSelected;
@@ -342,7 +346,31 @@ public class MainView {
         }
     }
 
+    public void deleteSensor(ActionEvent actionEvent){
+        if (selectedItem != null) {
+            ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
+            selectedItem.getParent().getChildren().remove(selectedItem);
+            sm.deleteSensor(sensorSelected);
+            if (rootItem.getChildren().size() != 0) {
+                menuTreeView.getSelectionModel().selectFirst();
+            } else {
+                sensorSelected = null;
+                setDisplayVisible(false);
+            }
+        }
+    }
 
+    public void showAddView(ActionEvent actionEvent) throws IOException {
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
+        AddSensorView cv = new AddSensorView(sm, rootSensor, rootItem);
+        loader.setController(cv);
+        primaryStage.setTitle("Ajouter un sensor");
+        Scene mainScene = new Scene(loader.load(), 600, 400);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
+    }
 
 
 }

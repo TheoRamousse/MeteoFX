@@ -24,6 +24,7 @@ public class AddDefaultSensor {
      * Stocks the constructor of the algorithm selected
      */
     private Constructor<?> constructorOfAlgo = null;
+    private ComponentSensorManager sm;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
 
@@ -42,10 +43,12 @@ public class AddDefaultSensor {
 
     /**
      * This constructor will take two parameters
+     * @param sm for the SensorManager
      * @param rs in order to access to all the sensors of the view
      * @param root in order to manipulate the main item of the TreeView
      */
-    public AddDefaultSensor(RootSensor rs, TreeItem root){
+    public AddDefaultSensor(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm =sm;
         this.rs = rs;
         this.root = root;
     }
@@ -64,8 +67,11 @@ public class AddDefaultSensor {
                 SensorAlgoChanger.getSons()
         );
 
-        comboBoxAlgos.valueProperty().addListener(new ChangeListener<>() {
+        comboBoxAlgos.valueProperty().addListener(new ChangeListener<String>() {
 
+            /**
+             *Constructor of algorithm selected
+             */
 
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
@@ -141,12 +147,14 @@ public class AddDefaultSensor {
                 Object[] parametersConverted = listParameters.toArray();
                 SensorAlgoChanger algoWanted = (SensorAlgoChanger) constructorOfAlgo.newInstance(parametersConverted);
                 Sensor newS = new Sensor(rs.maxIdChildren()+1, nameInput.getText(), algoWanted, freqInput.getValue());
+                sm.addSensor(newS);
                 try {
                     rs.add(newS, 1);
                 } catch (Exception e) {
                     AlertBox.displayWarningAlertBox("Impossible d'ajouter un MeanSensor à lui-même");
                 }
                 root.getChildren().add(new TreeItem<>(newS));
+                //System.out.println("Ok");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 AlertBox.displayWarningAlertBox("Veuillez remplir tous les champs de la création");
             }

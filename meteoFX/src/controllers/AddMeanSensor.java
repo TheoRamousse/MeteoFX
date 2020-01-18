@@ -1,12 +1,19 @@
 package controllers;
 
+import com.sun.source.tree.Tree;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import model.*;
+
+import java.lang.reflect.Constructor;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 /**
  * This class has the responsibility to manage the information displayed and the interactions made with the view when
@@ -23,6 +30,7 @@ public class AddMeanSensor {
     private ComboBox<ComponentSensor> listSensors;
 
 
+    private ComponentSensorManager sm;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
 
@@ -33,10 +41,12 @@ public class AddMeanSensor {
 
     /**
      * This constructor will take two parameters
+     * @param sm for having the SensorManager
      * @param rs in order to access to all the sensors of the view
      * @param root in order to manipulate the main item of the TreeView
      */
-    public AddMeanSensor(RootSensor rs, TreeItem root){
+    public AddMeanSensor(ComponentSensorManager sm, RootSensor rs, TreeItem root){
+        this.sm =sm;
         this.rs = rs;
         this.root = root;
     }
@@ -67,7 +77,7 @@ public class AddMeanSensor {
         listSensors.getSelectionModel().selectFirst();
 
         listSensors.setCellFactory(__ ->
-                new ListCell<>() {
+                new ListCell<ComponentSensor>(){
                     @Override
                     protected void updateItem(ComponentSensor item, boolean empty) {
                         super.updateItem(item, empty);
@@ -115,6 +125,7 @@ public class AddMeanSensor {
             } catch (Exception e) {
                 AlertBox.displayWarningAlertBox(e.getMessage());
             }
+            sm.addSensor(newMs);
             TreeItem<ComponentSensor> newMsItem = new TreeItem<>(newMs);
             for (ComponentSensor cs: children.keySet()) {
                 newMsItem.getChildren().add(new TreeItem<>(cs));

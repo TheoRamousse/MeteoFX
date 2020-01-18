@@ -12,17 +12,23 @@ public class SensorPersistance<ComponentSensor> implements Persistence<Component
 
     @Override
     public List<ComponentSensor> load() throws IOException {
-        FileInputStream file = new FileInputStream(fileName);
-        ObjectInputStream in = new ObjectInputStream(file);
+        File f = new File(fileName);
+        if(f.exists()) {
+            FileInputStream file = new FileInputStream(fileName);
+            ObjectInputStream in = new ObjectInputStream(file);
 
-        List<ComponentSensor> returnedList = new ArrayList<>();
+            List<ComponentSensor> returnedList = new ArrayList<>();
 
-        while(true){
-            try{
-                ComponentSensorProxy cspLoaded = (ComponentSensorProxy) in.readObject();
-                returnedList.add((ComponentSensor) cspLoaded.computeSensor());
-            } catch (EOFException | ClassNotFoundException e){return returnedList;}
+            while (true) {
+                try {
+                    ComponentSensorProxy cspLoaded = (ComponentSensorProxy) in.readObject();
+                    returnedList.add((ComponentSensor) cspLoaded.computeSensor());
+                } catch (EOFException | ClassNotFoundException e) {
+                    return returnedList;
+                }
+            }
         }
+        return new ArrayList<>();
     }
 
     @Override
