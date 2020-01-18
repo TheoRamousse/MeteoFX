@@ -166,7 +166,7 @@ public class MainView {
      * This method show the view which is used to add a new sensor
      */
     public void showAddView(ActionEvent actionEvent) throws IOException {
-        AddSensorView cv = new AddSensorView(/*sm*/rootSensor, rootItem);
+        AddSensorView cv = new AddSensorView(sm, rootSensor, rootItem);
         Stage mainStage = ControllerUtility.createStage(cv, "/fxml/addSensorView.fxml", "Ajouter un sensor", 600, 400);
         mainStage.show();
     }
@@ -345,33 +345,6 @@ public class MainView {
             freqInput.getItems().add(i);
         }
     }
-
-    public void deleteSensor(ActionEvent actionEvent){
-        if (selectedItem != null) {
-            ((CompositeSensor) selectedItem.getParent().getValue()).remove(sensorSelected);
-            selectedItem.getParent().getChildren().remove(selectedItem);
-            sm.deleteSensor(sensorSelected);
-            if (rootItem.getChildren().size() != 0) {
-                menuTreeView.getSelectionModel().selectFirst();
-            } else {
-                sensorSelected = null;
-                setDisplayVisible(false);
-            }
-        }
-    }
-
-    public void showAddView(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSensorView.fxml"));
-        AddSensorView cv = new AddSensorView(sm, rootSensor, rootItem);
-        loader.setController(cv);
-        primaryStage.setTitle("Ajouter un sensor");
-        Scene mainScene = new Scene(loader.load(), 600, 400);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
-
 
 }
 
