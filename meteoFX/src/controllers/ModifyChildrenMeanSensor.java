@@ -46,6 +46,9 @@ public class ModifyChildrenMeanSensor {
         initializeAddList();
     }
 
+    /**
+     * Initialize the list of sensors used by the current mean sensor
+     */
     private void initializeModifList(){
         listChildrenSensors.itemsProperty().bind(
                 ((MeanSensor)msItem.getValue()).componentSensorListProperty()
@@ -79,6 +82,9 @@ public class ModifyChildrenMeanSensor {
         listChildrenSensors.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Initialize the list of sensors available in the software
+     */
     private void initializeAddList(){
         coefChildfField.textProperty().addListener(new ChangeListener<String>() {
             @Override

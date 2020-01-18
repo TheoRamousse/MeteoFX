@@ -26,6 +26,9 @@ public class AddMeanSensor {
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
 
+    /**
+     * List of sensors used by the new mean sensor. Each sensor is linked to a double value (the coefficient)
+     */
     private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
 
     /**

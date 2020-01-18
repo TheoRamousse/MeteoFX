@@ -36,6 +36,9 @@ public class CamView {
         initializeImageView();
     }
 
+    /**
+     * Initialize the picture of the current weather. Allow the resize of the picture
+     */
     private void initializeImageView()
     {
         currentSensor.currentTemperatureProperty().addListener(e -> {

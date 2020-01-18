@@ -20,6 +20,14 @@ public class AlgoSmallFluctuationView {
     @FXML
     public void initialize()
     {
+        initializeTextFieldCoef();
+        initializeTextFieldDefaultTemp();
+    }
+
+    /**
+     * Initialization of the textfield which get the first temperature of the sensor. This method allow only numbers for the text field
+     */
+    private void initializeTextFieldDefaultTemp(){
         textFieldDefaultTemp.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -28,7 +36,11 @@ public class AlgoSmallFluctuationView {
                 }
             }
         });
-
+    }
+    /**
+     * Initialization of the textfield which get the coefficient of the sensor. This method allow only numbers for the text field
+     */
+    private void initializeTextFieldCoef(){
         textFieldCoef.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

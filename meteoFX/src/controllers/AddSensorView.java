@@ -15,9 +15,16 @@ import java.util.ArrayList;
  */
 public class AddSensorView {
 
+    /**
+     * Manage the sensors of the software
+     */
     private ComponentSensorManager sm;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
+
+    /**
+     * Stocks the constructor of the algorithm selected
+     */
     private Constructor<?> constructorOfAlgo = null;
 
     @FXML
@@ -77,6 +84,9 @@ public class AddSensorView {
         }
     }
 
+    /**
+     * Create the new sensor with parameters of users
+     */
     public void addSensor(ActionEvent actionEvent) {
         if(constructorOfAlgo != null) {
             ArrayList<Object> listParameters = new ArrayList<>();

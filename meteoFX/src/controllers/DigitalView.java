@@ -14,6 +14,10 @@ import model.WeatherManager;
  * displaying the temperature digitally.
  */
 public class DigitalView {
+
+    /**
+     * Sensor selected in the master
+     */
     private ComponentSensor currentSensor;
 
     @FXML
@@ -33,6 +37,9 @@ public class DigitalView {
         initializeText();
     }
 
+    /**
+     * Bind the text displayed to the current sensor
+     */
     private void initializeText()
     {
         nameContainer.textProperty().bind(currentSensor.idProperty().asString());

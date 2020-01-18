@@ -20,6 +20,9 @@ import java.util.ArrayList;
  */
 public class AddDefaultSensor {
 
+    /**
+     * Stocks the constructor of the algorithm selected
+     */
     private Constructor<?> constructorOfAlgo = null;
     private RootSensor rs;
     private TreeItem<ComponentSensor> root;
@@ -63,9 +66,6 @@ public class AddDefaultSensor {
 
         comboBoxAlgos.valueProperty().addListener(new ChangeListener<>() {
 
-            /**
-             *Constructor of algorithm selected
-             */
 
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
