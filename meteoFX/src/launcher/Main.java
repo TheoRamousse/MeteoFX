@@ -43,9 +43,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        AlgoSmallFluctuation as = new AlgoSmallFluctuation(2,2);
-        AlgoRandom ar = new AlgoRandom();
-        AlgoBoundedRandom ab = new AlgoBoundedRandom();
         launch(args);
     }
 }

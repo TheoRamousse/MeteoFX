@@ -8,7 +8,7 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
     private boolean isFirstTemperature;
     private double delta;
 
-
+    public static void load(){}
     public AlgoSmallFluctuation(double coef, double firstTemperature)
     {
         delta = coef;

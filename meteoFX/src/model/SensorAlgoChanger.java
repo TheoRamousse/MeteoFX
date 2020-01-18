@@ -5,14 +5,29 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /***
- * WARNING : Don't forget to call notifyFatherIExist() in a static block to display this algo in the mainView comboBox
- */
+ * WARNING : If you create a new algorithm, don't forget to inform this class in the method getAllAlgorithmsAvailable. Each algorithm class needs to have these lines in the code :
+ * public static void load(){}
+ * static
+ *     {
+ *         notifyFatherIExist(NameOfYourClass.class);
+ *     }
+ * */
 
 public abstract class SensorAlgoChanger implements Serializable {
     private static ArrayList<Class> listSons = new ArrayList<>();
     private final double MIN =-273.15;
     private final double MAX = 4000;
     private final static Random RANDOM = new Random();
+
+    static{
+        getAllAlgorithmsAvailable();
+    }
+
+    private static void getAllAlgorithmsAvailable(){
+        AlgoBoundedRandom.load();
+        AlgoSmallFluctuation.load();
+        AlgoRandom.load();
+    }
 
     public abstract double doTemperature();
 
