@@ -1,13 +1,11 @@
 package model;
 
-import com.sun.source.tree.Tree;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * This class creates a proxy of CompositeSensor to allow the save of this class
+ * This class creates a proxy of CompositeSensor to allow of this class to be saved
  */
 public abstract class CompositeSensorProxy extends ComponentSensorProxy{
 
@@ -25,6 +23,9 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         this.children = treeMapConverterSerialize(cs.getChildren());
     }
 
+    /**
+     * Creates a HashMap of a TreeMap
+     */
     private HashMap<ComponentSensorProxy, Double> treeMapConverterSerialize(TreeMap<ComponentSensor, Double> treeMapNotConverted){
         HashMap<ComponentSensorProxy, Double> result = new HashMap<>();
         for (Map.Entry<ComponentSensor, Double> currentEntry : treeMapNotConverted.entrySet()) {
@@ -34,8 +35,11 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         return result;
     }
 
+    /**
+     * Uses the HashMap to create a TreeMap
+     */
     public TreeMap<ComponentSensor, Double> treeMapConverterSerializeRevert(){
-        TreeMap<ComponentSensor, Double> result = new TreeMap<>(new NameComparator());
+        TreeMap<ComponentSensor, Double> result = new TreeMap<>(new IdComparator());
         for (Map.Entry<ComponentSensorProxy, Double> currentEntry : children.entrySet()) {
             result.put((ComponentSensor) currentEntry.getKey().computeSensor(), currentEntry.getValue());
         }

@@ -4,6 +4,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class was originally made for the persistance of the Sensors. Look for the Persistence interface and the classes
+ * implementing it for a more evolved version.
+ * @param <ComponentSensor>
+ */
+
 public class SensorPersistance<ComponentSensor> implements Persistence<ComponentSensor> {
     private String fileName;
     public SensorPersistance(String fileName){
@@ -40,6 +46,6 @@ public class SensorPersistance<ComponentSensor> implements Persistence<Component
             out.writeObject(((model.ComponentSensor)cs).createProxy());
         }
 
-        System.out.println("Sensors sérializés");
+        System.out.println("Sensors sérialisés");
     }
 }

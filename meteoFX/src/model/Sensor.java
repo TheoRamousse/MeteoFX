@@ -1,15 +1,13 @@
 package model;
 
-/* Sensor is an abstract class representing a sensor. A sensor has a temperature that it can generate.
-*/
-
 import javafx.application.Platform;
 import javafx.beans.property.*;
 
 import java.io.Serializable;
 
 /**
- * Basic sensor made of a frequency of update and an algorithm used to generate temperatures
+ * Sensor extends ComponentSensor, it is a leaf of the composite pattern. It is here to generate temperature values
+ * according to an algorithm passed through a Strategy pattern
  */
 public class Sensor extends ComponentSensor implements Serializable {
     /**
@@ -80,13 +78,14 @@ public class Sensor extends ComponentSensor implements Serializable {
     public IntegerProperty timeUpdateProperty(){ return timeUpdate; }
 
     /**
-     * Generate a new temperature
+     * Generate a new temperature and notifies the observer of its change
      */
     public void doTemperature() {
         setCurrentTemperature(sensorAlgoChanger.doTemperature());
         try {
             notifyObserver();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

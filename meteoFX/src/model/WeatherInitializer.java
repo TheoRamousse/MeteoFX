@@ -1,12 +1,11 @@
 package model;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+/**
+ * A stub for the data corresponding to different weathers.
+ */
 public class WeatherInitializer implements Persistence<Weather> {
 
     @Override
@@ -22,6 +21,5 @@ public class WeatherInitializer implements Persistence<Weather> {
 
     @Override
     public void save(List<Weather> list) {
-        return;
     }
 }

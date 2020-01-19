@@ -1,27 +1,34 @@
 package model;
 
-import java.lang.invoke.MethodHandles;
-import java.util.Random;
-
 /**
- * This algorithm is used to generate random temperatures between a min border and a max border
+ * This algorithm is used to generate random temperatures between the minimum and maximum temperature set. The minimum
+ * temperature cannot go below -273.15 °C while the maximum temperature is set here to 4000 °C (cf. SensorAlgoChanger).
  */
 public class AlgoBoundedRandom extends SensorAlgoChanger{
-
-    //minimum temperature : -273.15 maximum here : 1000
 
     public AlgoBoundedRandom()
     {
     }
 
+    /**
+     * load() is here to let know the other classes that this class exists
+     */
     public static void load(){}
 
+    /**
+     * It's the algorithm solving the mathematical function "random decimal between a minimum and maximum" :
+     * min + (max - min) * rand
+     * @return the result of this function
+     */
     @Override
     public double doTemperature()
     {
         return super.getMin()+(getMax()-super.getMin())*getRandom().nextDouble();
     }
 
+    /**
+     * static block used to notify the father of the existence of this class when the class is called.
+     */
     static
     {
         notifyFatherIExist(AlgoBoundedRandom.class);

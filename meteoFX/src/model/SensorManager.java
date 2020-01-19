@@ -8,7 +8,7 @@ import javafx.collections.*;
 import java.io.IOException;
 
 /**
- * Manage the sensors created in the software
+ * Manage the sensors created in the software. Look for the ComponentSensorManager for a more evolved version.
  */
 public class SensorManager {
     private ListProperty<Sensor> sensorList = new SimpleListProperty<Sensor>();

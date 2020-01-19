@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class inheriting of the persistence meant to initialize the censors to certain values.
+ */
 public class ComponentSensorInitializer implements Persistence<ComponentSensor>{
 
     @Override

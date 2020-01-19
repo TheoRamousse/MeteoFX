@@ -7,15 +7,23 @@ import javafx.collections.ObservableList;
 
 import java.util.*;
 
+/**
+ * This class inherits of the ComponentSensor and is in charge of being composed of ComponentSensors in the composite
+ * pattern.
+ */
 public abstract class CompositeSensor extends ComponentSensor{
 
-    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
+    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new IdComparator());
 
     public CompositeSensor(int id, String name) {
         super(id, name);
     }
 
-
+    /**
+     * This method is meant to add a component child to the composite.
+     * @param child is a ComponentSensor meant to be a child
+     * @param coef is the coefficient to know how important is the component compared to the others
+     */
     public void add(ComponentSensor child, double coef) throws Exception {
         if (child == this)
             throw new Exception("Cannot add itself to itself");
@@ -23,6 +31,10 @@ public abstract class CompositeSensor extends ComponentSensor{
             children.put(child, coef);
     }
 
+    /**
+     * This method is meant to remove a child of the list.
+     * @param child is the sensor to be removed
+     */
     public void remove(ComponentSensor child){
         children.remove(child);
     }
@@ -31,6 +43,10 @@ public abstract class CompositeSensor extends ComponentSensor{
         return children;
     }
 
+    /**
+     * @param sensor looks if it is a child
+     * @return a boolean whether the sensor is in the list or not
+     */
     public boolean childExists (ComponentSensor sensor){
         return children.get(sensor) != null;
     }
@@ -40,6 +56,9 @@ public abstract class CompositeSensor extends ComponentSensor{
         return new ArrayList<ComponentSensor>(keySet);
     }
 
+    /**
+     * @return the biggest id among all children
+     */
     public int maxIdChildren(){
         int max = 0;
         Set<ComponentSensor> keySet = children.keySet();

@@ -3,6 +3,9 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * This class creates a proxy of Sensor to allow the save of this class
+ */
 public class SensorProxy extends ComponentSensorProxy implements Serializable {
     private int timeUpdate;
     private SensorAlgoChanger sensorAlgoChanger;

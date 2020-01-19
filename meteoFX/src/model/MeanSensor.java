@@ -1,15 +1,21 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
+/**
+ * This class inheriting of the CompositeSensor observes several ComponentSensors in order to make a mean value of all
+ * their temperatures, with a coefficient for every sensor.
+ */
 public class MeanSensor extends CompositeSensor {
 
     public MeanSensor(int id, String name) {
         super(id, name);
     }
 
+    /**
+     * Is using the mathematical formula sum(component temperature * component coefficient) / sum(component coefficient)
+     * in order to give a mean value of all of the sensors
+     */
     @Override
     public void doTemperature() {
         double numerator = 0;
@@ -24,10 +30,6 @@ public class MeanSensor extends CompositeSensor {
             throw new UnsupportedOperationException();
         else
             setCurrentTemperature(numerator/denominator);
-    }
-
-    public void addObserver(MeanSensor observer){
-
     }
 
     @Override

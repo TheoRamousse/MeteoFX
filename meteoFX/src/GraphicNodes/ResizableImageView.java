@@ -1,8 +1,10 @@
 package GraphicNodes;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * This class is responsible of resizing automatically an image inside it.
+ */
 public class ResizableImageView extends ImageView {
     @Override
     public double minWidth(double height) {
@@ -30,11 +32,14 @@ public class ResizableImageView extends ImageView {
         return true;
     }
 
+    /**
+     * This method is called when the element is resized.
+     */
     @Override
     public void resize(double width, double height)
     {
         setFitWidth(width);
-        setFitHeight(height-15);
+        setFitHeight(height);
     }
 
 }

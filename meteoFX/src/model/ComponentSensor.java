@@ -5,22 +5,36 @@ import javafx.beans.property.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Abstract type that can represent different types of sensors in the composite pattern.
+ */
 public abstract class ComponentSensor extends Thread implements ProxyCreator{
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty name = new SimpleStringProperty();
     private DoubleProperty currentTemperature = new SimpleDoubleProperty();
     private ArrayList<MeanSensor> listObserver = new ArrayList<>();
 
+    /**
+     * Constructor
+     */
     public ComponentSensor(int id, String name){
         this.setId(id);
         this.setSensorName(name);
     }
 
+    /**
+     * Looks if the ComponentSensor is observed by a MeanSensor
+     * @param m a MeanSensor that may observe this ComponentSensor
+     * @return a boolean according if this ComponentSensor is observed by this MeanSensor
+     */
     private boolean isObserverExists(MeanSensor m){
         return listObserver.contains(m);
     }
 
-
+    /**
+     * Adds a new observer
+     * @param observer is the MeanSensor meant to observe this ComponentSensor.
+     */
     public void addObserver(MeanSensor observer) throws Exception {
         if(!isObserverExists(observer))
             listObserver.add(observer);
@@ -28,6 +42,10 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
             throw new Exception("Sensor already observed by this MeanSensor");
     }
 
+    /**
+     * Deletes an observer
+     * @param observer is the MeanSensor meant to stop observing this ComponentSensor
+     */
     public void delObserver(MeanSensor observer) throws Exception {
         if(isObserverExists(observer))
             listObserver.remove(observer);
@@ -35,28 +53,48 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
             throw new Exception("Observer doesn't exists");
     }
 
+    /**
+     * This method is meant to call a method in the observer. It has to work like a trigger when the state of this has
+     * changed.
+     */
     public void notifyObserver(){
         for (MeanSensor m : listObserver) {
             m.doTemperature();
         }
     }
 
+    /**
+     * @return the id as a property
+     */
     public IntegerProperty idProperty(){ return id;}
 
+    /**
+     * @return the id as its primitive type
+     */
     public int getSensorId() {
         return id.get();
     }
 
+    /**
+     * @return the name as a property
+     */
     public StringProperty nameProperty() {
         return name;
     }
-
+    /**
+     * @return the name as its primitive type
+     */
     public String getSensorName(){ return name.get();}
 
+    /**
+     * @return the temperature as a property
+     */
     public DoubleProperty currentTemperatureProperty() {
         return currentTemperature;
     }
-
+    /**
+     * @return the temperature as its primitive type
+     */
     public double getCurrentTemperature(){
         return currentTemperature.get();
     }
@@ -73,6 +111,9 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
         currentTemperature.set(temperature);
     }
 
+    /**
+     * abstract method for generating the temperature
+     */
     public abstract void doTemperature();
 
     public ArrayList<MeanSensor> getListObservers() {
@@ -87,10 +128,4 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
     public String toString() {
         return String.valueOf(name);
     }
-
-    /*    public abstract void add(ComponentSensor child);
-
-    public abstract void remove(ComponentSensor child);*/
-
-
 }

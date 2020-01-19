@@ -8,6 +8,9 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class is made to make a link between the persistence and the ComponentSensors displayed in the view.
+ */
 public class ComponentSensorManager {
     private ListProperty<ComponentSensor> cSensorList = new SimpleListProperty<>();
     private Persistence<ComponentSensor> persistence;
@@ -30,7 +33,11 @@ public class ComponentSensorManager {
 
     public ListProperty<ComponentSensor> componentSensorListProperty() {return cSensorList;}
 
-
+    /**
+     * Made to search a specific sensor in the list
+     * @param sensorId is the id of the sensor searched
+     * @return a ComponentSensor with the id specified
+     */
     public ComponentSensor findComponentSensorById(int sensorId) {
         for (ComponentSensor cs: cSensorList) {
             if(cs.getSensorId() == sensorId)
@@ -51,6 +58,11 @@ public class ComponentSensorManager {
         return true;
     }
 
+    /**
+     * method to add a sensor to the list
+     * @param cs ComponentSensor meant to be added
+     * @return a boolean whether it was successful or not
+     */
     public boolean addSensor(ComponentSensor cs)
     {
         if(findComponentSensorById(cs.getSensorId()) != null)
@@ -59,6 +71,9 @@ public class ComponentSensorManager {
         return true;
     }
 
+    /**
+     * @return the biggest id among all the sensors contained
+     */
     public int getMaxId() {
         int result=0;
         for (ComponentSensor s: cSensorList) {
@@ -68,6 +83,11 @@ public class ComponentSensorManager {
         return result;
     }
 
+    /**
+     * Method meant to find a sensor with its name
+     * @param name name of the sensor meant to be found
+     * @return the ComponentSensor found or null
+     */
     public ComponentSensor findSensorByName(String name)
     {
         for (ComponentSensor cs: cSensorList) {
@@ -77,6 +97,9 @@ public class ComponentSensorManager {
         return null;
     }
 
+    /**
+     * asks the persistence to save the data
+     */
     public void save() throws IOException {
         persistence.save(getSensorList());
     }

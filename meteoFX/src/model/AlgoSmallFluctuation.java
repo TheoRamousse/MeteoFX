@@ -1,9 +1,9 @@
 package model;
 
-import java.lang.invoke.MethodHandles;
 
 /**
- * This algorithm is used to generate random temperatures with a coefficient to reduce the difference between the previous and the new temperature
+ * This algorithm is used to generate random temperatures with a coefficient to reduce the difference between the
+ * previous and the new temperature
  */
 public class AlgoSmallFluctuation extends SensorAlgoChanger {
 
@@ -11,9 +11,13 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
     private boolean isFirstTemperature;
     private double delta;
 
-    public static void load(){}
     /**
-     *
+     * load() is here to let know the other classes that this class exists
+     */
+    public static void load(){}
+
+    /**
+     *Constructor
      * @param coef Coefficient used to to reduce the difference between the previous and the new temperature
      * @param firstTemperature First temperature used by the algorithm
      */
@@ -24,7 +28,11 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
         this.isFirstTemperature = true;
     }
 
-
+    /**
+     * It's the algorithm solving the mathematical function "random decimal between the current value and +- the
+     * coefficient" : coef - current <= rand <= coef + current
+     * @return the result of this function
+     */
     @Override
     public double doTemperature() {
         if (isFirstTemperature){
@@ -36,10 +44,12 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
             return getMax();
         if (currentTemperature <= getMin())
             return getMin();
-        //System.out.println(previousTemperature);
         return currentTemperature;
     }
 
+    /**
+     * static block used to notify the father of the existence of this class when the class is called.
+     */
     static
     {
         notifyFatherIExist(AlgoSmallFluctuation.class);

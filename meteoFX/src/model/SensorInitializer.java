@@ -27,4 +27,12 @@ public class SensorInitializer implements Persistence<Sensor> {
 
     @Override
     public void save(List<Sensor> list) { }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 }

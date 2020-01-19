@@ -4,19 +4,15 @@ copy that into the VM options : --module-path ${PATH_TO_JFX} --add-modules javaf
 
 package launcher;
 
+import controllers.AlertBox;
 import controllers.MainView;
 import javafx.application.Application;
-import javafx.concurrent.Service;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.*;
-
-import java.util.Iterator;
-import java.util.ServiceLoader;
-
 import java.io.IOException;
 
 public class Main extends Application {
@@ -34,7 +30,7 @@ public class Main extends Application {
                 try {
                     sm.save();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    AlertBox.displayWarningAlertBox("Problème avec l'enregistement de vos données");
                 }
                 primaryStage.close();
             }

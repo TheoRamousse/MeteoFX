@@ -6,7 +6,8 @@ import java.util.Random;
 
 /***
  * This class factorises the behaviour of algorithms created
- * WARNING : Don't forget to call notifyFatherIExist() in a static block to display this algorithm in the mainView comboBox if your class inherit of this class
+ * WARNING : Don't forget to call notifyFatherIExist() in a static block to display this algorithm in the mainView
+ * comboBox if your class inherit of this class
  */
 public abstract class SensorAlgoChanger implements Serializable {
     /**
@@ -37,12 +38,19 @@ public abstract class SensorAlgoChanger implements Serializable {
         getAllAlgorithmsAvailable();
     }
 
+    /**
+     * This will be called in order for algorith classes to tell they exist
+     */
     private static void getAllAlgorithmsAvailable(){
         AlgoBoundedRandom.load();
         AlgoSmallFluctuation.load();
         AlgoRandom.load();
     }
 
+    /**
+     * Abstract method to be completed with the algorithm of the daughter class
+     * @return a double corresponding to the generated value
+     */
     public abstract double doTemperature();
 
     /**

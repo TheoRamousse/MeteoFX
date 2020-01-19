@@ -1,19 +1,13 @@
 package controllers;
 
-import com.sun.source.tree.Tree;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
 import model.*;
-
-import java.lang.reflect.Constructor;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 /**
  * This class has the responsibility to manage the information displayed and the interactions made with the view when
@@ -37,7 +31,7 @@ public class AddMeanSensor {
     /**
      * List of sensors used by the new mean sensor. Each sensor is linked to a double value (the coefficient)
      */
-    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new NameComparator());
+    private TreeMap<ComponentSensor, Double> children = new TreeMap<>(new IdComparator());
 
     /**
      * This constructor will take two parameters
