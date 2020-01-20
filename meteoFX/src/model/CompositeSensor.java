@@ -4,6 +4,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -29,6 +30,15 @@ public abstract class CompositeSensor extends ComponentSensor{
             throw new Exception("Cannot add itself to itself");
         else
             children.put(child, coef);
+    }
+
+    /**
+     * This method notify observed elements that this sensor observe them
+     */
+    public void notifyChildren(){
+        for (Map.Entry<ComponentSensor, Double> entry: children.entrySet()) {
+            entry.getKey().updateListOfObservers(this);
+        }
     }
 
     /**

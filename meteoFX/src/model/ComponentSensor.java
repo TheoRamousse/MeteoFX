@@ -23,6 +23,14 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
     }
 
     /**
+     * Update the list of observers when loading of saved sensors
+     * @param m MeanSensor which observe this sensor
+     */
+    public void updateListOfObservers(ComponentSensor m){
+        listObserver.add((MeanSensor) m);
+    }
+
+    /**
      * Looks if the ComponentSensor is observed by a MeanSensor
      * @param m a MeanSensor that may observe this ComponentSensor
      * @return a boolean according if this ComponentSensor is observed by this MeanSensor

@@ -23,6 +23,7 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
         this.children = treeMapConverterSerialize(cs.getChildren());
     }
 
+
     /**
      * Creates a HashMap of a TreeMap
      */

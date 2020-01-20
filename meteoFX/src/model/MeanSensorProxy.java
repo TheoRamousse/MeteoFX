@@ -23,6 +23,7 @@ public class MeanSensorProxy extends CompositeSensorProxy{
         MeanSensor result =  new MeanSensor(super.getSensorId(), super.getSensorName());
         result.setCurrentTemperature(super.getCurrentTemperature());
         result.setChildren(super.treeMapConverterSerializeRevert());
+        result.notifyChildren();
         return result;
     }
 }
