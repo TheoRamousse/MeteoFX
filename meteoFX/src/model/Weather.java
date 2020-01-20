@@ -28,35 +28,67 @@ public class Weather {
         this.pathImage = pathImage;
     }
 
+    /**
+     * Give the path of image showing the weather
+     * @return path of image showing the weather
+     */
     public String getPathImage() {
         return pathImage;
     }
 
+    /**
+     * Set path of image showing the weather
+     * @param pathImage Path of image showing the weather
+     */
     public void setPathImage(String pathImage) {
         this.pathImage = pathImage;
     }
 
+    /**
+     * Give maximum temperature to be in this weather
+     * @return Maximum temperature to be in this weather
+     */
     public double getMaxTemperature() {
         return maxTemperature;
     }
 
+    /**
+     * Set the maximum temperature to be in this weather
+     * @param maxTemperature Maximum temperature to be in this weather
+     */
     public void setMaxTemperature(float maxTemperature) {
         this.maxTemperature = maxTemperature;
     }
 
+    /**
+     * Give minimum temperature to be in this weather
+     * @return Minimum temperature to be in this weather
+     */
     public double getMinTemperature() {
         return minTemperature;
     }
 
+    /**
+     * Set the minimum temperature to be in this weather
+     * @param minTemperature Minimum temperature to be in this weather
+     */
     public void setMinTemperature(float minTemperature) {
         this.minTemperature = minTemperature;
     }
 
+    /**
+     * Give the name of the weather
+     * @return Name of the weather
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Set the name of the weather
+     * @param name Name of the weather
+     */
     public void setName(String name)
     {
         this.name = name;

@@ -11,6 +11,9 @@ import java.util.List;
  */
 
 public class SensorPersistance<ComponentSensor> implements Persistence<ComponentSensor> {
+    /**
+     * Name of file used to save sensors
+     */
     private String fileName;
     public SensorPersistance(String fileName){
         this.fileName = fileName;

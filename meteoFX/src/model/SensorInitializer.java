@@ -8,6 +8,9 @@ import java.util.List;
  */
 public class SensorInitializer implements Persistence<Sensor> {
 
+    /**
+     * Name of file used to save sensors
+     */
     private String fileName;
 
     public SensorInitializer(String fileName)
@@ -32,6 +35,10 @@ public class SensorInitializer implements Persistence<Sensor> {
         return fileName;
     }
 
+    /**
+     * Set the name of file used to save sensors
+     * @param fileName Name of file
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }

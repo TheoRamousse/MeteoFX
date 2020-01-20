@@ -1,10 +1,5 @@
 package Tests;
 
-import model.ComponentSensor;
-import model.Sensor;
-import model.SensorInitializer;
-import model.SensorManager;
-
 import java.io.IOException;
 
 public class SensorManagerTest {
