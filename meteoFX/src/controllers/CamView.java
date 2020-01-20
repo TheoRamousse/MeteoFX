@@ -22,7 +22,9 @@ public class CamView {
     private BorderPane weatherImageContainer;
 
     /**
+     * Constructor
      * @param wm is knowing all the weathers and images linked, will be useful for showing the right image.
+     * @param currentSensor Sensor selected in the master
      */
     public CamView(ComponentSensor currentSensor, WeatherManager wm)
     {

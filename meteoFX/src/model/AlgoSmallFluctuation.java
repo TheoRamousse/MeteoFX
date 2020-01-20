@@ -29,8 +29,7 @@ public class AlgoSmallFluctuation extends SensorAlgoChanger {
     }
 
     /**
-     * It's the algorithm solving the mathematical function "random decimal between the current value and +- the
-     * coefficient" : coef - current <= rand <= coef + current
+     * It's the algorithm solving the mathematical function "random decimal between the current value and +- the coefficient" : coef - current <= rand <= coef + current
      * @return the result of this function
      */
     @Override

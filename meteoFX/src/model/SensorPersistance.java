@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This class was originally made for the persistance of the Sensors. Look for the Persistence interface and the classes
  * implementing it for a more evolved version.
- * @param <ComponentSensor>
+ * @param <ComponentSensor> Class persisted
  */
 
 public class SensorPersistance<ComponentSensor> implements Persistence<ComponentSensor> {

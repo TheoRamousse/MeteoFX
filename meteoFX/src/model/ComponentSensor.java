@@ -16,6 +16,8 @@ public abstract class ComponentSensor extends Thread implements ProxyCreator{
 
     /**
      * Constructor
+     * @param id Identifier of the sensor
+     * @param name Name of the sensor
      */
     public ComponentSensor(int id, String name){
         this.setId(id);

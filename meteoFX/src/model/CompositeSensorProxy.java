@@ -25,7 +25,9 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
 
 
     /**
-     * Creates a HashMap of a TreeMap
+     * Creates a HashMap of a TreeMap to serialize it
+     * @param treeMapNotConverted TreeMap to convert
+     * @return HashMap serializable
      */
     private HashMap<ComponentSensorProxy, Double> treeMapConverterSerialize(TreeMap<ComponentSensor, Double> treeMapNotConverted){
         HashMap<ComponentSensorProxy, Double> result = new HashMap<>();
@@ -37,7 +39,8 @@ public abstract class CompositeSensorProxy extends ComponentSensorProxy{
     }
 
     /**
-     * Uses the HashMap to create a TreeMap
+     * Uses the HashMap to create a TreeMap to be usable in the software
+     * @return TreeMap usable in the software
      */
     public TreeMap<ComponentSensor, Double> treeMapConverterSerializeRevert(){
         TreeMap<ComponentSensor, Double> result = new TreeMap<>(new IdComparator());

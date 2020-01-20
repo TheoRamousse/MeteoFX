@@ -78,6 +78,7 @@ public class MainView {
 
     /**
      * Constructor of MainView : Take the sensor manager in parameter
+     * @param sm Manager of sensors
      */
     public MainView(ComponentSensorManager sm) {
 
